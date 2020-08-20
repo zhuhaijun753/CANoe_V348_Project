@@ -1,0 +1,27 @@
+/*@!Encoding:936*/
+includes
+{
+  
+}
+
+variables
+{
+  int  cESP_VdcFlgFlt =0;
+	int  cESP_TcsFlgFlt =0;
+	int  cESP_ESPInfoLamp =0 ;
+}
+
+void ESP()
+{
+  for(cESP_VdcFlgFlt=0;cESP_VdcFlgFlt < 2; cESP_VdcFlgFlt++)
+  {
+    for(cESP_TcsFlgFlt=0;cESP_TcsFlgFlt < 2; cESP_TcsFlgFlt++)
+    {
+      for(cESP_ESPInfoLamp=0;cESP_ESPInfoLamp < 2; cESP_ESPInfoLamp++)
+       {
+        setSignalStartValues();
+       }
+    }
+  }
+  
+}

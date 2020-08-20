@@ -1,0 +1,142 @@
+/*@!Encoding:936*/
+includes
+{
+  
+}
+
+variables
+{
+  message PEPS_0x325 Msg_0x325;
+  message PEPS_Start_0x1A5 Msg_0x1A5;
+ // message SWM_MRR_0x31B Msg_0x31B;
+  
+  msTimer Msg_0x325_Timer;
+  msTimer Msg_0x1A5_Timer;
+  msTimer Msg_0x31B_Timer;
+  
+  word Msg_0x325_TimerCycle=20;
+  word Msg_0x1A5_TimerCycle=50;
+  word Msg_0x31B_TimerCycle=100;
+
+}
+
+on timer Msg_0x325_Timer
+{
+  output(Msg_0x325);
+  setTimer(Msg_0x325_Timer,Msg_0x325_TimerCycle);
+}
+
+on timer Msg_0x1A5_Timer
+{
+  output(Msg_0x1A5);
+  setTimer(Msg_0x1A5_Timer,Msg_0x1A5_TimerCycle);
+}
+
+on timer Msg_0x31B_Timer
+{
+ // output(Msg_0x31B);
+  setTimer(Msg_0x31B_Timer,Msg_0x31B_TimerCycle);
+}
+
+
+
+on envVar Env_PEPS_0x325
+{
+ if(getValue(this))
+ {
+  setTimer(Msg_0x325_Timer,Msg_0x325_TimerCycle);
+  Msg_0x325.PEPS_IMMO_MatchStatus.phys = getValue(Env_PEPS_IMMO_MatchStatus);
+  Msg_0x325.PEPS_NotNWarning.phys = getValue(Env_PEPS_NotNWarning);
+  Msg_0x325.PEPS_SSB_FailStatus.phys = getValue(Env_PEPS_SSB_FailStatus);
+  Msg_0x325.PEPS_ESCL_FailStatus.phys = getValue(Env_PEPS_ESCL_FailStatus);
+  Msg_0x325.PEPS_BrakeIndicationWarning.phys = getValue(Env_PEPS_BrakeIndicationWarning);
+  Msg_0x325.PEPS_ClutchIndicationWarning.phys = getValue(Env_PEPS_ClutchIndicationWarning);
+  Msg_0x325.PEPS_NoKeyFoundWarning.phys = getValue(Env_PEPS_NoKeyFoundWarning);
+  Msg_0x325.PEPS_KeyOutWarning1.phys = getValue(Env_PEPS_KeyOutWarning1);
+  Msg_0x325.PEPS_KeyBatteryWarning.phys = getValue(Env_PEPS_KeyBatteryWarning);
+  Msg_0x325.PEPS_RollingCounter_0x325.phys = getValue(Env_PEPS_RollingCounter_0x325);
+  Msg_0x325.PEPS_Checksum_0x325.phys = getValue(Env_PEPS_Checksum_0x325); 
+  
+ }
+ else
+ {
+  cancelTimer(Msg_0x325_Timer);
+ }
+}
+
+on envVar Env_PEPS_Start_0x1A5
+{
+ if(getValue(this))
+ {
+  setTimer(Msg_0x1A5_Timer,Msg_0x1A5_TimerCycle);
+  Msg_0x1A5.PEPS_Remotestartstatus.phys = getValue(Env_PEPS_Remotestartstatus);
+  Msg_0x1A5.PEPS_RollingCounter_0x1A5.phys = getValue(Env_PEPS_RollingCounter_0x1A5);
+  Msg_0x1A5.PEPS_Checksum_0x1A5.phys = getValue(Env_PEPS_Checksum_0x1A5);
+  
+ }
+ else
+ {
+  cancelTimer(Msg_0x1A5_Timer);
+ }
+}
+
+on envVar Env_SWM_MRR_0x31B
+{
+ if(getValue(this))
+ {
+  setTimer(Msg_0x31B_Timer,Msg_0x31B_TimerCycle);
+ // Msg_0x31B.SWM_ACCCancelResume.phys = getValue(Env_SWM_ACCCancelResume);
+  
+ }
+ else
+ {
+  cancelTimer(Msg_0x31B_Timer);
+ }
+}
+
+
+on envVar Env_PEPS_IMMO_MatchStatus       //PEPS显示: IMMO认证失败
+{ 
+  Msg_0x325.PEPS_IMMO_MatchStatus .phys = getValue(Env_PEPS_IMMO_MatchStatus); 
+}
+
+on envVar Env_PEPS_NoKeyFoundWarning        //PEPS显示:未检测盗钥匙
+{ 
+  Msg_0x325.PEPS_NoKeyFoundWarning.phys = getValue(Env_PEPS_NoKeyFoundWarning); 
+}
+
+on envVar Env_PEPS_KeyOutWarning1        //PEPS显示: 钥匙被带走
+{ 
+  Msg_0x325.PEPS_KeyOutWarning1.phys = getValue(Env_PEPS_KeyOutWarning1); 
+}
+
+on envVar Env_PEPS_KeyBatteryWarning        //PEPS显示: 钥匙电量低
+{ 
+  Msg_0x325.PEPS_KeyBatteryWarning.phys = getValue(Env_PEPS_KeyBatteryWarning); 
+}
+
+on envVar Env_PEPS_ESCL_FailStatus        //PEPS显示: 电子转向柱锁故障
+{ 
+  Msg_0x325.PEPS_ESCL_FailStatus.phys = getValue(Env_PEPS_ESCL_FailStatus); 
+}
+
+on envVar Env_PEPS_BrakeIndicationWarning   //PEPS显示: 请踩刹车
+{ 
+  Msg_0x325.PEPS_BrakeIndicationWarning.phys = getValue(Env_PEPS_BrakeIndicationWarning); 
+}
+
+on envVar Env_PEPS_ClutchIndicationWarning   //PEPS显示: 请踩离合器
+{ 
+  Msg_0x325.PEPS_ClutchIndicationWarning.phys = getValue(Env_PEPS_ClutchIndicationWarning); 
+}
+
+on envVar Env_PEPS_SSB_FailStatus     // PEPS显示:启动按键失效
+{ 
+  Msg_0x325.PEPS_SSB_FailStatus.phys = getValue(Env_PEPS_SSB_FailStatus); 
+}
+
+on envVar Env_PEPS_NotNWarning     //PEPS显示: 请挂入N挡
+{ 
+  Msg_0x325.PEPS_NotNWarning.phys = getValue(Env_PEPS_NotNWarning); 
+}
+

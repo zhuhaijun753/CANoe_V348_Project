@@ -1,0 +1,191 @@
+/*@!Encoding:936*/
+includes
+{
+  
+}
+
+variables
+{
+  message RF_0x326 Msg_0x326;
+  message TPMS_Tire_0x361 Msg_0x361;
+  
+  msTimer Msg_0x326_Timer;
+  msTimer Msg_0x361_Timer;
+  
+  word Msg_0x326_TimerCycle=100;
+  word Msg_0x361_TimerCycle=100;
+  
+  int counter = 0; //tire position
+  int Tire_PosFlag= 0;
+  
+}
+
+on timer Msg_0x326_Timer
+{
+  output(Msg_0x326);
+  setTimer(Msg_0x326_Timer,Msg_0x326_TimerCycle);
+}
+
+on timer Msg_0x361_Timer
+{
+  output(Msg_0x361);
+  setTimer(Msg_0x361_Timer,Msg_0x361_TimerCycle);
+}
+
+
+
+on envVar Env_RF_0x326
+{
+  if(getValue(this))
+  {
+    setTimer(Msg_0x326_Timer,Msg_0x326_TimerCycle);
+  }
+  else
+  {
+    cancelTimer(Msg_0x326_Timer);
+  }
+  
+}
+
+on envVar Env_TPMS_Tire_0x361
+{
+ if(getValue(this))
+ {
+  setTimer(Msg_0x361_Timer,Msg_0x361_TimerCycle);
+  /*
+  Msg_0x361.LF_Pressure.phys = getValue(Env_LF_Pressure);
+  Msg_0x361.RF_Pressure.phys = getValue(Env_RF_Pressure);
+  Msg_0x361.RR_Pressure.phys = getValue(Env_RR_Pressure);
+  Msg_0x361.LR_Pressure.phys = getValue(Env_LR_Pressure);
+  Msg_0x361.Tire_Temperature.phys = getValue(Env_Tire_Temperature);
+  Msg_0x361.LF_Pressure_Warning.phys = getValue(Env_LF_Pressure_Warning);
+  Msg_0x361.RF_Pressure_Warning.phys = getValue(Env_RF_Pressure_Warning);
+  Msg_0x361.System_Status.phys = getValue(Env_System_Status);
+  Msg_0x361.RR_Pressure_Warning.phys = getValue(Env_RR_Pressure_Warning);
+  Msg_0x361.LR_Pressure_Warning.phys = getValue(Env_LR_Pressure_Warning);
+  Msg_0x361.Temperature_Warning.phys = getValue(Env_Temperature_Warning);
+  Msg_0x361.Tire_Position.phys = getValue(Env_Tire_Position);
+  Msg_0x361.TPMS_Lamp_Status.phys = getValue(Env_TPMS_Lamp_Status);
+  */
+ }
+ else
+ {
+  cancelTimer(Msg_0x361_Timer);
+ }
+}
+
+on envVar Env_System_Status        //  TPMSÏµÍ³¹ÊÕÏ
+{ 
+  Msg_0x361.System_Status.phys = getValue(Env_System_Status); 
+}
+
+on envVar Env_LF_Pressure_Warning        //  ×óÇ°Ì¥Ì¥Ñ¹±¨¾¯
+{ 
+  Msg_0x361.LF_Pressure_Warning.phys = getValue(Env_LF_Pressure_Warning); 
+}
+
+on envVar Env_RF_Pressure_Warning        //  ÓÒÇ°Ì¥Ì¥Ñ¹±¨¾¯
+{ 
+  Msg_0x361.RF_Pressure_Warning.phys = getValue(Env_RF_Pressure_Warning); 
+}
+
+on envVar Env_LR_Pressure_Warning        //  ×óºóÌ¥Ì¥Ñ¹±¨¾¯
+{ 
+  Msg_0x361.LR_Pressure_Warning.phys = getValue(Env_LR_Pressure_Warning); 
+}
+
+on envVar Env_RR_Pressure_Warning        //  ÓÒºóÌ¥Ì¥Ñ¹±¨¾¯
+{ 
+  Msg_0x361.RR_Pressure_Warning.phys = getValue(Env_RR_Pressure_Warning); 
+}
+
+on envVar Env_Tire_Position        //  ÂÖÌ¥Î»ÖÃ
+{ 
+  Msg_0x361.Tire_Position.phys = getValue(Env_Tire_Position); 
+}
+
+on envVar Env_Temperature_Warning        //  TPMSÂÖÌ¥ÎÂ¶È±¨¾¯
+{ 
+  Msg_0x361.Temperature_Warning.phys = getValue(Env_Temperature_Warning); 
+}
+
+on envVar Env_Tire_Temperature        //  TPMSÂÖÌ¥ÎÂ¶ÈÖµ
+{ 
+  Msg_0x361.Tire_Temperature = getValue(Env_Tire_Temperature); 
+}
+
+on envVar Env_LR_Pressure        //  ×óºóÌ¥Ì¥Ñ¹Öµ
+{ 
+  Msg_0x361.LR_Pressure = getValue(Env_LR_Pressure); 
+}
+
+on envVar Env_RR_Pressure        //  ÓÒºóÌ¥Ì¥Ñ¹Öµ
+{ 
+  Msg_0x361.RR_Pressure = getValue(Env_RR_Pressure); 
+}
+
+
+on envVar Env_RF_Pressure        //  ÓÒÇ°Ì¥Ì¥Ñ¹Öµ
+{ 
+  Msg_0x361.RF_Pressure = getValue(Env_RF_Pressure); 
+}
+
+on envVar Env_LF_Pressure        //  ×óÇ°Ì¥Ì¥Ñ¹Öµ
+{ 
+  Msg_0x361.LF_Pressure = getValue(Env_LF_Pressure); 
+}
+
+on envVar Env_RF_KeyLowBatteryWarning //  Ô¿³×µçÁ¿µÍ
+{ 
+  Msg_0x326.RF_KeyLowBatteryWarning = getValue(Env_RF_KeyLowBatteryWarning); 
+}
+
+on message TPMS_Tire_0x361
+{
+ if(Tire_PosFlag == 1)
+{
+  //write("%d",counter);
+  switch(counter)
+  {
+    case 0:  
+    {
+      Msg_0x361.Tire_Position.phys = 1;
+      break;
+    }
+     case 1:  
+    {
+      Msg_0x361.Tire_Position.phys = 2;
+      break;
+    }
+     case 2:  
+    {
+      Msg_0x361.Tire_Position.phys = 3;
+      break;
+    }
+     case 3:  
+    {
+      Msg_0x361.Tire_Position.phys = 4;
+      break;
+    }
+  }
+   counter++ ;
+  if(counter > 3)
+  {
+    counter =0 ;
+  }
+}
+}
+
+on envVar Env_tire_positionFlag
+{
+  if(getValue(this))
+  {
+   Tire_PosFlag=1;
+  }
+  else
+  {
+    Tire_PosFlag=0;
+    counter =0 ;
+  }
+  
+}

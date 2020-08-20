@@ -1,0 +1,994 @@
+<?xml version="1.0"?>
+<Panel Type="Vector.CANalyzer.Panels.PanelSerializer, Vector.CANalyzer.Panels.Serializer, Version=9.0.125.0, Culture=neutral, PublicKeyToken=null">
+  <Object Type="Vector.CANalyzer.Panels.Runtime.Panel, Vector.CANalyzer.Panels.Common, Version=9.0.125.0, Culture=neutral, PublicKeyToken=null" Name="Panel" Children="Controls" ControlName="Diag">
+    <Object Type="Vector.CANalyzer.Panels.Design.LEDControl, Vector.CANalyzer.Panels.CommonControls, Version=9.0.125.0, Culture=neutral, PublicKeyToken=null" Name="LEDControl9" ControlName="LED Control 2">
+      <Property Name="Name">LEDControl9</Property>
+      <Property Name="Size">24, 24</Property>
+      <Property Name="Location">728, 10</Property>
+      <Property Name="UsedLEDColorOn">SpringGreen</Property>
+      <Property Name="UsedLEDColorOff">Gray</Property>
+      <Property Name="LEDStyle">Rectangle</Property>
+      <Property Name="SymbolConfiguration">4;1;udsDiag;;;udsTestPresentFlag;1;;;-1</Property>
+      <Property Name="TabIndex">595</Property>
+    </Object>
+    <Object Type="Vector.CANalyzer.Panels.Design.VectorTabControl, Vector.CANalyzer.Panels.CommonControls, Version=9.0.125.0, Culture=neutral, PublicKeyToken=null" Name="VectorTabControl1" Children="Controls" ControlName="Tab Control">
+      <Object Type="Vector.CANalyzer.Panels.Design.VectorTabPage, Vector.CANalyzer.Panels.CommonControls, Version=9.0.125.0, Culture=neutral, PublicKeyToken=null" Name="VectorTabPage1" Children="Controls" ControlName="">
+        <Object Type="Vector.CANalyzer.Panels.Design.StaticTextControl, Vector.CANalyzer.Panels.CommonControls, Version=9.0.125.0, Culture=neutral, PublicKeyToken=null" Name="StaticTextControl49" Children="Controls" ControlName="Static Text">
+          <Property Name="Name">StaticTextControl49</Property>
+          <Property Name="Size">103, 13</Property>
+          <Property Name="Location">6, 331</Property>
+          <Property Name="BackColor">AliceBlue</Property>
+          <Property Name="TextAlign">MiddleLeft</Property>
+          <Property Name="Text">电子离合器：预留</Property>
+          <Property Name="ForeColor">ActiveCaptionText</Property>
+        </Object>
+        <Object Type="Vector.CANalyzer.Panels.Design.StaticTextControl, Vector.CANalyzer.Panels.CommonControls, Version=9.0.125.0, Culture=neutral, PublicKeyToken=null" Name="StaticTextControl48" Children="Controls" ControlName="Static Text">
+          <Property Name="Name">StaticTextControl48</Property>
+          <Property Name="Size">133, 13</Property>
+          <Property Name="Location">6, 312</Property>
+          <Property Name="BackColor">AliceBlue</Property>
+          <Property Name="TextAlign">MiddleLeft</Property>
+          <Property Name="Text">油箱类型：凯运中体80L</Property>
+          <Property Name="ForeColor">ActiveCaptionText</Property>
+        </Object>
+        <Object Type="Vector.CANalyzer.Panels.Design.StaticTextControl, Vector.CANalyzer.Panels.CommonControls, Version=9.0.125.0, Culture=neutral, PublicKeyToken=null" Name="StaticTextControl47" Children="Controls" ControlName="Static Text">
+          <Property Name="Name">StaticTextControl47</Property>
+          <Property Name="Size">91, 13</Property>
+          <Property Name="Location">6, 293</Property>
+          <Property Name="BackColor">AliceBlue</Property>
+          <Property Name="TextAlign">MiddleLeft</Property>
+          <Property Name="Text">前雷达类型预留</Property>
+          <Property Name="ForeColor">ActiveCaptionText</Property>
+        </Object>
+        <Object Type="Vector.CANalyzer.Panels.Design.StaticTextControl, Vector.CANalyzer.Panels.CommonControls, Version=9.0.125.0, Culture=neutral, PublicKeyToken=null" Name="StaticTextControl12" Children="Controls" ControlName="Static Text">
+          <Property Name="Name">StaticTextControl12</Property>
+          <Property Name="Size">139, 13</Property>
+          <Property Name="Location">6, 274</Property>
+          <Property Name="BackColor">AliceBlue</Property>
+          <Property Name="TextAlign">MiddleLeft</Property>
+          <Property Name="Text">手刹类型：全系机械手刹</Property>
+          <Property Name="ForeColor">ActiveCaptionText</Property>
+        </Object>
+        <Object Type="Vector.CANalyzer.Panels.Design.GroupBoxControl, Vector.CANalyzer.Panels.CommonControls, Version=9.0.125.0, Culture=neutral, PublicKeyToken=null" Name="GroupBoxControl8" Children="Controls" ControlName="Group Box">
+          <Object Type="Vector.CANalyzer.Panels.Design.RadioButtonControl, Vector.CANalyzer.Panels.CommonControls, Version=9.0.125.0, Culture=neutral, PublicKeyToken=null" Name="RadioButtonControl33" Children="Controls" ControlName="Radio Button 2">
+            <Property Name="Name">RadioButtonControl33</Property>
+            <Property Name="Size">49, 17</Property>
+            <Property Name="Location">98, 23</Property>
+            <Property Name="BackColor">LightSteelBlue</Property>
+            <Property Name="Text">0000</Property>
+            <Property Name="SwitchValue">0</Property>
+            <Property Name="SymbolConfiguration">4;16;UDS;;;UDS_Configbyte5bit4;1;;;-1</Property>
+            <Property Name="TabIndex">484</Property>
+          </Object>
+          <Object Type="Vector.CANalyzer.Panels.Design.RadioButtonControl, Vector.CANalyzer.Panels.CommonControls, Version=9.0.125.0, Culture=neutral, PublicKeyToken=null" Name="RadioButtonControl32" Children="Controls" ControlName="Radio Button 2">
+            <Property Name="Name">RadioButtonControl32</Property>
+            <Property Name="Size">97, 17</Property>
+            <Property Name="Location">19, 59</Property>
+            <Property Name="BackColor">LightSteelBlue</Property>
+            <Property Name="Text">0010-3 sensors</Property>
+            <Property Name="SwitchValue">2</Property>
+            <Property Name="SymbolConfiguration">4;16;UDS;;;UDS_Configbyte5bit4;1;;;-1</Property>
+            <Property Name="TabIndex">483</Property>
+          </Object>
+          <Object Type="Vector.CANalyzer.Panels.Design.RadioButtonControl, Vector.CANalyzer.Panels.CommonControls, Version=9.0.125.0, Culture=neutral, PublicKeyToken=null" Name="RadioButtonControl31" Children="Controls" ControlName="Radio Button 2">
+            <Property Name="Name">RadioButtonControl31</Property>
+            <Property Name="Size">86, 17</Property>
+            <Property Name="Location">19, 96</Property>
+            <Property Name="BackColor">LightSteelBlue</Property>
+            <Property Name="Text">0100-without</Property>
+            <Property Name="SwitchValue">4</Property>
+            <Property Name="SymbolConfiguration">4;16;UDS;;;UDS_Configbyte5bit4;1;;;-1</Property>
+            <Property Name="TabIndex">482</Property>
+          </Object>
+          <Object Type="Vector.CANalyzer.Panels.Design.RadioButtonControl, Vector.CANalyzer.Panels.CommonControls, Version=9.0.125.0, Culture=neutral, PublicKeyToken=null" Name="RadioButtonControl30" Children="Controls" ControlName="Radio Button 2">
+            <Property Name="Name">RadioButtonControl30</Property>
+            <Property Name="Size">97, 17</Property>
+            <Property Name="Location">19, 78</Property>
+            <Property Name="BackColor">LightSteelBlue</Property>
+            <Property Name="Text">0011-4 sensors</Property>
+            <Property Name="SwitchValue">3</Property>
+            <Property Name="SymbolConfiguration">4;16;UDS;;;UDS_Configbyte5bit4;1;;;-1</Property>
+            <Property Name="TabIndex">481</Property>
+          </Object>
+          <Object Type="Vector.CANalyzer.Panels.Design.RadioButtonControl, Vector.CANalyzer.Panels.CommonControls, Version=9.0.125.0, Culture=neutral, PublicKeyToken=null" Name="RadioButtonControl29" Children="Controls" ControlName="Radio Button 2">
+            <Property Name="Name">RadioButtonControl29</Property>
+            <Property Name="Size">97, 17</Property>
+            <Property Name="Location">19, 42</Property>
+            <Property Name="BackColor">LightSteelBlue</Property>
+            <Property Name="Text">0001-2 sensors</Property>
+            <Property Name="SymbolConfiguration">4;16;UDS;;;UDS_Configbyte5bit4;1;;;-1</Property>
+            <Property Name="TabIndex">480</Property>
+          </Object>
+          <Object Type="Vector.CANalyzer.Panels.Design.StaticTextControl, Vector.CANalyzer.Panels.CommonControls, Version=9.0.125.0, Culture=neutral, PublicKeyToken=null" Name="StaticTextControl62" Children="Controls" ControlName="Static Text">
+            <Property Name="Name">StaticTextControl62</Property>
+            <Property Name="Size">79, 13</Property>
+            <Property Name="Location">10, 23</Property>
+            <Property Name="BackColor">AliceBlue</Property>
+            <Property Name="TextAlign">MiddleLeft</Property>
+            <Property Name="Text">倒车雷达类型</Property>
+            <Property Name="ForeColor">ActiveCaptionText</Property>
+          </Object>
+          <Property Name="Name">GroupBoxControl8</Property>
+          <Property Name="Size">153, 180</Property>
+          <Property Name="Location">177, 251</Property>
+          <Property Name="BackColor">LightSteelBlue</Property>
+          <Property Name="Text">byte5</Property>
+          <Property Name="TabIndex">479</Property>
+        </Object>
+        <Object Type="Vector.CANalyzer.Panels.Design.StaticTextControl, Vector.CANalyzer.Panels.CommonControls, Version=9.0.125.0, Culture=neutral, PublicKeyToken=null" Name="StaticTextControl52" Children="Controls" ControlName="Static Text">
+          <Property Name="Name">StaticTextControl52</Property>
+          <Property Name="Size">115, 13</Property>
+          <Property Name="Location">6, 255</Property>
+          <Property Name="BackColor">AliceBlue</Property>
+          <Property Name="TextAlign">MiddleLeft</Property>
+          <Property Name="Text">燃油类型：默认柴油</Property>
+          <Property Name="ForeColor">ActiveCaptionText</Property>
+        </Object>
+        <Object Type="Vector.CANalyzer.Panels.Design.GroupBoxControl, Vector.CANalyzer.Panels.CommonControls, Version=9.0.125.0, Culture=neutral, PublicKeyToken=null" Name="GroupBoxControl7" Children="Controls" ControlName="Group Box">
+          <Object Type="Vector.CANalyzer.Panels.Design.RadioButtonControl, Vector.CANalyzer.Panels.CommonControls, Version=9.0.125.0, Culture=neutral, PublicKeyToken=null" Name="RadioButtonControl23" Children="Controls" ControlName="Radio Button 2">
+            <Property Name="Name">RadioButtonControl23</Property>
+            <Property Name="Size">53, 17</Property>
+            <Property Name="Location">89, 159</Property>
+            <Property Name="BackColor">LightSteelBlue</Property>
+            <Property Name="Text">PEPS</Property>
+            <Property Name="SwitchValue">2</Property>
+            <Property Name="SymbolConfiguration">4;16;UDS;;;UDS_Configbyte4bit6;1;;;-1</Property>
+            <Property Name="TabIndex">495</Property>
+          </Object>
+          <Object Type="Vector.CANalyzer.Panels.Design.RadioButtonControl, Vector.CANalyzer.Panels.CommonControls, Version=9.0.125.0, Culture=neutral, PublicKeyToken=null" Name="RadioButtonControl22" Children="Controls" ControlName="Radio Button 2">
+            <Property Name="Name">RadioButtonControl22</Property>
+            <Property Name="Size">54, 17</Property>
+            <Property Name="Location">89, 140</Property>
+            <Property Name="BackColor">LightSteelBlue</Property>
+            <Property Name="Text">IMMO</Property>
+            <Property Name="SymbolConfiguration">4;16;UDS;;;UDS_Configbyte4bit6;1;;;-1</Property>
+            <Property Name="TabIndex">494</Property>
+          </Object>
+          <Object Type="Vector.CANalyzer.Panels.Design.RadioButtonControl, Vector.CANalyzer.Panels.CommonControls, Version=9.0.125.0, Culture=neutral, PublicKeyToken=null" Name="RadioButtonControl21" Children="Controls" ControlName="Radio Button 2">
+            <Property Name="Name">RadioButtonControl21</Property>
+            <Property Name="Size">37, 17</Property>
+            <Property Name="Location">89, 120</Property>
+            <Property Name="BackColor">LightSteelBlue</Property>
+            <Property Name="Text">无</Property>
+            <Property Name="SwitchValue">0</Property>
+            <Property Name="SymbolConfiguration">4;16;UDS;;;UDS_Configbyte4bit6;1;;;-1</Property>
+            <Property Name="TabIndex">493</Property>
+          </Object>
+          <Object Type="Vector.CANalyzer.Panels.Design.StaticTextControl, Vector.CANalyzer.Panels.CommonControls, Version=9.0.125.0, Culture=neutral, PublicKeyToken=null" Name="StaticTextControl46" Children="Controls" ControlName="Static Text">
+            <Property Name="Name">StaticTextControl46</Property>
+            <Property Name="Size">67, 13</Property>
+            <Property Name="Location">6, 124</Property>
+            <Property Name="BackColor">AliceBlue</Property>
+            <Property Name="TextAlign">MiddleLeft</Property>
+            <Property Name="Text">发动机防盗</Property>
+            <Property Name="ForeColor">ActiveCaptionText</Property>
+          </Object>
+          <Object Type="Vector.CANalyzer.Panels.Design.RadioButtonControl, Vector.CANalyzer.Panels.CommonControls, Version=9.0.125.0, Culture=neutral, PublicKeyToken=null" Name="RadioButtonControl19" Children="Controls" ControlName="Radio Button 2">
+            <Property Name="Name">RadioButtonControl19</Property>
+            <Property Name="Size">37, 17</Property>
+            <Property Name="Location">93, 95</Property>
+            <Property Name="BackColor">LightSteelBlue</Property>
+            <Property Name="Text">有</Property>
+            <Property Name="SymbolConfiguration">4;16;UDS;;;UDS_Configbyte4bit5;1;;;-1</Property>
+            <Property Name="TabIndex">491</Property>
+          </Object>
+          <Object Type="Vector.CANalyzer.Panels.Design.RadioButtonControl, Vector.CANalyzer.Panels.CommonControls, Version=9.0.125.0, Culture=neutral, PublicKeyToken=null" Name="RadioButtonControl20" Children="Controls" ControlName="Radio Button 2">
+            <Property Name="Name">RadioButtonControl20</Property>
+            <Property Name="Size">37, 17</Property>
+            <Property Name="Location">50, 95</Property>
+            <Property Name="BackColor">LightSteelBlue</Property>
+            <Property Name="Text">无</Property>
+            <Property Name="SwitchValue">0</Property>
+            <Property Name="SymbolConfiguration">4;16;UDS;;;UDS_Configbyte4bit5;1;;;-1</Property>
+            <Property Name="TabIndex">490</Property>
+          </Object>
+          <Object Type="Vector.CANalyzer.Panels.Design.StaticTextControl, Vector.CANalyzer.Panels.CommonControls, Version=9.0.125.0, Culture=neutral, PublicKeyToken=null" Name="StaticTextControl45" Children="Controls" ControlName="Static Text">
+            <Property Name="Name">StaticTextControl45</Property>
+            <Property Name="Size">28, 13</Property>
+            <Property Name="Location">6, 97</Property>
+            <Property Name="BackColor">AliceBlue</Property>
+            <Property Name="TextAlign">MiddleLeft</Property>
+            <Property Name="Text">EPS</Property>
+            <Property Name="ForeColor">ActiveCaptionText</Property>
+          </Object>
+          <Object Type="Vector.CANalyzer.Panels.Design.RadioButtonControl, Vector.CANalyzer.Panels.CommonControls, Version=9.0.125.0, Culture=neutral, PublicKeyToken=null" Name="RadioButtonControl17" Children="Controls" ControlName="Radio Button 2">
+            <Property Name="Name">RadioButtonControl17</Property>
+            <Property Name="Size">37, 17</Property>
+            <Property Name="Location">93, 46</Property>
+            <Property Name="BackColor">LightSteelBlue</Property>
+            <Property Name="Text">有</Property>
+            <Property Name="SymbolConfiguration">4;16;UDS;;;UDS_Configbyte4bit3;1;;;-1</Property>
+            <Property Name="TabIndex">488</Property>
+          </Object>
+          <Object Type="Vector.CANalyzer.Panels.Design.RadioButtonControl, Vector.CANalyzer.Panels.CommonControls, Version=9.0.125.0, Culture=neutral, PublicKeyToken=null" Name="RadioButtonControl18" Children="Controls" ControlName="Radio Button 2">
+            <Property Name="Name">RadioButtonControl18</Property>
+            <Property Name="Size">37, 17</Property>
+            <Property Name="Location">50, 44</Property>
+            <Property Name="BackColor">LightSteelBlue</Property>
+            <Property Name="Text">无</Property>
+            <Property Name="SwitchValue">0</Property>
+            <Property Name="SymbolConfiguration">4;16;UDS;;;UDS_Configbyte4bit3;1;;;-1</Property>
+            <Property Name="TabIndex">487</Property>
+          </Object>
+          <Object Type="Vector.CANalyzer.Panels.Design.StaticTextControl, Vector.CANalyzer.Panels.CommonControls, Version=9.0.125.0, Culture=neutral, PublicKeyToken=null" Name="StaticTextControl18" Children="Controls" ControlName="Static Text">
+            <Property Name="Name">StaticTextControl18</Property>
+            <Property Name="Size">28, 13</Property>
+            <Property Name="Location">6, 46</Property>
+            <Property Name="BackColor">AliceBlue</Property>
+            <Property Name="TextAlign">MiddleLeft</Property>
+            <Property Name="Text">ESP</Property>
+            <Property Name="ForeColor">ActiveCaptionText</Property>
+          </Object>
+          <Object Type="Vector.CANalyzer.Panels.Design.RadioButtonControl, Vector.CANalyzer.Panels.CommonControls, Version=9.0.125.0, Culture=neutral, PublicKeyToken=null" Name="RadioButtonControl15" Children="Controls" ControlName="Radio Button 2">
+            <Property Name="Name">RadioButtonControl15</Property>
+            <Property Name="Size">37, 17</Property>
+            <Property Name="Location">93, 69</Property>
+            <Property Name="BackColor">LightSteelBlue</Property>
+            <Property Name="Text">有</Property>
+            <Property Name="SymbolConfiguration">4;16;UDS;;;UDS_Configbyte4bit4;1;;;-1</Property>
+            <Property Name="TabIndex">485</Property>
+          </Object>
+          <Object Type="Vector.CANalyzer.Panels.Design.RadioButtonControl, Vector.CANalyzer.Panels.CommonControls, Version=9.0.125.0, Culture=neutral, PublicKeyToken=null" Name="RadioButtonControl16" Children="Controls" ControlName="Radio Button 2">
+            <Property Name="Name">RadioButtonControl16</Property>
+            <Property Name="Size">37, 17</Property>
+            <Property Name="Location">50, 67</Property>
+            <Property Name="BackColor">LightSteelBlue</Property>
+            <Property Name="Text">无</Property>
+            <Property Name="SwitchValue">0</Property>
+            <Property Name="SymbolConfiguration">4;16;UDS;;;UDS_Configbyte4bit4;1;;;-1</Property>
+            <Property Name="TabIndex">484</Property>
+          </Object>
+          <Object Type="Vector.CANalyzer.Panels.Design.StaticTextControl, Vector.CANalyzer.Panels.CommonControls, Version=9.0.125.0, Culture=neutral, PublicKeyToken=null" Name="StaticTextControl17" Children="Controls" ControlName="Static Text">
+            <Property Name="Name">StaticTextControl17</Property>
+            <Property Name="Size">37, 13</Property>
+            <Property Name="Location">6, 71</Property>
+            <Property Name="BackColor">AliceBlue</Property>
+            <Property Name="TextAlign">MiddleLeft</Property>
+            <Property Name="Text">Airbag</Property>
+            <Property Name="ForeColor">ActiveCaptionText</Property>
+          </Object>
+          <Object Type="Vector.CANalyzer.Panels.Design.RadioButtonControl, Vector.CANalyzer.Panels.CommonControls, Version=9.0.125.0, Culture=neutral, PublicKeyToken=null" Name="RadioButtonControl14" Children="Controls" ControlName="Radio Button 2">
+            <Property Name="Name">RadioButtonControl14</Property>
+            <Property Name="Size">37, 17</Property>
+            <Property Name="Location">110, 23</Property>
+            <Property Name="BackColor">LightSteelBlue</Property>
+            <Property Name="Text">有</Property>
+            <Property Name="SymbolConfiguration">4;16;UDS;;;UDS_Configbyte4bit2;1;;;-1</Property>
+            <Property Name="TabIndex">482</Property>
+          </Object>
+          <Object Type="Vector.CANalyzer.Panels.Design.RadioButtonControl, Vector.CANalyzer.Panels.CommonControls, Version=9.0.125.0, Culture=neutral, PublicKeyToken=null" Name="RadioButtonControl13" Children="Controls" ControlName="Radio Button 2">
+            <Property Name="Name">RadioButtonControl13</Property>
+            <Property Name="Size">37, 17</Property>
+            <Property Name="Location">67, 21</Property>
+            <Property Name="BackColor">LightSteelBlue</Property>
+            <Property Name="Text">无</Property>
+            <Property Name="SwitchValue">0</Property>
+            <Property Name="SymbolConfiguration">4;16;UDS;;;UDS_Configbyte4bit2;1;;;-1</Property>
+            <Property Name="TabIndex">481</Property>
+          </Object>
+          <Object Type="Vector.CANalyzer.Panels.Design.StaticTextControl, Vector.CANalyzer.Panels.CommonControls, Version=9.0.125.0, Culture=neutral, PublicKeyToken=null" Name="StaticTextControl13" Children="Controls" ControlName="Static Text">
+            <Property Name="Name">StaticTextControl13</Property>
+            <Property Name="Size">55, 13</Property>
+            <Property Name="Location">6, 23</Property>
+            <Property Name="BackColor">AliceBlue</Property>
+            <Property Name="TextAlign">MiddleLeft</Property>
+            <Property Name="Text">超速报警</Property>
+            <Property Name="ForeColor">ActiveCaptionText</Property>
+          </Object>
+          <Property Name="Name">GroupBoxControl7</Property>
+          <Property Name="Size">153, 180</Property>
+          <Property Name="Location">504, 53</Property>
+          <Property Name="BackColor">LightSteelBlue</Property>
+          <Property Name="Text">byte4</Property>
+          <Property Name="TabIndex">478</Property>
+        </Object>
+        <Object Type="Vector.CANalyzer.Panels.Design.GroupBoxControl, Vector.CANalyzer.Panels.CommonControls, Version=9.0.125.0, Culture=neutral, PublicKeyToken=null" Name="GroupBoxControl6" Children="Controls" ControlName="Group Box">
+          <Object Type="Vector.CANalyzer.Panels.Design.RadioButtonControl, Vector.CANalyzer.Panels.CommonControls, Version=9.0.125.0, Culture=neutral, PublicKeyToken=null" Name="RadioButtonControl25" Children="Controls" ControlName="Radio Button 2">
+            <Property Name="Name">RadioButtonControl25</Property>
+            <Property Name="Size">49, 17</Property>
+            <Property Name="Location">28, 68</Property>
+            <Property Name="BackColor">LightSteelBlue</Property>
+            <Property Name="Text">国六</Property>
+            <Property Name="SwitchValue">5</Property>
+            <Property Name="SymbolConfiguration">4;16;UDS;;;UDS_Configbyte9;1;;;-1</Property>
+            <Property Name="TabIndex">492</Property>
+          </Object>
+          <Object Type="Vector.CANalyzer.Panels.Design.RadioButtonControl, Vector.CANalyzer.Panels.CommonControls, Version=9.0.125.0, Culture=neutral, PublicKeyToken=null" Name="RadioButtonControl24" Children="Controls" ControlName="Radio Button 2">
+            <Property Name="Name">RadioButtonControl24</Property>
+            <Property Name="Size">49, 17</Property>
+            <Property Name="Location">28, 45</Property>
+            <Property Name="BackColor">LightSteelBlue</Property>
+            <Property Name="Text">国五</Property>
+            <Property Name="SwitchValue">4</Property>
+            <Property Name="SymbolConfiguration">4;16;UDS;;;UDS_Configbyte9;1;;;-1</Property>
+            <Property Name="TabIndex">491</Property>
+          </Object>
+          <Object Type="Vector.CANalyzer.Panels.Design.StaticTextControl, Vector.CANalyzer.Panels.CommonControls, Version=9.0.125.0, Culture=neutral, PublicKeyToken=null" Name="StaticTextControl44" Children="Controls" ControlName="Static Text">
+            <Property Name="Name">StaticTextControl44</Property>
+            <Property Name="Size">55, 13</Property>
+            <Property Name="Location">10, 23</Property>
+            <Property Name="BackColor">AliceBlue</Property>
+            <Property Name="TextAlign">MiddleLeft</Property>
+            <Property Name="Text">排放等级</Property>
+            <Property Name="ForeColor">ActiveCaptionText</Property>
+          </Object>
+          <Property Name="Name">GroupBoxControl6</Property>
+          <Property Name="Size">153, 180</Property>
+          <Property Name="Location">510, 255</Property>
+          <Property Name="BackColor">LightSteelBlue</Property>
+          <Property Name="Text">byte9</Property>
+          <Property Name="TabIndex">477</Property>
+        </Object>
+        <Object Type="Vector.CANalyzer.Panels.Design.GroupBoxControl, Vector.CANalyzer.Panels.CommonControls, Version=9.0.125.0, Culture=neutral, PublicKeyToken=null" Name="GroupBoxControl5" Children="Controls" ControlName="Group Box">
+          <Object Type="Vector.CANalyzer.Panels.Design.RadioButtonControl, Vector.CANalyzer.Panels.CommonControls, Version=9.0.125.0, Culture=neutral, PublicKeyToken=null" Name="RadioButtonControl28" Children="Controls" ControlName="Radio Button 2">
+            <Property Name="Name">RadioButtonControl28</Property>
+            <Property Name="Size">48, 17</Property>
+            <Property Name="Location">81, 42</Property>
+            <Property Name="BackColor">LightSteelBlue</Property>
+            <Property Name="Text">AMT</Property>
+            <Property Name="SwitchValue">2</Property>
+            <Property Name="SymbolConfiguration">4;16;UDS;;;UDS_Configbyte8;1;;;-1</Property>
+            <Property Name="TabIndex">494</Property>
+          </Object>
+          <Object Type="Vector.CANalyzer.Panels.Design.RadioButtonControl, Vector.CANalyzer.Panels.CommonControls, Version=9.0.125.0, Culture=neutral, PublicKeyToken=null" Name="RadioButtonControl27" Children="Controls" ControlName="Radio Button 2">
+            <Property Name="Name">RadioButtonControl27</Property>
+            <Property Name="Size">47, 17</Property>
+            <Property Name="Location">28, 65</Property>
+            <Property Name="BackColor">LightSteelBlue</Property>
+            <Property Name="Text">6MT</Property>
+            <Property Name="SymbolConfiguration">4;16;UDS;;;UDS_Configbyte8;1;;;-1</Property>
+            <Property Name="TabIndex">493</Property>
+          </Object>
+          <Object Type="Vector.CANalyzer.Panels.Design.RadioButtonControl, Vector.CANalyzer.Panels.CommonControls, Version=9.0.125.0, Culture=neutral, PublicKeyToken=null" Name="RadioButtonControl26" Children="Controls" ControlName="Radio Button 2">
+            <Property Name="Name">RadioButtonControl26</Property>
+            <Property Name="Size">47, 17</Property>
+            <Property Name="Location">28, 42</Property>
+            <Property Name="BackColor">LightSteelBlue</Property>
+            <Property Name="Text">5MT</Property>
+            <Property Name="SwitchValue">0</Property>
+            <Property Name="SymbolConfiguration">4;16;UDS;;;UDS_Configbyte8;1;;;-1</Property>
+            <Property Name="TabIndex">492</Property>
+          </Object>
+          <Object Type="Vector.CANalyzer.Panels.Design.StaticTextControl, Vector.CANalyzer.Panels.CommonControls, Version=9.0.125.0, Culture=neutral, PublicKeyToken=null" Name="StaticTextControl35" Children="Controls" ControlName="Static Text">
+            <Property Name="Name">StaticTextControl35</Property>
+            <Property Name="Size">67, 13</Property>
+            <Property Name="Location">10, 23</Property>
+            <Property Name="BackColor">AliceBlue</Property>
+            <Property Name="TextAlign">MiddleLeft</Property>
+            <Property Name="Text">变速箱类型</Property>
+            <Property Name="ForeColor">ActiveCaptionText</Property>
+          </Object>
+          <Property Name="Name">GroupBoxControl5</Property>
+          <Property Name="Size">153, 180</Property>
+          <Property Name="Location">344, 255</Property>
+          <Property Name="BackColor">LightSteelBlue</Property>
+          <Property Name="Text">byte8</Property>
+          <Property Name="TabIndex">476</Property>
+        </Object>
+        <Object Type="Vector.CANalyzer.Panels.Design.GroupBoxControl, Vector.CANalyzer.Panels.CommonControls, Version=9.0.125.0, Culture=neutral, PublicKeyToken=null" Name="GroupBoxControl3" Children="Controls" ControlName="Group Box">
+          <Object Type="Vector.CANalyzer.Panels.Design.RadioButtonControl, Vector.CANalyzer.Panels.CommonControls, Version=9.0.125.0, Culture=neutral, PublicKeyToken=null" Name="RadioButtonControl12" Children="Controls" ControlName="Radio Button 2">
+            <Property Name="Name">RadioButtonControl12</Property>
+            <Property Name="Size">37, 17</Property>
+            <Property Name="Location">96, 152</Property>
+            <Property Name="BackColor">LightSteelBlue</Property>
+            <Property Name="Text">有</Property>
+            <Property Name="SymbolConfiguration">4;16;UDS;;;UDS_Configbyte2bit6;1;;;-1</Property>
+            <Property Name="TabIndex">481</Property>
+          </Object>
+          <Object Type="Vector.CANalyzer.Panels.Design.RadioButtonControl, Vector.CANalyzer.Panels.CommonControls, Version=9.0.125.0, Culture=neutral, PublicKeyToken=null" Name="RadioButtonControl11" Children="Controls" ControlName="Radio Button 2">
+            <Property Name="Name">RadioButtonControl11</Property>
+            <Property Name="Size">37, 17</Property>
+            <Property Name="Location">53, 152</Property>
+            <Property Name="BackColor">LightSteelBlue</Property>
+            <Property Name="Text">无</Property>
+            <Property Name="SwitchValue">0</Property>
+            <Property Name="SymbolConfiguration">4;16;UDS;;;UDS_Configbyte2bit6;1;;;-1</Property>
+            <Property Name="TabIndex">480</Property>
+          </Object>
+          <Object Type="Vector.CANalyzer.Panels.Design.RadioButtonControl, Vector.CANalyzer.Panels.CommonControls, Version=9.0.125.0, Culture=neutral, PublicKeyToken=null" Name="RadioButtonControl10" Children="Controls" ControlName="Radio Button 2">
+            <Property Name="Name">RadioButtonControl10</Property>
+            <Property Name="Size">49, 17</Property>
+            <Property Name="Location">18, 122</Property>
+            <Property Name="BackColor">LightSteelBlue</Property>
+            <Property Name="Text">英文</Property>
+            <Property Name="SymbolConfiguration">4;16;UDS;;;UDS_Configbyte2bit3;1;;;-1</Property>
+            <Property Name="TabIndex">479</Property>
+          </Object>
+          <Object Type="Vector.CANalyzer.Panels.Design.RadioButtonControl, Vector.CANalyzer.Panels.CommonControls, Version=9.0.125.0, Culture=neutral, PublicKeyToken=null" Name="RadioButtonControl9" Children="Controls" ControlName="Radio Button 2">
+            <Property Name="Name">RadioButtonControl9</Property>
+            <Property Name="Size">61, 17</Property>
+            <Property Name="Location">76, 122</Property>
+            <Property Name="BackColor">LightSteelBlue</Property>
+            <Property Name="Text">阿拉伯</Property>
+            <Property Name="SwitchValue">2</Property>
+            <Property Name="SymbolConfiguration">4;16;UDS;;;UDS_Configbyte2bit3;1;;;-1</Property>
+            <Property Name="TabIndex">478</Property>
+          </Object>
+          <Object Type="Vector.CANalyzer.Panels.Design.RadioButtonControl, Vector.CANalyzer.Panels.CommonControls, Version=9.0.125.0, Culture=neutral, PublicKeyToken=null" Name="RadioButtonControl8" Children="Controls" ControlName="Radio Button 2">
+            <Property Name="Name">RadioButtonControl8</Property>
+            <Property Name="Size">49, 17</Property>
+            <Property Name="Location">76, 99</Property>
+            <Property Name="BackColor">LightSteelBlue</Property>
+            <Property Name="Text">中文</Property>
+            <Property Name="SwitchValue">0</Property>
+            <Property Name="SymbolConfiguration">4;16;UDS;;;UDS_Configbyte2bit3;1;;;-1</Property>
+            <Property Name="TabIndex">477</Property>
+          </Object>
+          <Object Type="Vector.CANalyzer.Panels.Design.RadioButtonControl, Vector.CANalyzer.Panels.CommonControls, Version=9.0.125.0, Culture=neutral, PublicKeyToken=null" Name="RadioButtonControl7" Children="Controls" ControlName="Radio Button 2">
+            <Property Name="Name">RadioButtonControl7</Property>
+            <Property Name="Size">37, 17</Property>
+            <Property Name="Location">100, 69</Property>
+            <Property Name="BackColor">LightSteelBlue</Property>
+            <Property Name="Text">有</Property>
+            <Property Name="SymbolConfiguration">4;16;UDS;;;UDS_Configbyte2bit2;1;;;-1</Property>
+            <Property Name="TabIndex">476</Property>
+          </Object>
+          <Object Type="Vector.CANalyzer.Panels.Design.RadioButtonControl, Vector.CANalyzer.Panels.CommonControls, Version=9.0.125.0, Culture=neutral, PublicKeyToken=null" Name="RadioButtonControl6" Children="Controls" ControlName="Radio Button 2">
+            <Property Name="Name">RadioButtonControl6</Property>
+            <Property Name="Size">37, 17</Property>
+            <Property Name="Location">53, 69</Property>
+            <Property Name="BackColor">LightSteelBlue</Property>
+            <Property Name="Text">无</Property>
+            <Property Name="SwitchValue">0</Property>
+            <Property Name="SymbolConfiguration">4;16;UDS;;;UDS_Configbyte2bit2;1;;;-1</Property>
+            <Property Name="TabIndex">475</Property>
+          </Object>
+          <Object Type="Vector.CANalyzer.Panels.Design.RadioButtonControl, Vector.CANalyzer.Panels.CommonControls, Version=9.0.125.0, Culture=neutral, PublicKeyToken=null" Name="RadioButtonControl5" Children="Controls" ControlName="Radio Button 2">
+            <Property Name="Name">RadioButtonControl5</Property>
+            <Property Name="Size">46, 17</Property>
+            <Property Name="Location">96, 46</Property>
+            <Property Name="BackColor">LightSteelBlue</Property>
+            <Property Name="Text">ACC</Property>
+            <Property Name="SwitchValue">2</Property>
+            <Property Name="SymbolConfiguration">4;16;UDS;;;UDS_Configbyte2bit0;1;;;-1</Property>
+            <Property Name="TabIndex">474</Property>
+          </Object>
+          <Object Type="Vector.CANalyzer.Panels.Design.RadioButtonControl, Vector.CANalyzer.Panels.CommonControls, Version=9.0.125.0, Culture=neutral, PublicKeyToken=null" Name="RadioButtonControl4" Children="Controls" ControlName="Radio Button 2">
+            <Property Name="Name">RadioButtonControl4</Property>
+            <Property Name="Size">49, 17</Property>
+            <Property Name="Location">96, 23</Property>
+            <Property Name="BackColor">LightSteelBlue</Property>
+            <Property Name="Text">定速</Property>
+            <Property Name="SymbolConfiguration">4;16;UDS;;;UDS_Configbyte2bit0;1;;;-1</Property>
+            <Property Name="TabIndex">473</Property>
+          </Object>
+          <Object Type="Vector.CANalyzer.Panels.Design.RadioButtonControl, Vector.CANalyzer.Panels.CommonControls, Version=9.0.125.0, Culture=neutral, PublicKeyToken=null" Name="RadioButtonControl3" Children="Controls" ControlName="Radio Button 2">
+            <Property Name="Name">RadioButtonControl3</Property>
+            <Property Name="Size">37, 17</Property>
+            <Property Name="Location">53, 21</Property>
+            <Property Name="BackColor">LightSteelBlue</Property>
+            <Property Name="Text">无</Property>
+            <Property Name="SwitchValue">0</Property>
+            <Property Name="SymbolConfiguration">4;16;UDS;;;UDS_Configbyte2bit0;1;;;-1</Property>
+            <Property Name="TabIndex">472</Property>
+          </Object>
+          <Object Type="Vector.CANalyzer.Panels.Design.StaticTextControl, Vector.CANalyzer.Panels.CommonControls, Version=9.0.125.0, Culture=neutral, PublicKeyToken=null" Name="StaticTextControl1" Children="Controls" ControlName="Static Text">
+            <Property Name="Name">StaticTextControl1</Property>
+            <Property Name="Size">37, 13</Property>
+            <Property Name="Location">10, 156</Property>
+            <Property Name="BackColor">AliceBlue</Property>
+            <Property Name="TextAlign">MiddleLeft</Property>
+            <Property Name="Text">TPMS</Property>
+            <Property Name="ForeColor">ActiveCaptionText</Property>
+          </Object>
+          <Object Type="Vector.CANalyzer.Panels.Design.StaticTextControl, Vector.CANalyzer.Panels.CommonControls, Version=9.0.125.0, Culture=neutral, PublicKeyToken=null" Name="StaticTextControl10" Children="Controls" ControlName="Static Text">
+            <Property Name="Name">StaticTextControl10</Property>
+            <Property Name="Size">55, 13</Property>
+            <Property Name="Location">10, 101</Property>
+            <Property Name="BackColor">AliceBlue</Property>
+            <Property Name="TextAlign">MiddleLeft</Property>
+            <Property Name="Text">系统语言</Property>
+            <Property Name="ForeColor">ActiveCaptionText</Property>
+          </Object>
+          <Object Type="Vector.CANalyzer.Panels.Design.StaticTextControl, Vector.CANalyzer.Panels.CommonControls, Version=9.0.125.0, Culture=neutral, PublicKeyToken=null" Name="StaticTextControl11" Children="Controls" ControlName="Static Text">
+            <Property Name="Name">StaticTextControl11</Property>
+            <Property Name="Size">28, 13</Property>
+            <Property Name="Location">10, 71</Property>
+            <Property Name="BackColor">AliceBlue</Property>
+            <Property Name="TextAlign">MiddleLeft</Property>
+            <Property Name="Text">ABS</Property>
+            <Property Name="ForeColor">ActiveCaptionText</Property>
+          </Object>
+          <Object Type="Vector.CANalyzer.Panels.Design.StaticTextControl, Vector.CANalyzer.Panels.CommonControls, Version=9.0.125.0, Culture=neutral, PublicKeyToken=null" Name="StaticTextControl19" Children="Controls" ControlName="Static Text">
+            <Property Name="Name">StaticTextControl19</Property>
+            <Property Name="Size">31, 13</Property>
+            <Property Name="Location">10, 23</Property>
+            <Property Name="BackColor">AliceBlue</Property>
+            <Property Name="TextAlign">MiddleLeft</Property>
+            <Property Name="Text">巡航</Property>
+            <Property Name="ForeColor">ActiveCaptionText</Property>
+          </Object>
+          <Property Name="Name">GroupBoxControl3</Property>
+          <Property Name="Size">153, 180</Property>
+          <Property Name="Location">336, 53</Property>
+          <Property Name="BackColor">LightSteelBlue</Property>
+          <Property Name="Text">byte2</Property>
+          <Property Name="TabIndex">474</Property>
+        </Object>
+        <Object Type="Vector.CANalyzer.Panels.Design.GroupBoxControl, Vector.CANalyzer.Panels.CommonControls, Version=9.0.125.0, Culture=neutral, PublicKeyToken=null" Name="GroupBoxControl2" Children="Controls" ControlName="Group Box">
+          <Object Type="Vector.CANalyzer.Panels.Design.RadioButtonControl, Vector.CANalyzer.Panels.CommonControls, Version=9.0.125.0, Culture=neutral, PublicKeyToken=null" Name="RadioButtonControl2" Children="Controls" ControlName="Radio Button 2">
+            <Property Name="Name">RadioButtonControl2</Property>
+            <Property Name="Size">73, 17</Property>
+            <Property Name="Location">40, 103</Property>
+            <Property Name="BackColor">LightSteelBlue</Property>
+            <Property Name="Text">00000001</Property>
+            <Property Name="SymbolConfiguration">4;16;UDS;;;UDS_Configbyte1;1;;;-1</Property>
+            <Property Name="TabIndex">463</Property>
+          </Object>
+          <Object Type="Vector.CANalyzer.Panels.Design.RadioButtonControl, Vector.CANalyzer.Panels.CommonControls, Version=9.0.125.0, Culture=neutral, PublicKeyToken=null" Name="RadioButtonControl1" Children="Controls" ControlName="Radio Button 2">
+            <Property Name="Name">RadioButtonControl1</Property>
+            <Property Name="Size">73, 17</Property>
+            <Property Name="Location">40, 61</Property>
+            <Property Name="BackColor">LightSteelBlue</Property>
+            <Property Name="Text">00000000</Property>
+            <Property Name="SwitchValue">0</Property>
+            <Property Name="SymbolConfiguration">4;16;UDS;;;UDS_Configbyte1;1;;;-1</Property>
+            <Property Name="TabIndex">462</Property>
+          </Object>
+          <Object Type="Vector.CANalyzer.Panels.Design.StaticTextControl, Vector.CANalyzer.Panels.CommonControls, Version=9.0.125.0, Culture=neutral, PublicKeyToken=null" Name="StaticTextControl14" Children="Controls" ControlName="Static Text">
+            <Property Name="Name">StaticTextControl14</Property>
+            <Property Name="Size">75, 13</Property>
+            <Property Name="Location">23, 84</Property>
+            <Property Name="BackColor">AliceBlue</Property>
+            <Property Name="TextAlign">MiddleLeft</Property>
+            <Property Name="Text">185/75R16LT</Property>
+            <Property Name="ForeColor">ActiveCaptionText</Property>
+          </Object>
+          <Object Type="Vector.CANalyzer.Panels.Design.StaticTextControl, Vector.CANalyzer.Panels.CommonControls, Version=9.0.125.0, Culture=neutral, PublicKeyToken=null" Name="StaticTextControl15" Children="Controls" ControlName="Static Text">
+            <Property Name="Name">StaticTextControl15</Property>
+            <Property Name="Size">69, 13</Property>
+            <Property Name="Location">23, 42</Property>
+            <Property Name="BackColor">AliceBlue</Property>
+            <Property Name="TextAlign">MiddleLeft</Property>
+            <Property Name="Text">215/75R16C</Property>
+            <Property Name="ForeColor">ActiveCaptionText</Property>
+          </Object>
+          <Object Type="Vector.CANalyzer.Panels.Design.StaticTextControl, Vector.CANalyzer.Panels.CommonControls, Version=9.0.125.0, Culture=neutral, PublicKeyToken=null" Name="StaticTextControl16" Children="Controls" ControlName="Static Text">
+            <Property Name="Name">StaticTextControl16</Property>
+            <Property Name="Size">55, 13</Property>
+            <Property Name="Location">10, 23</Property>
+            <Property Name="BackColor">AliceBlue</Property>
+            <Property Name="TextAlign">MiddleLeft</Property>
+            <Property Name="Text">轮胎型号</Property>
+            <Property Name="ForeColor">ActiveCaptionText</Property>
+          </Object>
+          <Property Name="Name">GroupBoxControl2</Property>
+          <Property Name="Size">153, 180</Property>
+          <Property Name="Location">177, 53</Property>
+          <Property Name="BackColor">LightSteelBlue</Property>
+          <Property Name="Text">byte1</Property>
+          <Property Name="TabIndex">473</Property>
+        </Object>
+        <Object Type="Vector.CANalyzer.Panels.Design.GroupBoxControl, Vector.CANalyzer.Panels.CommonControls, Version=9.0.125.0, Culture=neutral, PublicKeyToken=null" Name="GroupBoxControl1" Children="Controls" ControlName="Group Box">
+          <Object Type="Vector.CANalyzer.Panels.Design.LEDControl, Vector.CANalyzer.Panels.CommonControls, Version=9.0.125.0, Culture=neutral, PublicKeyToken=null" Name="LEDControl8" ControlName="LED Control">
+            <Property Name="Name">LEDControl8</Property>
+            <Property Name="Size">13, 13</Property>
+            <Property Name="Location">100, 156</Property>
+            <Property Name="UsedLEDColorOn">Chartreuse</Property>
+            <Property Name="UsedLEDColorOff">Gray</Property>
+            <Property Name="LEDStyle">Rectangle</Property>
+            <Property Name="SymbolConfiguration">4;16;UDS;;;UDS_Configbyte0bit7;1;;;-1</Property>
+            <Property Name="TabIndex">471</Property>
+          </Object>
+          <Object Type="Vector.CANalyzer.Panels.Design.StaticTextControl, Vector.CANalyzer.Panels.CommonControls, Version=9.0.125.0, Culture=neutral, PublicKeyToken=null" Name="StaticTextControl9" Children="Controls" ControlName="Static Text">
+            <Property Name="Name">StaticTextControl9</Property>
+            <Property Name="Size">67, 13</Property>
+            <Property Name="Location">10, 156</Property>
+            <Property Name="BackColor">AliceBlue</Property>
+            <Property Name="TextAlign">MiddleLeft</Property>
+            <Property Name="Text">ADAS_LDW</Property>
+            <Property Name="ForeColor">ActiveCaptionText</Property>
+          </Object>
+          <Object Type="Vector.CANalyzer.Panels.Design.LEDControl, Vector.CANalyzer.Panels.CommonControls, Version=9.0.125.0, Culture=neutral, PublicKeyToken=null" Name="LEDControl7" ControlName="LED Control">
+            <Property Name="Name">LEDControl7</Property>
+            <Property Name="Size">13, 13</Property>
+            <Property Name="Location">100, 137</Property>
+            <Property Name="UsedLEDColorOn">Chartreuse</Property>
+            <Property Name="UsedLEDColorOff">Gray</Property>
+            <Property Name="LEDStyle">Rectangle</Property>
+            <Property Name="SymbolConfiguration">4;16;UDS;;;UDS_Configbyte0bit6;1;;;-1</Property>
+            <Property Name="TabIndex">469</Property>
+          </Object>
+          <Object Type="Vector.CANalyzer.Panels.Design.StaticTextControl, Vector.CANalyzer.Panels.CommonControls, Version=9.0.125.0, Culture=neutral, PublicKeyToken=null" Name="StaticTextControl8" Children="Controls" ControlName="Static Text">
+            <Property Name="Name">StaticTextControl8</Property>
+            <Property Name="Size">62, 13</Property>
+            <Property Name="Location">10, 137</Property>
+            <Property Name="BackColor">AliceBlue</Property>
+            <Property Name="TextAlign">MiddleLeft</Property>
+            <Property Name="Text">ADAS_LKA</Property>
+            <Property Name="ForeColor">ActiveCaptionText</Property>
+          </Object>
+          <Object Type="Vector.CANalyzer.Panels.Design.LEDControl, Vector.CANalyzer.Panels.CommonControls, Version=9.0.125.0, Culture=neutral, PublicKeyToken=null" Name="LEDControl6" ControlName="LED Control">
+            <Property Name="Name">LEDControl6</Property>
+            <Property Name="Size">13, 13</Property>
+            <Property Name="Location">100, 118</Property>
+            <Property Name="UsedLEDColorOn">Chartreuse</Property>
+            <Property Name="UsedLEDColorOff">Gray</Property>
+            <Property Name="LEDStyle">Rectangle</Property>
+            <Property Name="SymbolConfiguration">4;16;UDS;;;UDS_Configbyte0bit5;1;;;-1</Property>
+            <Property Name="TabIndex">467</Property>
+          </Object>
+          <Object Type="Vector.CANalyzer.Panels.Design.StaticTextControl, Vector.CANalyzer.Panels.CommonControls, Version=9.0.125.0, Culture=neutral, PublicKeyToken=null" Name="StaticTextControl7" Children="Controls" ControlName="Static Text">
+            <Property Name="Name">StaticTextControl7</Property>
+            <Property Name="Size">66, 13</Property>
+            <Property Name="Location">10, 118</Property>
+            <Property Name="BackColor">AliceBlue</Property>
+            <Property Name="TextAlign">MiddleLeft</Property>
+            <Property Name="Text">ADAS_FCW</Property>
+            <Property Name="ForeColor">ActiveCaptionText</Property>
+          </Object>
+          <Object Type="Vector.CANalyzer.Panels.Design.LEDControl, Vector.CANalyzer.Panels.CommonControls, Version=9.0.125.0, Culture=neutral, PublicKeyToken=null" Name="LEDControl5" ControlName="LED Control">
+            <Property Name="Name">LEDControl5</Property>
+            <Property Name="Size">13, 13</Property>
+            <Property Name="Location">100, 99</Property>
+            <Property Name="UsedLEDColorOn">Chartreuse</Property>
+            <Property Name="UsedLEDColorOff">Gray</Property>
+            <Property Name="LEDStyle">Rectangle</Property>
+            <Property Name="SymbolConfiguration">4;16;UDS;;;UDS_Configbyte0bit4;1;;;-1</Property>
+            <Property Name="TabIndex">465</Property>
+          </Object>
+          <Object Type="Vector.CANalyzer.Panels.Design.StaticTextControl, Vector.CANalyzer.Panels.CommonControls, Version=9.0.125.0, Culture=neutral, PublicKeyToken=null" Name="StaticTextControl6" Children="Controls" ControlName="Static Text">
+            <Property Name="Name">StaticTextControl6</Property>
+            <Property Name="Size">63, 13</Property>
+            <Property Name="Location">10, 99</Property>
+            <Property Name="BackColor">AliceBlue</Property>
+            <Property Name="TextAlign">MiddleLeft</Property>
+            <Property Name="Text">ADAS_AEB</Property>
+            <Property Name="ForeColor">ActiveCaptionText</Property>
+          </Object>
+          <Object Type="Vector.CANalyzer.Panels.Design.LEDControl, Vector.CANalyzer.Panels.CommonControls, Version=9.0.125.0, Culture=neutral, PublicKeyToken=null" Name="LEDControl4" ControlName="LED Control">
+            <Property Name="Name">LEDControl4</Property>
+            <Property Name="Size">13, 13</Property>
+            <Property Name="Location">100, 80</Property>
+            <Property Name="UsedLEDColorOn">Chartreuse</Property>
+            <Property Name="UsedLEDColorOff">Gray</Property>
+            <Property Name="LEDStyle">Rectangle</Property>
+            <Property Name="SymbolConfiguration">4;16;UDS;;;UDS_Configbyte0bit3;1;;;-1</Property>
+            <Property Name="TabIndex">463</Property>
+          </Object>
+          <Object Type="Vector.CANalyzer.Panels.Design.StaticTextControl, Vector.CANalyzer.Panels.CommonControls, Version=9.0.125.0, Culture=neutral, PublicKeyToken=null" Name="StaticTextControl5" Children="Controls" ControlName="Static Text">
+            <Property Name="Name">StaticTextControl5</Property>
+            <Property Name="Size">69, 13</Property>
+            <Property Name="Location">10, 80</Property>
+            <Property Name="BackColor">AliceBlue</Property>
+            <Property Name="TextAlign">MiddleLeft</Property>
+            <Property Name="Text">ADAS_DOW</Property>
+            <Property Name="ForeColor">ActiveCaptionText</Property>
+          </Object>
+          <Object Type="Vector.CANalyzer.Panels.Design.LEDControl, Vector.CANalyzer.Panels.CommonControls, Version=9.0.125.0, Culture=neutral, PublicKeyToken=null" Name="LEDControl3" ControlName="LED Control">
+            <Property Name="Name">LEDControl3</Property>
+            <Property Name="Size">13, 13</Property>
+            <Property Name="Location">100, 61</Property>
+            <Property Name="UsedLEDColorOn">Chartreuse</Property>
+            <Property Name="UsedLEDColorOff">Gray</Property>
+            <Property Name="LEDStyle">Rectangle</Property>
+            <Property Name="SymbolConfiguration">4;16;UDS;;;UDS_Configbyte0bit2;1;;;-1</Property>
+            <Property Name="TabIndex">461</Property>
+          </Object>
+          <Object Type="Vector.CANalyzer.Panels.Design.StaticTextControl, Vector.CANalyzer.Panels.CommonControls, Version=9.0.125.0, Culture=neutral, PublicKeyToken=null" Name="StaticTextControl4" Children="Controls" ControlName="Static Text">
+            <Property Name="Name">StaticTextControl4</Property>
+            <Property Name="Size">64, 13</Property>
+            <Property Name="Location">10, 61</Property>
+            <Property Name="BackColor">AliceBlue</Property>
+            <Property Name="TextAlign">MiddleLeft</Property>
+            <Property Name="Text">ADAS_BSD</Property>
+            <Property Name="ForeColor">ActiveCaptionText</Property>
+          </Object>
+          <Object Type="Vector.CANalyzer.Panels.Design.LEDControl, Vector.CANalyzer.Panels.CommonControls, Version=9.0.125.0, Culture=neutral, PublicKeyToken=null" Name="LEDControl2" ControlName="LED Control">
+            <Property Name="Name">LEDControl2</Property>
+            <Property Name="Size">13, 13</Property>
+            <Property Name="Location">100, 42</Property>
+            <Property Name="UsedLEDColorOn">Chartreuse</Property>
+            <Property Name="UsedLEDColorOff">Gray</Property>
+            <Property Name="LEDStyle">Rectangle</Property>
+            <Property Name="SymbolConfiguration">4;16;UDS;;;UDS_Configbyte0bit1;1;;;-1</Property>
+            <Property Name="TabIndex">459</Property>
+          </Object>
+          <Object Type="Vector.CANalyzer.Panels.Design.StaticTextControl, Vector.CANalyzer.Panels.CommonControls, Version=9.0.125.0, Culture=neutral, PublicKeyToken=null" Name="StaticTextControl3" Children="Controls" ControlName="Static Text">
+            <Property Name="Name">StaticTextControl3</Property>
+            <Property Name="Size">62, 13</Property>
+            <Property Name="Location">10, 42</Property>
+            <Property Name="BackColor">AliceBlue</Property>
+            <Property Name="TextAlign">MiddleLeft</Property>
+            <Property Name="Text">ADAS_LCA</Property>
+            <Property Name="ForeColor">ActiveCaptionText</Property>
+          </Object>
+          <Object Type="Vector.CANalyzer.Panels.Design.LEDControl, Vector.CANalyzer.Panels.CommonControls, Version=9.0.125.0, Culture=neutral, PublicKeyToken=null" Name="LEDControl1" ControlName="LED Control">
+            <Property Name="Name">LEDControl1</Property>
+            <Property Name="Size">13, 13</Property>
+            <Property Name="Location">100, 23</Property>
+            <Property Name="UsedLEDColorOn">Chartreuse</Property>
+            <Property Name="UsedLEDColorOff">Gray</Property>
+            <Property Name="LEDStyle">Rectangle</Property>
+            <Property Name="SymbolConfiguration">4;16;UDS;;;UDS_Configbyte0bit0;1;;;-1</Property>
+            <Property Name="TabIndex">456</Property>
+          </Object>
+          <Object Type="Vector.CANalyzer.Panels.Design.StaticTextControl, Vector.CANalyzer.Panels.CommonControls, Version=9.0.125.0, Culture=neutral, PublicKeyToken=null" Name="StaticTextControl2" Children="Controls" ControlName="Static Text">
+            <Property Name="Name">StaticTextControl2</Property>
+            <Property Name="Size">71, 13</Property>
+            <Property Name="Location">10, 23</Property>
+            <Property Name="BackColor">AliceBlue</Property>
+            <Property Name="TextAlign">MiddleLeft</Property>
+            <Property Name="Text">ADAS_RCTA</Property>
+            <Property Name="ForeColor">ActiveCaptionText</Property>
+          </Object>
+          <Property Name="Name">GroupBoxControl1</Property>
+          <Property Name="Size">153, 180</Property>
+          <Property Name="Location">6, 53</Property>
+          <Property Name="BackColor">LightSteelBlue</Property>
+          <Property Name="Text">byte0</Property>
+          <Property Name="TabIndex">472</Property>
+        </Object>
+        <Object Type="Vector.CANalyzer.Panels.Design.HexEditorControl, Vector.CANalyzer.Panels.CommonControls, Version=9.0.125.0, Culture=neutral, PublicKeyToken=null" Name="HexEditorControl1" Children="Controls" ControlName="HexEditor">
+          <Property Name="Name">HexEditorControl1</Property>
+          <Property Name="Size">451, 20</Property>
+          <Property Name="Location">6, 16</Property>
+          <Property Name="ColumnCount">20</Property>
+          <Property Name="ViewLayout">OnlyHexfield</Property>
+          <Property Name="SymbolDataType">ByteArray</Property>
+          <Property Name="SymbolConfiguration">4;1;udsDiag;;;udsConfig;8;;;-1</Property>
+          <Property Name="TabIndex">446</Property>
+        </Object>
+        <Object Type="Vector.CANalyzer.Panels.Design.ButtonControl, Vector.CANalyzer.Panels.CommonControls, Version=9.0.125.0, Culture=neutral, PublicKeyToken=null" Name="ButtonControl1" Children="Controls" ControlName="无">
+          <Property Name="Name">ButtonControl1</Property>
+          <Property Name="Size">75, 23</Property>
+          <Property Name="Location">504, 13</Property>
+          <Property Name="Text">enter</Property>
+          <Property Name="SymbolConfiguration">4;1;udsDiag;;;uds_configSend;1;;;-1</Property>
+          <Property Name="TabIndex">453</Property>
+        </Object>
+        <Property Name="Name">VectorTabPage1</Property>
+        <Property Name="Size">693, 506</Property>
+        <Property Name="Location">4, 22</Property>
+        <Property Name="BackColor">LightSteelBlue</Property>
+        <Property Name="Text">DF00</Property>
+      </Object>
+      <Object Type="Vector.CANalyzer.Panels.Design.VectorTabPage, Vector.CANalyzer.Panels.CommonControls, Version=9.0.125.0, Culture=neutral, PublicKeyToken=null" Name="VectorTabPage2" ControlName="">
+        <Property Name="Name">VectorTabPage2</Property>
+        <Property Name="Size">845, 506</Property>
+        <Property Name="Location">4, 22</Property>
+        <Property Name="Text">VectorTabPage2</Property>
+      </Object>
+      <Property Name="Name">VectorTabControl1</Property>
+      <Property Name="Size">701, 532</Property>
+      <Property Name="Location">3, 3</Property>
+      <Property Name="SymbolConfiguration">
+      </Property>
+      <Property Name="TabIndex">591</Property>
+    </Object>
+    <Object Type="Vector.CANalyzer.Panels.Design.ButtonControl, Vector.CANalyzer.Panels.CommonControls, Version=9.0.125.0, Culture=neutral, PublicKeyToken=null" Name="ButtonControl2" Children="Controls" ControlName="Button 2">
+      <Property Name="Name">ButtonControl2</Property>
+      <Property Name="Size">57, 21</Property>
+      <Property Name="Location">1111, 218</Property>
+      <Property Name="Text">send</Property>
+      <Property Name="SymbolConfiguration">4;1;udsDiag;;;udsReadDIDsSingleShot;1;;;-1</Property>
+      <Property Name="TabIndex">587</Property>
+    </Object>
+    <Object Type="Vector.CANalyzer.Panels.Design.ComboBoxControl, Vector.CANalyzer.Panels.CommonControls, Version=9.0.125.0, Culture=neutral, PublicKeyToken=null" Name="ComboBoxControl1" Children="Controls" ControlName="Combo Box 2">
+      <Property Name="Name">ComboBoxControl1</Property>
+      <Property Name="Size">237, 21</Property>
+      <Property Name="Location">931, 145</Property>
+      <Property Name="DropDownWidth">181</Property>
+      <Property Name="BackColor">Window</Property>
+      <Property Name="ForeColor">WindowText</Property>
+      <Property Name="DisplayLabel">Left</Property>
+      <Property Name="DescriptionText">ECUreset:</Property>
+      <Property Name="DescriptionSize">56, 21</Property>
+      <Property Name="SymbolConfiguration">4;1;udsDiag;;;udsEcuReset;1;;;-1</Property>
+      <Property Name="TabIndex">558</Property>
+    </Object>
+    <Object Type="Vector.CANalyzer.Panels.Design.ComboBoxControl, Vector.CANalyzer.Panels.CommonControls, Version=9.0.125.0, Culture=neutral, PublicKeyToken=null" Name="ComboBoxControl2" Children="Controls" ControlName="Combo Box 2">
+      <Property Name="Name">ComboBoxControl2</Property>
+      <Property Name="Size">237, 21</Property>
+      <Property Name="Location">931, 177</Property>
+      <Property Name="DropDownWidth">183</Property>
+      <Property Name="BackColor">Window</Property>
+      <Property Name="ForeColor">WindowText</Property>
+      <Property Name="DisplayLabel">Left</Property>
+      <Property Name="DescriptionText">ReadDID:</Property>
+      <Property Name="DescriptionSize">54, 21</Property>
+      <Property Name="SymbolConfiguration">4;1;udsDiag;;;udsReadDIDs;1;;;-1</Property>
+      <Property Name="TabIndex">529</Property>
+    </Object>
+    <Object Type="Vector.CANalyzer.Panels.Design.GroupBoxControl, Vector.CANalyzer.Panels.CommonControls, Version=9.0.125.0, Culture=neutral, PublicKeyToken=null" Name="GroupBoxControl65" Children="Controls" ControlName="ElemFrame">
+      <Object Type="Vector.CANalyzer.Panels.Design.TextBoxControl, Vector.CANalyzer.Panels.CommonControls, Version=9.0.125.0, Culture=neutral, PublicKeyToken=null" Name="TextBoxControl29" Children="Controls" ControlName="TextBoxControl29">
+        <Property Name="Name">TextBoxControl29</Property>
+        <Property Name="Size">35, 22</Property>
+        <Property Name="Location">11, 20</Property>
+        <Property Name="AlarmUpperTextColor">Black</Property>
+        <Property Name="BoxForeColor">Black</Property>
+        <Property Name="AlarmLowerBkgColor">Blue</Property>
+        <Property Name="TextBackColor">White</Property>
+        <Property Name="ValueDisplay">Double</Property>
+        <Property Name="AlarmUpperBkgColor">Red</Property>
+        <Property Name="AlarmLowerTextColor">Black</Property>
+        <Property Name="BoxFont">Century Gothic, 9pt</Property>
+        <Property Name="AlarmUpperFont">Century Gothic, 9pt</Property>
+        <Property Name="AlarmLowerFont">Century Gothic, 9pt</Property>
+        <Property Name="AlarmGeneralSettings">1;0;0;0</Property>
+        <Property Name="DisplayLabel">Hide</Property>
+        <Property Name="DescriptionText">udsSecurityLevel:</Property>
+        <Property Name="BoxBackColor">White</Property>
+        <Property Name="DescriptionSize">94, 22</Property>
+        <Property Name="SymbolConfiguration">1;1;;;;udsSecurityLevel</Property>
+        <Property Name="TabIndex">493</Property>
+      </Object>
+      <Object Type="Vector.CANalyzer.Panels.Design.ButtonControl, Vector.CANalyzer.Panels.CommonControls, Version=9.0.125.0, Culture=neutral, PublicKeyToken=null" Name="ButtonControl33" Children="Controls" ControlName="ButtonControl33">
+        <Property Name="Name">ButtonControl33</Property>
+        <Property Name="Size">56, 25</Property>
+        <Property Name="Location">54, 19</Property>
+        <Property Name="Font">Century Gothic, 9pt</Property>
+        <Property Name="Text">Seed</Property>
+        <Property Name="UseTransparentColor">False</Property>
+        <Property Name="SymbolConfiguration">1;1;;;;udsSecuritySeed</Property>
+        <Property Name="TabIndex">497</Property>
+      </Object>
+      <Object Type="Vector.CANalyzer.Panels.Design.ButtonControl, Vector.CANalyzer.Panels.CommonControls, Version=9.0.125.0, Culture=neutral, PublicKeyToken=null" Name="ButtonControl32" Children="Controls" ControlName="ButtonControl32">
+        <Property Name="Name">ButtonControl32</Property>
+        <Property Name="Size">50, 25</Property>
+        <Property Name="Location">143, 20</Property>
+        <Property Name="Font">Century Gothic, 9pt</Property>
+        <Property Name="Text">Key</Property>
+        <Property Name="UseTransparentColor">False</Property>
+        <Property Name="SymbolConfiguration">1;1;;;;udsSecurityKey</Property>
+        <Property Name="TabIndex">496</Property>
+      </Object>
+      <Object Type="Vector.CANalyzer.Panels.Design.HexEditorControl, Vector.CANalyzer.Panels.CommonControls, Version=9.0.125.0, Culture=neutral, PublicKeyToken=null" Name="HexEditorControl31" Children="Controls" ControlName="HexEditorControl31">
+        <Property Name="Name">HexEditorControl31</Property>
+        <Property Name="Size">110, 20</Property>
+        <Property Name="Location">11, 60</Property>
+        <Property Name="BackColor">White</Property>
+        <Property Name="Font">Century Gothic, 9pt</Property>
+        <Property Name="ForeColor">Black</Property>
+        <Property Name="ColumnCount">4</Property>
+        <Property Name="ViewLayout">OnlyHexfield</Property>
+        <Property Name="SymbolDataType">ByteArray</Property>
+        <Property Name="SymbolConfiguration">1;1;;;;udsSecuritySeedData</Property>
+        <Property Name="TabIndex">495</Property>
+      </Object>
+      <Object Type="Vector.CANalyzer.Panels.Design.HexEditorControl, Vector.CANalyzer.Panels.CommonControls, Version=9.0.125.0, Culture=neutral, PublicKeyToken=null" Name="HexEditorControl30" Children="Controls" ControlName="HexEditorControl30">
+        <Property Name="Name">HexEditorControl30</Property>
+        <Property Name="Size">110, 20</Property>
+        <Property Name="Location">133, 60</Property>
+        <Property Name="BackColor">White</Property>
+        <Property Name="Font">Century Gothic, 9pt</Property>
+        <Property Name="ForeColor">Black</Property>
+        <Property Name="ColumnCount">4</Property>
+        <Property Name="ViewLayout">OnlyHexfield</Property>
+        <Property Name="SymbolDataType">ByteArray</Property>
+        <Property Name="SymbolConfiguration">1;1;;;;udsSecurityKeyData</Property>
+        <Property Name="TabIndex">494</Property>
+      </Object>
+      <Property Name="Name">GroupBoxControl65</Property>
+      <Property Name="Size">249, 90</Property>
+      <Property Name="Location">931, 28</Property>
+      <Property Name="BackColor">White</Property>
+      <Property Name="Font">Courier New, 9pt</Property>
+      <Property Name="Text">$27 SecurityAccess</Property>
+      <Property Name="ForeColor">Black</Property>
+      <Property Name="TabIndex">498</Property>
+    </Object>
+    <Object Type="Vector.CANalyzer.Panels.Design.StaticTextControl, Vector.CANalyzer.Panels.CommonControls, Version=9.0.125.0, Culture=neutral, PublicKeyToken=null" Name="StaticTextControl56" Children="Controls" ControlName="ElemST">
+      <Property Name="Name">StaticTextControl56</Property>
+      <Property Name="Size">152, 18</Property>
+      <Property Name="Location">960, 371</Property>
+      <Property Name="BackColor">White</Property>
+      <Property Name="Font">Century Gothic, 9pt</Property>
+      <Property Name="Text">Message Response</Property>
+      <Property Name="ForeColor">Black</Property>
+    </Object>
+    <Object Type="Vector.CANalyzer.Panels.Design.HexEditorControl, Vector.CANalyzer.Panels.CommonControls, Version=9.0.125.0, Culture=neutral, PublicKeyToken=null" Name="HexEditorControl57" Children="Controls" ControlName="HexEditorControl57">
+      <Property Name="Name">HexEditorControl57</Property>
+      <Property Name="Size">232, 100</Property>
+      <Property Name="Location">960, 399</Property>
+      <Property Name="BackColor">White</Property>
+      <Property Name="Font">Courier New, 9pt</Property>
+      <Property Name="ForeColor">Black</Property>
+      <Property Name="ViewLayout">OnlyHexfield</Property>
+      <Property Name="SymbolDataType">ByteArray</Property>
+      <Property Name="SymbolConfiguration">1;1;;;;udsPhyResponseData</Property>
+      <Property Name="TabIndex">492</Property>
+    </Object>
+    <Object Type="Vector.CANalyzer.Panels.Design.StaticTextControl, Vector.CANalyzer.Panels.CommonControls, Version=9.0.125.0, Culture=neutral, PublicKeyToken=null" Name="StaticTextControl59" Children="Controls" ControlName="ElemST">
+      <Property Name="Name">StaticTextControl59</Property>
+      <Property Name="Size">180, 20</Property>
+      <Property Name="Location">706, 371</Property>
+      <Property Name="BackColor">White</Property>
+      <Property Name="Font">Century Gothic, 9pt</Property>
+      <Property Name="Text">Message Physical Request</Property>
+      <Property Name="ForeColor">Black</Property>
+    </Object>
+    <Object Type="Vector.CANalyzer.Panels.Design.SwitchControl, Vector.CANalyzer.Panels.CommonControls, Version=9.0.125.0, Culture=neutral, PublicKeyToken=null" Name="SwitchControl2" ControlName="Switch/Indicator 2">
+      <Property Name="Name">SwitchControl2</Property>
+      <Property Name="Size">23, 30</Property>
+      <Property Name="Location">892, 359</Property>
+      <Property Name="StateCnt">2</Property>
+      <Property Name="Activation">Left</Property>
+      <Property Name="SwitchValues">1;2;0;1</Property>
+      <Property Name="SymbolConfiguration">4;1;udsDiag;;;udsSingleShotPhy;1;;;-1</Property>
+      <Property Name="TabIndex">491</Property>
+    </Object>
+    <Object Type="Vector.CANalyzer.Panels.Design.HexEditorControl, Vector.CANalyzer.Panels.CommonControls, Version=9.0.125.0, Culture=neutral, PublicKeyToken=null" Name="HexEditorControl61" Children="Controls" ControlName="HexEditorControl61">
+      <Property Name="Name">HexEditorControl61</Property>
+      <Property Name="Size">227, 100</Property>
+      <Property Name="Location">706, 399</Property>
+      <Property Name="BackColor">White</Property>
+      <Property Name="Font">Courier New, 9pt</Property>
+      <Property Name="ForeColor">Black</Property>
+      <Property Name="ViewLayout">OnlyHexfield</Property>
+      <Property Name="SymbolDataType">ByteArray</Property>
+      <Property Name="SymbolConfiguration">1;1;;;;udsPhyRequestData</Property>
+      <Property Name="TabIndex">490</Property>
+    </Object>
+    <Object Type="Vector.CANalyzer.Panels.Design.GroupBoxControl, Vector.CANalyzer.Panels.CommonControls, Version=9.0.125.0, Culture=neutral, PublicKeyToken=null" Name="GroupBoxControl72" Children="Controls" ControlName="ElemFrame">
+      <Object Type="Vector.CANalyzer.Panels.Design.RadioButtonControl, Vector.CANalyzer.Panels.CommonControls, Version=9.0.125.0, Culture=neutral, PublicKeyToken=null" Name="RadioButtonControl44" Children="Controls" ControlName="Radio Button">
+        <Property Name="Name">RadioButtonControl44</Property>
+        <Property Name="Size">100, 17</Property>
+        <Property Name="Location">18, 101</Property>
+        <Property Name="BackColor">White</Property>
+        <Property Name="Text">Session Factory</Property>
+        <Property Name="SwitchValue">3</Property>
+        <Property Name="SymbolConfiguration">4;1;udsDiag;;;udsSession;1;;;-1</Property>
+        <Property Name="TabIndex">408</Property>
+      </Object>
+      <Object Type="Vector.CANalyzer.Panels.Design.RadioButtonControl, Vector.CANalyzer.Panels.CommonControls, Version=9.0.125.0, Culture=neutral, PublicKeyToken=null" Name="RadioButtonControl41" Children="Controls" ControlName="Radio Button">
+        <Property Name="Name">RadioButtonControl41</Property>
+        <Property Name="Size">99, 17</Property>
+        <Property Name="Location">18, 25</Property>
+        <Property Name="BackColor">White</Property>
+        <Property Name="Text">Session Default</Property>
+        <Property Name="SwitchValue">0</Property>
+        <Property Name="SymbolConfiguration">4;1;udsDiag;;;udsSession;1;;;-1</Property>
+        <Property Name="TabIndex">405</Property>
+      </Object>
+      <Object Type="Vector.CANalyzer.Panels.Design.RadioButtonControl, Vector.CANalyzer.Panels.CommonControls, Version=9.0.125.0, Culture=neutral, PublicKeyToken=null" Name="RadioButtonControl43" Children="Controls" ControlName="Radio Button">
+        <Property Name="Name">RadioButtonControl43</Property>
+        <Property Name="Size">110, 17</Property>
+        <Property Name="Location">18, 73</Property>
+        <Property Name="BackColor">White</Property>
+        <Property Name="Text">Session Extended</Property>
+        <Property Name="SwitchValue">2</Property>
+        <Property Name="SymbolConfiguration">4;1;udsDiag;;;udsSession;1;;;-1</Property>
+        <Property Name="TabIndex">407</Property>
+      </Object>
+      <Object Type="Vector.CANalyzer.Panels.Design.RadioButtonControl, Vector.CANalyzer.Panels.CommonControls, Version=9.0.125.0, Culture=neutral, PublicKeyToken=null" Name="RadioButtonControl42" Children="Controls" ControlName="Radio Button">
+        <Property Name="Name">RadioButtonControl42</Property>
+        <Property Name="Size">126, 17</Property>
+        <Property Name="Location">18, 49</Property>
+        <Property Name="BackColor">White</Property>
+        <Property Name="Text">Session Programming</Property>
+        <Property Name="SymbolConfiguration">4;1;udsDiag;;;udsSession;1;;;-1</Property>
+        <Property Name="TabIndex">406</Property>
+      </Object>
+      <Property Name="Name">GroupBoxControl72</Property>
+      <Property Name="Size">194, 128</Property>
+      <Property Name="Location">710, 47</Property>
+      <Property Name="BackColor">White</Property>
+      <Property Name="Font">Courier New, 9pt</Property>
+      <Property Name="Text">$10 SessionControl</Property>
+      <Property Name="ForeColor">Black</Property>
+      <Property Name="TabIndex">489</Property>
+    </Object>
+    <Object Type="Vector.CANalyzer.Panels.Design.SwitchControl, Vector.CANalyzer.Panels.CommonControls, Version=9.0.125.0, Culture=neutral, PublicKeyToken=null" Name="SwitchControl1" ControlName="Switch/Indicator">
+      <Property Name="Name">SwitchControl1</Property>
+      <Property Name="Size">23, 27</Property>
+      <Property Name="Location">889, 12</Property>
+      <Property Name="StateCnt">2</Property>
+      <Property Name="Activation">Left</Property>
+      <Property Name="SwitchValues">1;2;0;1</Property>
+      <Property Name="SymbolConfiguration">4;1;udsDiag;;;udsTestPresentFlag;1;;;-1</Property>
+      <Property Name="TabIndex">488</Property>
+    </Object>
+    <Object Type="Vector.CANalyzer.Panels.Design.StaticTextControl, Vector.CANalyzer.Panels.CommonControls, Version=9.0.125.0, Culture=neutral, PublicKeyToken=null" Name="StaticTextControl43" Children="Controls" ControlName="ElemST">
+      <Property Name="Name">StaticTextControl43</Property>
+      <Property Name="Size">98, 22</Property>
+      <Property Name="Location">781, 12</Property>
+      <Property Name="BackColor">White</Property>
+      <Property Name="Font">Century Gothic, 9pt</Property>
+      <Property Name="Text">TesterPresent</Property>
+      <Property Name="ForeColor">Black</Property>
+    </Object>
+    <Property Name="Name">Panel</Property>
+    <Property Name="Size">1195, 573</Property>
+  </Object>
+</Panel>

@@ -1,0 +1,319 @@
+/*@!Encoding:936*/
+includes
+{
+  
+}
+
+variables
+{
+  message BCM_0x313 Msg_0x313;
+  message BCM_Door_0x310 Msg_0x310;
+  message BCM_Lamp_0x318 Msg_0x318;
+  message BCM_Sts_0x315 Msg_0x315;
+  message BCM_0x584 Msg_0x584;
+  
+  msTimer Msg_0x313_Timer;
+  msTimer Msg_0x310_Timer;
+  msTimer Msg_0x318_Timer;
+  msTimer Msg_0x315_Timer;
+  msTimer Msg_0x584_Timer;
+  
+  word Msg_0x313_TimerCycle=20;
+  word Msg_0x310_TimerCycle=20;
+  word Msg_0x318_TimerCycle=100;
+  word Msg_0x315_TimerCycle=200;
+  word Msg_0x584_TimerCycle=200;
+}
+
+
+on timer Msg_0x313_Timer
+{
+  output(Msg_0x313);
+  setTimer(Msg_0x313_Timer,Msg_0x313_TimerCycle);
+}
+
+on timer Msg_0x310_Timer
+{
+  output(Msg_0x310);
+  setTimer(Msg_0x310_Timer,Msg_0x310_TimerCycle);
+}
+
+on timer Msg_0x318_Timer
+{
+  output(Msg_0x318);
+  setTimer(Msg_0x318_Timer,Msg_0x318_TimerCycle);
+}
+
+on timer Msg_0x315_Timer
+{
+  output(Msg_0x315);
+  setTimer(Msg_0x315_Timer,Msg_0x315_TimerCycle);
+}
+
+on timer Msg_0x584_Timer
+{
+  output(Msg_0x584);
+  setTimer(Msg_0x584_Timer,Msg_0x584_TimerCycle);
+}
+
+on start
+{
+  @EnvConsole_All_Equipped = 1 ;
+}
+
+on envVar Env_BCM_0x313
+{
+  if(getValue(this))
+  {
+    setTimer(Msg_0x313_Timer,Msg_0x313_TimerCycle);
+    Msg_0x313.BCM_BrakeFluidSts.phys = getValue(Env_BCM_BrakeFluidSts);
+    Msg_0x313.BCM_Mechanical_Hand_Brake.phys = getValue(Env_BCM_Mechanical_Hand_Brake);
+    Msg_0x313.BCM_OutsideTemp = getValue(Env_BCM_OutsideTemp);
+    Msg_0x313.BCM_OutsideTempDig.phys = getValue(Env_BCM_OutsideTempDig);
+    Msg_0x313.BCM_Start_Switch.phys = getValue(Env_BCM_Start_Switch);
+    Msg_0x313.BCM_PowerMode = getValue(Env_BCM_PowerMode);
+    Msg_0x313.BCM_Checksum_0x313.phys = getValue(Env_BCM_Checksum_0x313);    
+  } 
+  else
+  {
+    cancelTimer(Msg_0x313_Timer);
+  }
+}
+
+on envVar Env_BCM_Door_0x310
+{
+  if(getValue(this))
+  {
+    setTimer(Msg_0x310_Timer,Msg_0x310_TimerCycle);
+    Msg_0x310.BCM_DoorStsFrntLe.phys = getValue(Env_BCM_DoorStsFrntLe);
+    Msg_0x310.BCM_DoorStsFrntRi.phys = getValue(Env_BCM_DoorStsFrntRi);
+    Msg_0x310.BCM_DoorStsRearLe.phys = getValue(Env_BCM_DoorStsRearLe);
+    Msg_0x310.BCM_DoorStsRearRi.phys = getValue(Env_BCM_DoorStsRearRi);
+    Msg_0x310.BCM_DoorStsTrunk.phys = getValue(Env_BCM_DoorStsTrunk);
+    Msg_0x310.BCM_Rolling_counter_0x310.phys = getValue(Env_BCM_Rolling_counter_0x310);
+    Msg_0x310.BCM_Checksum_0x310.phys = getValue(Env_BCM_Checksum_0x310);    
+  }
+  else
+  {
+    cancelTimer(Msg_0x310_Timer);
+  }
+}
+
+on envVar Env_BCM_Lamp_0x318
+{
+  if(getValue(this))
+  {
+    setTimer(Msg_0x318_Timer,Msg_0x318_TimerCycle);
+    Msg_0x318.BCM_HighBeamSts.phys = getValue(Env_BCM_HighBeamSts);
+    Msg_0x318.BCM_LowBeamSts.phys = getValue(Env_BCM_LowBeamSts);
+    Msg_0x318.BCM_PosLmpSts.phys = getValue(Env_BCM_PosLmpSts);
+    Msg_0x318.BCM_FrntFogLmpSts.phys = getValue(Env_BCM_FrntFogLmpSts);
+    Msg_0x318.BCM_RearFogLmpSts.phys = getValue(Env_BCM_RearFogLmpSts);
+    Msg_0x318.BCM_TurnIndicatorSts.phys = getValue(Env_BCM_TurnIndicatorSts);
+    Msg_0x318.BCM_BackHomeSts.phys = getValue(Env_BCM_BackHomeSts);
+    Msg_0x318.BCM_PosLmpDig.phys = getValue(Env_BCM_PosLmpDig);
+    Msg_0x318.BCM_RearFogLmpDig.phys = getValue(Env_BCM_RearFogLmpDig);
+    Msg_0x318.BCM_TurnIndicatorDig.phys = getValue(Env_BCM_TurnIndicatorDig);
+    Msg_0x318.BCM_reversinglightDig.phys = getValue(Env_BCM_reversinglightDig);
+    Msg_0x318.BCM_BrakelightDig.phys = getValue(Env_BCM_BrakelightDig);
+    Msg_0x318.BCM_DayRunningLampDig.phys = getValue(Env_BCM_DayRunningLampDig);
+    Msg_0x318.BCM_ImmoSts.phys = getValue(Env_BCM_ImmoSts);
+    Msg_0x318.BCM_Rollingcounter_0x318.phys = getValue(Env_BCM_Rollingcounter_0x318);
+    Msg_0x318.BCM_Checksum_0x318.phys = getValue(Env_BCM_Checksum_0x318);
+  }
+  else
+  {
+    cancelTimer(Msg_0x318_Timer);
+  }
+}
+
+on envVar Env_BCM_Sts_0x315
+{
+  if(getValue(this))
+  {
+    setTimer(Msg_0x315_Timer,Msg_0x315_TimerCycle);
+    Msg_0x315.BCM_BGLLumLvlSettingStatus.phys = getValue(Env_BCM_BGLLumLvlSettingStatus);
+    
+  }
+  else
+  {
+    cancelTimer(Msg_0x315_Timer);
+  }
+}
+
+on envVar Env_BCM_0x584
+{
+  if(getValue(this))
+  {
+    setTimer(Msg_0x584_Timer,Msg_0x584_TimerCycle);
+    Msg_0x584.BCM_CarModeIndicator.phys = getValue(Env_BCM_CarModeIndicator);
+    Msg_0x584.BCM_LoadManageLevel.phys = getValue(Env_BCM_LoadManageLevel);
+    
+  }
+  else
+  {
+    cancelTimer(Msg_0x584_Timer);
+  }
+}
+
+on envVar EnvConsole_All_Equipped
+{
+  @Env_BCM_0x313 = getValue(this);
+  @Env_BCM_Door_0x310 = getValue(this);
+  @Env_BCM_Lamp_0x318 = getValue(this);
+  @Env_BCM_Sts_0x315 = getValue(this);
+  @Env_GW_ABS_Sts_0x221 = getValue(this);
+  @Env_GW_EMS_0x368 = getValue(this);
+  @Env_GW_EMS_Power_0x10B = getValue(this);
+  @Env_GW_EMS_Power_0x366 = getValue(this);
+  @Env_GW_EMS_Sts_Power_0x151 = getValue(this);
+  @Env_GW_EPS_Chassis_0x260 = getValue(this);
+  @Env_GW_ESP_Status_Chassis_0x243 = getValue(this);
+  @Env_GW_IPM_0x245 = getValue(this);
+  @Env_GW_MRR_Chassis_0x246 = getValue(this);
+  @Env_GW_PAM_0x271 = getValue(this);
+  @Env_GW_SOD_0x275 = getValue(this);
+  @Env_GW_SRS_0x350 = getValue(this);
+  @Env_GW_TBOX_time_0x582 = getValue(this);
+  @Env_GW_TCU_GearInfo_Power_0x123 = getValue(this);
+  @Env_GW_TCU_Info_0x395 = getValue(this);
+  @Env_MP5_0x391 = getValue(this);
+  @Env_MP5_0x530 = getValue(this);
+  @Env_PEPS_0x325 = getValue(this);
+  @Env_PEPS_Start_0x1A5 = getValue(this);
+  //@Env_SWM_MRR_0x31B = getValue(this);
+  @Env_TPMS_Tire_0x361 = getValue(this);
+  @Env_SWM_Body_0x31A = getValue(this);
+  @Env_RF_0x326 = getValue(this);
+  @Env_BCM_0x584 = getValue(this);
+  @Env_GW_EMS_0x636 = getValue(this);
+    
+}
+
+on envVar Env_BCM_TurnIndicatorSts
+{ 
+  if(getValue(this)<4)
+  {
+    Msg_0x318.BCM_TurnIndicatorSts.phys = getValue(Env_BCM_TurnIndicatorSts); 
+  }
+  else
+  {
+    Msg_0x318.BCM_TurnIndicatorSts.phys=3;
+  }
+}
+
+on envVar Env_BCM_PosLmpSts           //位置灯
+{ 
+  Msg_0x318.BCM_PosLmpSts.phys = getValue(Env_BCM_PosLmpSts); 
+}
+
+on envVar Env_BCM_HighBeamSts      //远光灯
+{ 
+  Msg_0x318.BCM_HighBeamSts.phys = getValue(Env_BCM_HighBeamSts); 
+}
+
+on envVar Env_BCM_FrntFogLmpSts
+{ 
+  Msg_0x318.BCM_FrntFogLmpSts.phys = getValue(Env_BCM_FrntFogLmpSts); 
+}
+
+on envVar Env_BCM_RearFogLmpSts
+{ 
+  Msg_0x318.BCM_RearFogLmpSts.phys = getValue(Env_BCM_RearFogLmpSts); 
+}
+
+on envVar Env_BCM_ImmoSts           //IMMO 发动机防盗
+{ 
+  Msg_0x318.BCM_ImmoSts.phys = getValue(Env_BCM_ImmoSts); 
+}
+
+on envVar Env_BCM_BrakeFluidSts           //制动液位低
+{ 
+  Msg_0x313.BCM_BrakeFluidSts.phys = getValue(Env_BCM_BrakeFluidSts); 
+}
+
+on envVar Env_BCM_Mechanical_Hand_Brake           //驻车制动状态:手刹
+{ 
+  Msg_0x313.BCM_Mechanical_Hand_Brake.phys = getValue(Env_BCM_Mechanical_Hand_Brake); 
+}
+
+on envVar Env_BCM_DoorStsFrntLe           //左前门状态
+{ 
+  Msg_0x310.BCM_DoorStsFrntLe.phys = getValue(Env_BCM_DoorStsFrntLe); 
+}
+
+on envVar Env_BCM_DoorStsFrntRi      //右前门状态
+{ 
+  Msg_0x310.BCM_DoorStsFrntRi.phys = getValue(Env_BCM_DoorStsFrntRi); 
+}
+
+on envVar Env_BCM_DoorStsRearLe     //左后门状态
+{ 
+  Msg_0x310.BCM_DoorStsRearLe.phys = getValue(Env_BCM_DoorStsRearLe); 
+}
+
+on envVar Env_BCM_DoorStsRearRi      //右后门状态
+{ 
+  Msg_0x310.BCM_DoorStsRearRi.phys = getValue(Env_BCM_DoorStsRearRi); 
+}
+
+on envVar Env_BCM_DoorStsTrunk //后备箱状态
+{ 
+  Msg_0x310.BCM_DoorStsTrunk.phys = getValue(Env_BCM_DoorStsTrunk); 
+}
+
+on envVar Env_BCM_PosLmpDig    //位置灯故障
+{ 
+  Msg_0x318.BCM_PosLmpDig.phys = getValue(Env_BCM_PosLmpDig); 
+}
+
+on envVar Env_BCM_RearFogLmpDig //后雾灯故障
+{ 
+  Msg_0x318.BCM_RearFogLmpDig.phys = getValue(Env_BCM_RearFogLmpDig); 
+}
+
+on envVar Env_BCM_TurnIndicatorDig //转向灯故障
+{ 
+  Msg_0x318.BCM_TurnIndicatorDig.phys = getValue(Env_BCM_TurnIndicatorDig); 
+}
+
+on envVar Env_BCM_reversinglightDig //倒车灯故障
+{ 
+  Msg_0x318.BCM_reversinglightDig.phys = getValue(Env_BCM_reversinglightDig); 
+}
+
+on envVar Env_BCM_BrakelightDig //制动灯故障
+{ 
+  Msg_0x318.BCM_BrakelightDig.phys = getValue(Env_BCM_BrakelightDig); 
+}
+
+on envVar Env_BCM_DayRunningLampDig //日间行车灯故障
+{ 
+  Msg_0x318.BCM_DayRunningLampDig.phys = getValue(Env_BCM_DayRunningLampDig); 
+}
+
+on envVar Env_BCM_BGLLumLvlSettingStatus //背光调节
+{ 
+  Msg_0x315.BCM_BGLLumLvlSettingStatus.phys = getValue(Env_BCM_BGLLumLvlSettingStatus); 
+}
+
+on envVar Env_BCM_OutsideTemp  //环境温度
+{ 
+  Msg_0x313.BCM_OutsideTemp = getValue(Env_BCM_OutsideTemp); 
+}
+
+on envVar Env_BCM_PowerMode  //clutch
+{ 
+  Msg_0x313.BCM_PowerMode = getValue(Env_BCM_PowerMode);
+}
+
+on envVar Env_BCM_LoadManageLevel  //能量管理
+{ 
+  Msg_0x584.BCM_LoadManageLevel.phys = getValue(Env_BCM_LoadManageLevel);
+}
+
+on envVar Env_BCM_CarModeIndicator  //car mode
+{ 
+   Msg_0x584.BCM_CarModeIndicator.phys = getValue(Env_BCM_CarModeIndicator);
+}
+

@@ -1,0 +1,81 @@
+/*@!Encoding:936*/
+includes
+{
+  
+}
+
+variables
+{
+  message IC_0x392 Msg_0x392;    //100ms
+  message IC_0x510 Msg_0x510;
+  message IC_0x525 Msg_0x512;
+  message IC_time_0x581 Msg_0x581;   
+  
+  //msTimer Msg_0x313_Timer;
+  //msTimer Msg_0x310_Timer;
+  //msTimer Msg_0x318_Timer;
+  //msTimer Msg_0x315_Timer; 
+  
+  byte cIC_510[8];   //0x510获取数据
+  byte cIC_525[8];   //0x525获取数据
+  int  cChecksum_510;
+  int  cChecksum_525;
+  long tm[9];
+}
+
+
+
+on start
+{
+  getLocalTime(tm);
+}
+
+on message CAN1.IC_0x510
+{
+  
+  cIC_510[0] = this.byte(0);
+  cIC_510[1] = this.byte(1);
+  cIC_510[2] = this.byte(2);
+  cIC_510[3] = this.byte(3);
+  cIC_510[4] = this.byte(4);
+  cIC_510[5] = this.byte(5);
+  cIC_510[6] = this.byte(6);
+  
+  cChecksum_510 =cIC_510[0] ^cIC_510[1]^cIC_510[2]^cIC_510[3]^cIC_510[4]^cIC_510[5]^cIC_510[6];
+ 
+  if(cChecksum_510 !=this.byte(7))
+  {
+   write("0x510 time:%d,%d,%d,%d ",tm[3],tm[2],tm[1],tm[0]); 
+   write("0x510 Checksum ox%x",cChecksum_510);
+   write("0x510 byte7 ox%x",this.byte(7));
+  }
+  else
+  {
+   // write("0x510 Checksum ok");
+  }
+}
+
+
+on message CAN1.IC_0x525
+{
+  
+  cIC_525[0] = this.byte(0);
+  cIC_525[1] = this.byte(1);
+  cIC_525[2] = this.byte(2);
+  cIC_525[3] = this.byte(3);
+  cIC_525[4] = this.byte(4);
+  cIC_525[5] = this.byte(5);
+  cIC_525[6] = this.byte(6);
+  cChecksum_525 =cIC_525[0] ^cIC_525[1]^cIC_525[2]^cIC_525[3]^cIC_525[4]^cIC_525[5]^cIC_525[6];
+  if(cChecksum_525 !=this.byte(7))
+  {
+   write("0x525 time:%d,%d,%d,%d ",tm[3],tm[2],tm[1],tm[0]); 
+   write("0x525 Checksum ox%x",cChecksum_525);
+   write("0x525 byte7 ox%x",this.byte(7));
+  }
+  else
+  {
+    //write("0x525 Checksum ok");
+  }
+  
+}

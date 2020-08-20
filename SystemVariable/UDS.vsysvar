@@ -1,0 +1,33 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<systemvariables version="4">
+  <namespace name="" comment="" interface="">
+    <namespace name="UDS" comment="" interface="">
+      <variable anlyzLocal="2" readOnly="false" valueSequence="false" unit="" name="UDS_Configbyte0bit0" comment="" bitcount="32" isSigned="true" encoding="65001" type="int" startValue="0" />
+      <variable anlyzLocal="2" readOnly="false" valueSequence="false" unit="" name="UDS_Configbyte0bit1" comment="" bitcount="32" isSigned="true" encoding="65001" type="int" startValue="0" />
+      <variable anlyzLocal="2" readOnly="false" valueSequence="false" unit="" name="UDS_Configbyte0bit2" comment="" bitcount="32" isSigned="true" encoding="65001" type="int" startValue="0" />
+      <variable anlyzLocal="2" readOnly="false" valueSequence="false" unit="" name="UDS_Configbyte0bit3" comment="" bitcount="32" isSigned="true" encoding="65001" type="int" startValue="0" />
+      <variable anlyzLocal="2" readOnly="false" valueSequence="false" unit="" name="UDS_Configbyte0bit4" comment="" bitcount="32" isSigned="true" encoding="65001" type="int" startValue="0" />
+      <variable anlyzLocal="2" readOnly="false" valueSequence="false" unit="" name="UDS_Configbyte0bit5" comment="" bitcount="32" isSigned="true" encoding="65001" type="int" startValue="0" />
+      <variable anlyzLocal="2" readOnly="false" valueSequence="false" unit="" name="UDS_Configbyte0bit6" comment="" bitcount="32" isSigned="true" encoding="65001" type="int" startValue="0" />
+      <variable anlyzLocal="2" readOnly="false" valueSequence="false" unit="" name="UDS_Configbyte0bit7" comment="" bitcount="32" isSigned="true" encoding="65001" type="int" startValue="0" />
+      <variable anlyzLocal="2" readOnly="false" valueSequence="false" unit="" name="UDS_Configbyte1" comment="" bitcount="32" isSigned="true" encoding="65001" type="int" startValue="0" />
+      <variable anlyzLocal="2" readOnly="false" valueSequence="false" unit="" name="UDS_Configbyte2bit0" comment="cruise type" bitcount="32" isSigned="true" encoding="65001" type="int" startValue="2" />
+      <variable anlyzLocal="2" readOnly="false" valueSequence="false" unit="" name="UDS_Configbyte2bit2" comment="ABS" bitcount="32" isSigned="true" encoding="65001" type="int" startValue="1" />
+      <variable anlyzLocal="2" readOnly="false" valueSequence="false" unit="" name="UDS_Configbyte2bit3" comment="language" bitcount="32" isSigned="true" encoding="65001" type="int" startValue="0" />
+      <variable anlyzLocal="2" readOnly="false" valueSequence="false" unit="" name="UDS_Configbyte2bit6" comment="TPMS" bitcount="32" isSigned="true" encoding="65001" type="int" startValue="0" />
+      <variable anlyzLocal="2" readOnly="false" valueSequence="false" unit="" name="UDS_Configbyte3" comment="fuel diesel" bitcount="32" isSigned="true" encoding="65001" type="int" startValue="0" />
+      <variable anlyzLocal="2" readOnly="false" valueSequence="false" unit="" name="UDS_Configbyte4bit0" comment="ParkingBrake" bitcount="32" isSigned="true" encoding="65001" type="int" startValue="0" />
+      <variable anlyzLocal="2" readOnly="false" valueSequence="false" unit="" name="UDS_Configbyte4bit2" comment="OverSpeed" bitcount="32" isSigned="true" encoding="65001" type="int" startValue="0" />
+      <variable anlyzLocal="2" readOnly="false" valueSequence="false" unit="" name="UDS_Configbyte4bit3" comment="ESP" bitcount="32" isSigned="true" encoding="65001" type="int" startValue="1" />
+      <variable anlyzLocal="2" readOnly="false" valueSequence="false" unit="" name="UDS_Configbyte4bit4" comment="Airbag" bitcount="32" isSigned="true" encoding="65001" type="int" startValue="1" />
+      <variable anlyzLocal="2" readOnly="false" valueSequence="false" unit="" name="UDS_Configbyte4bit5" comment="EPS" bitcount="32" isSigned="true" encoding="65001" type="int" startValue="0" />
+      <variable anlyzLocal="2" readOnly="false" valueSequence="false" unit="" name="UDS_Configbyte4bit6" comment="engine security" bitcount="32" isSigned="true" encoding="65001" type="int" startValue="0" />
+      <variable anlyzLocal="2" readOnly="false" valueSequence="false" unit="" name="UDS_Configbyte5bit0" comment="reserved" bitcount="32" isSigned="true" encoding="65001" type="int" startValue="0" />
+      <variable anlyzLocal="2" readOnly="false" valueSequence="false" unit="" name="UDS_Configbyte5bit4" comment="back Radar" bitcount="32" isSigned="true" encoding="65001" type="int" startValue="1" />
+      <variable anlyzLocal="2" readOnly="false" valueSequence="false" unit="" name="UDS_Configbyte6" comment="fuel box" bitcount="32" isSigned="true" encoding="65001" type="int" startValue="2" />
+      <variable anlyzLocal="2" readOnly="false" valueSequence="false" unit="" name="UDS_Configbyte7" comment="Electronic clutch" bitcount="32" isSigned="true" encoding="65001" type="int" startValue="0" />
+      <variable anlyzLocal="2" readOnly="false" valueSequence="false" unit="" name="UDS_Configbyte8" comment="transmission type" bitcount="32" isSigned="true" encoding="65001" type="int" startValue="0" />
+      <variable anlyzLocal="2" readOnly="false" valueSequence="false" unit="" name="UDS_Configbyte9" comment="Emission level" bitcount="32" isSigned="true" encoding="65001" type="int" startValue="5" />
+    </namespace>
+  </namespace>
+</systemvariables>

@@ -1,0 +1,72 @@
+/*@!Encoding:936*/
+includes
+{
+  
+}
+
+variables
+{
+  message MP5_0x382 Msg_0x391;    //message 0x391¸ÄÎª0x382
+  message MP5_0x530 Msg_0x530;
+  
+  msTimer Msg_0x391_Timer;
+  msTimer Msg_0x530_Timer;
+  
+  word Msg_0x391_TimerCycle=100;
+  word Msg_0x530_TimerCycle=100;
+  
+}
+
+on timer Msg_0x391_Timer
+{
+  output(Msg_0x391);
+  setTimer(Msg_0x391_Timer,Msg_0x391_TimerCycle);
+}
+
+on timer Msg_0x530_Timer
+{
+  output(Msg_0x530);
+  setTimer(Msg_0x530_Timer,Msg_0x530_TimerCycle);
+}
+
+on envVar Env_MP5_0x391
+{
+ if(getValue(this))
+ {
+  setTimer(Msg_0x391_Timer,Msg_0x391_TimerCycle);
+  Msg_0x391.MP5_BSDSoundSwitchSts.phys = getValue(Env_MP5_BSDSoundSwitchSts);
+ }
+ else
+ {
+  cancelTimer(Msg_0x391_Timer);
+ }
+}
+
+on envVar Env_MP5_0x530
+{
+ if(getValue(this))
+ {
+  setTimer(Msg_0x530_Timer,Msg_0x530_TimerCycle);
+  Msg_0x530.MP5_AlarmOrNot.phys = getValue(Env_MP5_AlarmOrNot);
+  Msg_0x530.MP5_AlarmStatus.phys = getValue(Env_MP5_AlarmStatus);
+ }
+ else
+ {
+  cancelTimer(Msg_0x530_Timer);
+ }
+}
+
+on envVar Env_MP5_BSDSoundSwitchSts
+{ 
+  Msg_0x391.MP5_BSDSoundSwitchSts.phys = getValue(Env_MP5_BSDSoundSwitchSts); 
+}
+
+on envVar Env_MP5_AlarmStatus
+{ 
+  Msg_0x530.MP5_AlarmStatus.phys = getValue(Env_MP5_AlarmStatus); 
+}
+
+on envVar Env_MP5_AlarmOrNot
+{ 
+  Msg_0x530.MP5_AlarmOrNot.phys = getValue(Env_MP5_AlarmOrNot); 
+}

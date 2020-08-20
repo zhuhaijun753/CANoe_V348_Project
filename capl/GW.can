@@ -1,0 +1,1156 @@
+/*@!Encoding:936*/
+includes
+{
+  
+}
+
+variables
+{
+  message GW_ABS_Sts_0x221 Msg_0x221;
+  message GW_EMS_0x368 Msg_0x368;
+  message GW_EMS_Power_0x10B Msg_0x10B;
+  message GW_EMS_Power_0x366 Msg_0x366;
+  message GW_EMS_Sts_Power_0x151 Msg_0x151;
+  message GW_EPS_Chassis_0x260 Msg_0x260;
+  message GW_ESP_Status_Chassis_0x243 Msg_0x243;
+  message GW_IPM_0x245 Msg_0x245;
+  message GW_MRR_Chassis_0x246 Msg_0x246;
+  message GW_PAM_0x271 Msg_0x271;
+  message GW_SOD_0x275 Msg_0x275;
+  message GW_SRS_0x350 Msg_0x350;
+  message BCM_SWM_Body_0x31A Msg_0x31A;    //switch signal to hardware signal
+  message GW_TBOX_time_0x582 Msg_0x582;
+  message GW_TCU_GearInfo_Power_0x123 Msg_0x123;
+  message GW_TCU_Info_0x395 Msg_0x395;
+  message GW_EMS_0x636 Msg_0x636;
+  
+  msTimer Msg_0x221_Timer;
+  msTimer Msg_0x368_Timer;
+  msTimer Msg_0x10B_Timer;
+  msTimer Msg_0x366_Timer;
+  msTimer Msg_0x151_Timer;
+  msTimer Msg_0x260_Timer;
+  msTimer Msg_0x243_Timer;
+  msTimer Msg_0x245_Timer;
+  msTimer Msg_0x246_Timer;
+  msTimer Msg_0x271_Timer;
+  msTimer Msg_0x275_Timer;
+  msTimer Msg_0x350_Timer;
+  msTimer Msg_0x582_Timer;
+  msTimer Msg_0x123_Timer;
+  msTimer Msg_0x395_Timer;
+  msTimer Msg_0x31A_Timer;
+  msTimer Msg_0x636_Timer;
+  
+  word Msg_0x221_TimerCycle=20;
+  word Msg_0x368_TimerCycle=100;
+  word Msg_0x10B_TimerCycle=10;
+  word Msg_0x366_TimerCycle=100;
+  word Msg_0x151_TimerCycle=20;
+  word Msg_0x260_TimerCycle=20;
+  word Msg_0x243_TimerCycle=20;
+  word Msg_0x245_TimerCycle=20;
+  word Msg_0x246_TimerCycle=20;
+  word Msg_0x271_TimerCycle=100;
+  word Msg_0x275_TimerCycle=100;
+  word Msg_0x350_TimerCycle=100;
+  word Msg_0x582_TimerCycle=500;
+  word Msg_0x123_TimerCycle=20;
+  word Msg_0x395_TimerCycle=100;
+  word Msg_0x31A_TimerCycle=100;
+  word Msg_0x636_TimerCycle=1000;
+  
+  int speedflag = 0;
+  
+  
+}
+
+on timer Msg_0x221_Timer
+{
+  odo();
+  output(Msg_0x221);
+  setTimer(Msg_0x221_Timer,Msg_0x221_TimerCycle);
+  
+}
+
+on timer Msg_0x368_Timer
+{
+  output(Msg_0x368);
+  setTimer(Msg_0x368_Timer,Msg_0x368_TimerCycle);
+}
+
+on timer Msg_0x10B_Timer
+{
+  output(Msg_0x10B);
+  setTimer(Msg_0x10B_Timer,Msg_0x10B_TimerCycle);
+}
+
+on timer Msg_0x366_Timer
+{
+  ifc_1();
+  afc();
+  output(Msg_0x366);
+  setTimer(Msg_0x366_Timer,Msg_0x366_TimerCycle);
+}
+
+on timer Msg_0x151_Timer
+{
+  output(Msg_0x151);
+  setTimer(Msg_0x151_Timer,Msg_0x151_TimerCycle);
+}
+
+on timer Msg_0x260_Timer
+{
+  output(Msg_0x260);
+  setTimer(Msg_0x260_Timer,Msg_0x260_TimerCycle);
+}
+
+on timer Msg_0x243_Timer
+{
+  output(Msg_0x243);
+  setTimer(Msg_0x243_Timer,Msg_0x243_TimerCycle);
+}
+
+on timer Msg_0x245_Timer
+{
+  output(Msg_0x245);
+  setTimer(Msg_0x245_Timer,Msg_0x245_TimerCycle);
+}
+
+on timer Msg_0x246_Timer
+{
+  output(Msg_0x246);
+  setTimer(Msg_0x246_Timer,Msg_0x246_TimerCycle);
+}
+
+on timer Msg_0x271_Timer
+{
+  output(Msg_0x271);
+  setTimer(Msg_0x271_Timer,Msg_0x271_TimerCycle);
+}
+
+on timer Msg_0x275_Timer
+{
+  output(Msg_0x275);
+  setTimer(Msg_0x275_Timer,Msg_0x275_TimerCycle);
+}
+
+on timer Msg_0x350_Timer
+{
+  output(Msg_0x350);
+  setTimer(Msg_0x350_Timer,Msg_0x350_TimerCycle);
+}
+
+on timer Msg_0x582_Timer
+{
+  output(Msg_0x582);
+  setTimer(Msg_0x582_Timer,Msg_0x582_TimerCycle);
+}
+
+on timer Msg_0x123_Timer
+{
+  output(Msg_0x123);
+  setTimer(Msg_0x123_Timer,Msg_0x123_TimerCycle);
+}
+
+on timer Msg_0x395_Timer
+{
+  output(Msg_0x395);
+  setTimer(Msg_0x395_Timer,Msg_0x395_TimerCycle);
+}
+
+on timer Msg_0x31A_Timer
+{
+  output(Msg_0x31A);
+  setTimer(Msg_0x31A_Timer,Msg_0x31A_TimerCycle);
+}
+
+on timer Msg_0x636_Timer
+{
+  output(Msg_0x636);
+  setTimer(Msg_0x636_Timer,Msg_0x636_TimerCycle);
+}
+
+on envVar Env_GW_ABS_Sts_0x221
+{
+ if(getValue(this))
+ {
+  setTimer(Msg_0x221_Timer,Msg_0x221_TimerCycle);
+  
+  //Msg_0x221.ABS_WhlMilgFrntLe.phys = getValue(Env_ABS_WhlMilgFrntLe);   //odo
+  //Msg_0x221.ABS_WhlMilgFrntRi.phys = getValue(Env_ABS_WhlMilgFrntRi);   //odo
+  Msg_0x221.ABS_VehSpdLgt = getValue(Env_ABS_VehSpdLgt);
+  Msg_0x221.ABS_EbdFlgFlt.phys = getValue(Env_ABS_EbdFlgFlt);
+  Msg_0x221.ABS_AbsFlgFlt.phys = getValue(Env_ABS_AbsFlgFlt);
+  Msg_0x221.ABS_WhlMilgFrntRiStatus.phys = getValue(Env_ABS_WhlMilgFrntRiStatus);
+  Msg_0x221.ABS_WhlMilgFrntLeStatus.phys = getValue(Env_ABS_WhlMilgFrntLeStatus);
+  //Msg_0x221.ABS_RollingCounter_0x221.phys = getValue(Env_ABS_RollingCounter_0x221);
+  //Msg_0x221.ABS_Checksum_0x221.phys = getValue(Env_ABS_Checksum_0x221);
+ }
+ else
+ {
+  cancelTimer(Msg_0x221_Timer);
+  //@Env_ABS_VehSpdphys = 0;
+ }
+}
+
+on envVar Env_GW_EMS_0x368   //only diesel
+{
+ if(getValue(this))
+ {
+  setTimer(Msg_0x368_Timer,Msg_0x368_TimerCycle);
+  Msg_0x368.EMS_UreaTxt. phys = getValue(Env_EMS_UreaTxt);
+  Msg_0x368.EMS_UreaQty. phys = getValue(Env_EMS_UreaQty);
+  Msg_0x368.EMS_UreaSysWarning. phys = getValue(Env_EMS_UreaSysWarning);
+  Msg_0x368.EMS_UreaLvl. phys = getValue(Env_EMS_UreaLvl);
+  Msg_0x368.DCM_WIFFullLmpReq. phys = getValue(Env_DCM_WIFFullLmpReq);
+  Msg_0x368.DCM_GlowPlugLmpReq. phys = getValue(Env_DCM_GlowPlugLmpReq);
+  Msg_0x368.EMS_ManRgenTxt_D_RqDsply. phys = getValue(Env_EMS_ManRgenTxt_D_RqDsply);
+  Msg_0x368.EMS_DieslPrtcWarn_D_Rq. phys = getValue(Env_EMS_DieslPrtcWarn_D_Rq);
+  Msg_0x368.EMS_Soot_Pc_Dsply. phys = getValue(Env_EMS_Soot_Pc_Dsply);
+  Msg_0x368.EMS_SpeedLimtHour. phys = getValue(Env_EMS_SpeedLimtHour);
+  Msg_0x368.EMS_SpeedLimtMin. phys = getValue(Env_EMS_SpeedLimtMin);
+  Msg_0x368.EMS_TroqLimtHour. phys = getValue(Env_EMS_TroqLimtHour);
+  Msg_0x368.EMS_TroqLimtMin. phys = getValue(Env_EMS_TroqLimtMin);
+  
+ }
+ else
+ {
+  cancelTimer(Msg_0x368_Timer);
+ }
+}
+
+on envVar Env_GW_EMS_Power_0x10B
+{
+ if(getValue(this))
+ {
+  setTimer(Msg_0x10B_Timer,Msg_0x10B_TimerCycle);
+  Msg_0x10B.EMS_BrkPedalStasus.phys = getValue(Env_EMS_BrkPedalStasus);
+  Msg_0x10B.EMS_EngCoolanTemp = getValue(Env_EMS_EngCoolanTemp);
+  Msg_0x10B.EMS_BatteryVoltageError.phys = getValue(Env_EMS_BatteryVoltageError);
+  Msg_0x10B.EMS_EngSpeed = getValue(Env_EMS_EngSpeed);
+  Msg_0x10B.EMS_EngSpeedError.phys = getValue(Env_EMS_EngSpeedError);
+  Msg_0x10B.EMS_CluthPedalStatus.phys = getValue(Env_EMS_CluthPedalStatus);
+  Msg_0x10B.EMS_EngOperationStatus.phys = getValue(Env_EMS_EngOperationStatus);
+ }
+ else
+ {
+  cancelTimer(Msg_0x10B_Timer);
+  @Env_EMS_EngCoolCalc = 0;
+  @Env_EMS_EngSpeedphys = 0;
+ }
+}
+
+on envVar Env_GW_EMS_Power_0x366
+{
+ if(getValue(this))
+ {
+  setTimer(Msg_0x366_Timer,Msg_0x366_TimerCycle);
+  //Msg_0x366.EMS_Fuelcounter = getValue(Env_EMS_Fuelcounter);   //用于油耗计算
+  //Msg_0x366.EMS_Totaldemeter = getValue(Env_EMS_Totaldemeter);  DBC version1.6 delete
+  Msg_0x366.EMS_SVS.phys = getValue(Env_EMS_SVS);
+  Msg_0x366.EMS_MIL.phys = getValue(Env_EMS_MIL);
+  Msg_0x366.EMS_RemindShiftGear_MT.phys = getValue(Env_EMS_RemindShiftGear_MT);
+  Msg_0x366.EMS_OBDTxt.phys = getValue(Env_EMS_OBDTxt);
+ }
+ else
+ {
+  cancelTimer(Msg_0x366_Timer);
+ }
+}
+
+on envVar Env_GW_EMS_Sts_Power_0x151
+{
+ if(getValue(this))
+ {
+  setTimer(Msg_0x151_Timer,Msg_0x151_TimerCycle);
+  Msg_0x151.EMS_CruiseControlStatus.phys = getValue(Env_EMS_CruiseControlStatus);
+  Msg_0x151.EMS_TargCruiseSpeed.phys = getValue(Env_EMS_TargCruiseSpeed);
+  Msg_0x151.EMS_Rolling_counter_0x151.phys = getValue(Env_EMS_Rolling_counter_0x151);
+  Msg_0x151.EMS_Checksum_0x151.phys = getValue(Env_EMS_Checksum_0x151);
+ }
+ else
+ {
+  cancelTimer(Msg_0x151_Timer);
+ }
+}
+
+on envVar Env_GW_EPS_Chassis_0x260
+{
+ if(getValue(this))
+ {
+  setTimer(Msg_0x260_Timer,Msg_0x260_TimerCycle);
+  Msg_0x260.EPS_S_SafeLampRed.phys = getValue(Env_EPS_S_SafeLampRed);
+  Msg_0x260.EPS_S_WarningLampYellow.phys = getValue(Env_EPS_S_WarningLampYellow);
+  Msg_0x260.EPS_Rolling_counter_0x260.phys = getValue(Env_EPS_Rolling_counter_0x260);
+  Msg_0x260.EPS_Checksum_0x260.phys = getValue(Env_EPS_Checksum_0x260);
+ }
+ else
+ {
+  cancelTimer(Msg_0x260_Timer);
+ }
+}
+
+on envVar Env_GW_ESP_Status_Chassis_0x243
+{
+ if(getValue(this))
+ {
+  setTimer(Msg_0x243_Timer,Msg_0x243_TimerCycle);
+  Msg_0x243.ESP_VdcFlgFlt.phys = getValue(Env_ESP_VdcFlgFlt);
+  Msg_0x243.ESP_TcsFlgFlt.phys = getValue(Env_ESP_TcsFlgFlt);
+  Msg_0x243.ESP_ESPInfoLamp.phys = getValue(Env_ESP_ESPInfoLamp);
+  Msg_0x243.ESP_EspEnableSts.phys = getValue(Env_ESP_EspEnableSts);
+  Msg_0x243.ESP_RollingCounter_0x243.phys = getValue(Env_ESP_RollingCounter_0x243);
+  Msg_0x243.ESP_Checksum_0x243.phys = getValue(Env_ESP_Checksum_0x243);
+ }
+ else
+ {
+  cancelTimer(Msg_0x243_Timer);
+ }
+}
+
+
+//ADAS 信号环境变量为添加
+on envVar Env_GW_IPM_0x245
+{
+ if(getValue(this))
+ {
+  setTimer(Msg_0x245_Timer,Msg_0x245_TimerCycle);
+  Msg_0x245.IPM_LaneAssit_LeftVisualization.phys = getValue(Env_IPM_LaneAssit_Left);
+  Msg_0x245.IPM_LaneAssit_RightVisualization.phys = getValue(Env_IPM_LaneAssit_Right);
+  Msg_0x245.IPM_LaneAssitType.phys = getValue(Env_IPM_LaneAssitType);
+  Msg_0x245.IPM_LaneAssit_HandsonReq.phys = getValue(Env_IPM_LaneAssit_HandsonReq);
+  Msg_0x245.IPM_LaneAssit_Status.phys = getValue(Env_IPM_LaneAssit_Status);
+  Msg_0x245.IPM_LaneAssit_WarningAudio.phys = getValue(Env_IPM_LaneAssit_WarningAudio);
+  Msg_0x245.IPM_HMA_Status.phys = getValue(Env_IPM_HMA_Status);
+  Msg_0x245.IPM_SLASpdlimit.phys = getValue(Env_IPM_SLASpdlimit);
+  Msg_0x245.IPM_SLAState.phys = getValue(Env_IPM_SLAState);
+  Msg_0x245.IPM_DDD_WarningLevel.phys = getValue(Env_IPM_DDD_WarningLevel);
+  Msg_0x245.IPM_DDD_IndexStatus.phys = getValue(Env_IPM_DDD_IndexStatus);
+  
+ }
+ else
+ {
+  cancelTimer(Msg_0x245_Timer);
+ }
+}
+
+on envVar Env_GW_MRR_Chassis_0x246
+{
+ if(getValue(this))
+ {
+  setTimer(Msg_0x246_Timer,Msg_0x246_TimerCycle);
+  Msg_0x246.MRR_vSetDis.phys = getValue(Env_MRR_vSetDis);
+  Msg_0x246.MRR_dxTarObj.phys = getValue(Env_MRR_dxTarObj);
+  Msg_0x246.MRR_TauGapSet.phys = getValue(Env_MRR_TauGapSet);
+  Msg_0x246.MRR_ObjValid.phys = getValue(Env_MRR_ObjValid);
+  Msg_0x246.Textinfo.phys = getValue(Env_Textinfo);
+  Msg_0x246.MRR_TakeOverReq.phys = getValue(Env_MRR_TakeOverReq);
+  Msg_0x246.ACCHMI_Mode.phys = getValue(Env_ACCHMI_Mode);
+  Msg_0x246.MRR_PCW_latentWarning.phys = getValue(Env_MRR_PCW_latentWarning);
+  Msg_0x246.MRR_PCW_preWarning.phys = getValue(Env_MRR_PCW_preWarning);
+  Msg_0x246.MRR_AEB_STATE.phys = getValue(Env_MRR_AEB_STATE);
+  Msg_0x246.MRR_PCW_STATE.phys = getValue(Env_MRR_PCW_STATE);
+  Msg_0x246.FCW_latentWarning.phys = getValue(Env_FCW_latentWarning);
+  Msg_0x246.FCW_preWarning.phys = getValue(Env_FCW_preWarning);
+  Msg_0x246.MRR_Rolling_counter_0x246.phys = getValue(Env_MRR_Rolling_counter_0x246);
+  Msg_0x246.MRR_Checksum_0x246.phys = getValue(Env_MRR_Checksum_0x246);
+  
+ }
+ else
+ {
+  cancelTimer(Msg_0x246_Timer);
+ }
+}
+
+on envVar Env_GW_PAM_0x271
+{
+ if(getValue(this))
+ {
+  setTimer(Msg_0x271_Timer,Msg_0x271_TimerCycle);
+  Msg_0x271.PAM_RearSysTemWorkSts.phys = getValue(Env_PAM_RearSysTemWorkSts);
+  Msg_0x271.PAM_ChimeCmdSoundStatus.phys = getValue(Env_PAM_ChimeCmdSoundStatus);
+  Msg_0x271.PAM_ChimeCmdSoundCadence.phys = getValue(Env_PAM_ChimeCmdSoundCadence);
+ }
+ else
+ {
+  cancelTimer(Msg_0x271_Timer);
+ }
+}
+
+on envVar Env_GW_SOD_0x275
+{
+ if(getValue(this))
+ {
+  setTimer(Msg_0x275_Timer,Msg_0x275_TimerCycle);
+  Msg_0x275.SOD_CTA_warningReqRight.phys = getValue(Env_SOD_CTA_warningReqRight);
+  Msg_0x275.SOD_DOA_warningReqRightFront.phys = getValue(Env_SOD_DOA_warningReqRightFront);
+  Msg_0x275.SOD_DOA_warningReqRightRear.phys = getValue(Env_SOD_DOA_warningReqRightRear);
+  Msg_0x275.SOD_LCA_warningReqRight.phys = getValue(Env_SOD_LCA_warningReqRight);
+  Msg_0x275.SOD_BLIS_display.phys = getValue(Env_SOD_BLIS_display);
+  Msg_0x275.SOD_CTA_warningReqLeft.phys = getValue(Env_SOD_CTA_warningReqLeft);
+  Msg_0x275.SOD_DOA_warningReqLeftFront.phys = getValue(Env_SOD_DOA_warningReqLeftFront);
+  Msg_0x275.SOD_DOA_warningReqLeftRear.phys = getValue(Env_SOD_DOA_warningReqLeftRear);
+  Msg_0x275.SOD_LCA_warningReqLeft.phys = getValue(Env_SOD_LCA_warningReqLeft);
+  Msg_0x275.SODLCA_OFFTelltale.phys = getValue(Env_SODLCA_OFFTelltale);
+  Msg_0x275.CTA_OFFTelltale.phys = getValue(Env_CTA_OFFTelltale);
+  Msg_0x275.DOA_OFFTelltale.phys = getValue(Env_DOA_OFFTelltale);
+  Msg_0x275.Rolling_counter_0x275.phys = getValue(Env_Rolling_counter_0x275);
+  Msg_0x275.Checksum_0x275.phys = getValue(Env_Checksum_0x275);
+  
+  
+ }
+ else
+ {
+  cancelTimer(Msg_0x275_Timer);
+ }
+}
+
+on envVar Env_GW_SRS_0x350
+{
+ if(getValue(this))
+ {
+  setTimer(Msg_0x350_Timer,Msg_0x350_TimerCycle);
+  Msg_0x350.SRS_SBR_Driver.phys = getValue(Env_SRS_SBR_Driver);
+  Msg_0x350.SRS_AirBagFailSts.phys = getValue(Env_SRS_AirBagFailSts);
+  Msg_0x350.SRS_Rolling_counter_0x350.phys = getValue(Env_SRS_Rolling_counter_0x350);
+  Msg_0x350.SRS_Checksum_0x350.phys = getValue(Env_SRS_Checksum_0x350);
+  
+ }
+ else
+ {
+  cancelTimer(Msg_0x350_Timer);
+ }
+}
+
+on envVar Env_GW_TBOX_time_0x582
+{
+ if(getValue(this))
+ {
+  setTimer(Msg_0x582_Timer,Msg_0x582_TimerCycle);
+  Msg_0x582.TBOX_Year = getValue(Env_TBOX_Year);
+  Msg_0x582.TBOX_Month = getValue(Env_TBOX_Month);
+  Msg_0x582.TBOX_Date = getValue(Env_TBOX_Date);
+  Msg_0x582.TBOX_Hour.phys = getValue(Env_TBOX_Hour);
+  Msg_0x582.TBOX_Minute.phys = getValue(Env_TBOX_Minute);
+  Msg_0x582.TBOX_Second.phys = getValue(Env_TBOX_Second);
+  Msg_0x582.TBOX_RealTime_UB.phys = getValue(Env_TBOX_RealTime_UB);
+  
+ }
+ else
+ {
+  cancelTimer(Msg_0x582_Timer);
+ }
+}
+
+on envVar Env_GW_TCU_GearInfo_Power_0x123
+{
+ if(getValue(this))
+ {
+  setTimer(Msg_0x123_Timer,Msg_0x123_TimerCycle);
+  Msg_0x123.TCU_DisplayGear.phys = getValue(Env_TCU_DisplayGear);
+  Msg_0x123.TCU_StGearMode.phys = getValue(Env_TCU_StGearMode);
+  Msg_0x123.TCU_Status_AliveCounter.phys = getValue(Env_TCU_Status_AliveCounter);
+  Msg_0x123.TCU_Status_Checksum.phys = getValue(Env_TCU_Status_Checksum);
+  
+ }
+ else
+ {
+  cancelTimer(Msg_0x123_Timer);
+ }
+}
+
+on envVar Env_GW_TCU_Info_0x395
+{
+ if(getValue(this))
+ {
+  setTimer(Msg_0x395_Timer,Msg_0x395_TimerCycle);
+  Msg_0x395.TCU_MILReq.phys = getValue(Env_TCU_MILReq);
+  Msg_0x395.TrnSrvcRqd_B_Rq.phys = getValue(Env_TrnSrvcRqd_B_Rq);
+  Msg_0x395.Trans_Limphome.phys = getValue(Env_Trans_Limphome);
+  Msg_0x395.TCU_Gearbox_Gonglimp.phys = getValue(Env_TCU_Gearbox_Gonglimp);
+  Msg_0x395.TCU_Driverwarning.phys = getValue(Env_TCU_Driverwarning);
+  Msg_0x395.TCU_DrvShiftAllwCondRmd.phys = getValue(Env_TCU_DrvShiftAllwCondRmd);
+ 
+ }
+ else
+ {
+  cancelTimer(Msg_0x395_Timer);
+ }
+}
+
+on envVar Env_SWM_Body_0x31A
+{
+  if(getValue(this))
+  {
+    setTimer(Msg_0x31A_Timer,Msg_0x31A_TimerCycle);
+    Msg_0x31A.SWM_Menu_Up.phys = getValue(Env_SWM_Menu_Up);
+    Msg_0x31A.SWM_Menu_Down.phys = getValue(Env_SWM_Menu_Down);
+    Msg_0x31A.SWM_Menu_Left.phys = getValue(Env_SWM_Menu_Left);
+    Msg_0x31A.SWM_Menu_Right.phys = getValue(Env_SWM_Menu_Right);
+    Msg_0x31A.SWM_Menu_Confirm.phys = getValue(Env_SWM_Menu_Confirm);
+  }
+  else
+  {
+    cancelTimer(Msg_0x31A_Timer);
+  }
+  
+}
+
+on envVar Env_GW_EMS_0x636
+{
+  if(getValue(this))
+  {
+   setTimer(Msg_0x636_Timer,Msg_0x636_TimerCycle);
+   Msg_0x636.EMS_BackupOdometer = getValue(Env_EMS_Totaldemeter);
+  }
+  else
+  {
+    cancelTimer(Msg_0x636_Timer);
+  }
+  
+}
+
+on envVar Env_IPM_HMA_Status       //自动大灯
+{ 
+  Msg_0x245.IPM_HMA_Status.phys = getValue(Env_IPM_HMA_Status); 
+}
+
+on envVar Env_SRS_SBR_Driver       //主驾驶安全带
+{ 
+  Msg_0x350.SRS_SBR_Driver.phys = getValue(Env_SRS_SBR_Driver); 
+}
+
+on envVar Env_SRS_AirBagFailSts       //安全气囊
+{ 
+  Msg_0x350.SRS_AirBagFailSts.phys = getValue(Env_SRS_AirBagFailSts); 
+}
+
+on envVar Env_DCM_WIFFullLmpReq       //油水分离
+{ 
+  Msg_0x368.DCM_WIFFullLmpReq.phys = getValue(Env_DCM_WIFFullLmpReq); 
+}
+
+on envVar Env_EMS_EngSpeed          //发动机转速信号
+{ 
+  Msg_0x10B.EMS_EngSpeed = getValue(Env_EMS_EngSpeed); 
+  
+  @Env_EMS_EngSpeedphys =getValue(this) * 0.5;
+}
+
+on envVar Env_DCM_GlowPlugLmpReq       //发动机预热
+{ 
+  Msg_0x368.DCM_GlowPlugLmpReq .phys = getValue(Env_DCM_GlowPlugLmpReq ); 
+}
+
+on envVar Env_IPM_LaneAssit_Status         //车道辅助
+{ 
+  Msg_0x245.IPM_LaneAssit_Status.phys = getValue(Env_IPM_LaneAssit_Status); 
+}
+
+on envVar Env_IPM_LaneAssitType //车道保持辅助
+{ 
+  Msg_0x245.IPM_LaneAssitType.phys = getValue(Env_IPM_LaneAssitType); 
+}
+
+on envVar Env_IPM_LaneAssit_Left //检测左侧车道偏移
+{ 
+  Msg_0x245.IPM_LaneAssit_LeftVisualization.phys = getValue(Env_IPM_LaneAssit_Left); 
+}
+
+on envVar Env_IPM_LaneAssit_Right //检测右侧车道偏移
+{ 
+  Msg_0x245.IPM_LaneAssit_RightVisualization.phys = getValue(Env_IPM_LaneAssit_Right); 
+}
+
+on envVar Env_EMS_UreaWarn           // 尿素报警灯
+{ 
+  Msg_0x368.EMS_UreaWarn.phys = getValue(Env_EMS_UreaWarn); 
+}
+
+on envVar Env_ACCHMI_Mode              // ACC选择模式
+{ 
+  Msg_0x246.ACCHMI_Mode.phys = getValue(Env_ACCHMI_Mode); 
+}
+
+on envVar Env_EMS_MIL                // 发动机检修
+{ 
+  Msg_0x366.EMS_MIL.phys = getValue(Env_EMS_MIL); 
+}
+
+on envVar Env_ABS_EbdFlgFlt                // EBD故障
+{ 
+  Msg_0x221.ABS_EbdFlgFlt.phys = getValue(Env_ABS_EbdFlgFlt); 
+}
+
+on envVar Env_ABS_WhlMilgFrntLeStatus  
+{ 
+  Msg_0x221.ABS_WhlMilgFrntLeStatus .phys = getValue(Env_ABS_WhlMilgFrntLeStatus); 
+}
+
+on envVar Env_ABS_WhlMilgFrntRiStatus
+{ 
+  Msg_0x221.ABS_WhlMilgFrntRiStatus.phys = getValue(Env_ABS_WhlMilgFrntRiStatus); 
+}
+
+on envVar Env_ABS_VehSpdLgt         // 车速信号
+{ 
+  if(getValue(this)<=4095)
+  {
+    Msg_0x221.ABS_VehSpdLgt = getValue(Env_ABS_VehSpdLgt);
+    
+    if(getValue(this) < 18 )
+    {
+      @Env_ABS_VehSpdphys =$ABS_VehSpdLgt.phys ;
+    }
+    else
+    {
+      @Env_ABS_VehSpdphys =($ABS_VehSpdLgt.phys) * 1.03 + 2 ;
+    }
+  }
+  else
+  {
+    @Env_ABS_VehSpdLgt=4095;
+  }
+}
+
+
+on envVar Env_EMS_EngCoolanTemp       //发动机水温指示灯
+{ 
+  
+  Msg_0x10B.EMS_EngCoolanTemp = getValue(Env_EMS_EngCoolanTemp); 
+  
+  @Env_EMS_EngCoolCalc = (getValue(this) * 0.75) - 48; 
+  
+  //write("eng temp %f",@Env_EMS_EngCoolCalc);
+}
+
+
+on envVar Env_ABS_AbsFlgFlt                // ABS故障
+{ 
+  Msg_0x221.ABS_AbsFlgFlt.phys = getValue(Env_ABS_AbsFlgFlt); 
+}
+
+on envVar Env_ESP_VdcFlgFlt                // ESP故障
+{ 
+  Msg_0x243.ESP_VdcFlgFlt.phys = getValue(Env_ESP_VdcFlgFlt); 
+}
+
+on envVar Env_ESP_TcsFlgFlt                // ESP故障
+{ 
+  Msg_0x243.ESP_TcsFlgFlt.phys = getValue(Env_ESP_TcsFlgFlt); 
+}
+
+on envVar Env_ESP_ESPInfoLamp                // ESP指示灯
+{ 
+  Msg_0x243.ESP_ESPInfoLamp.phys = getValue(Env_ESP_ESPInfoLamp); 
+}
+
+on envVar Env_CTA_OFFTelltale                // CTA后方车辆穿行
+{ 
+  Msg_0x275.CTA_OFFTelltale.phys = getValue(Env_CTA_OFFTelltale); 
+}
+
+on envVar Env_ESP_EspEnableSts               // ESP OFF指示灯
+{ 
+  Msg_0x243.ESP_EspEnableSts.phys = getValue(Env_ESP_EspEnableSts); 
+}
+
+on envVar Env_MRR_vSetDis // ACC 巡航速度
+{ 
+  Msg_0x246.MRR_vSetDis = getValue(Env_MRR_vSetDis); 
+}
+
+on envVar Env_MRR_dxTarObj // 前车时距
+{ 
+  Msg_0x246.MRR_dxTarObj .phys = getValue(Env_MRR_dxTarObj); 
+}
+
+on envVar Env_MRR_TauGapSet // 设置时距
+{ 
+  Msg_0x246.MRR_TauGapSet .phys = getValue(Env_MRR_TauGapSet); 
+}
+
+on envVar Env_MRR_ObjValid // 检测目标
+{ 
+  Msg_0x246.MRR_ObjValid .phys = getValue(Env_MRR_ObjValid); 
+}
+
+on envVar Env_MRR_AEB_STATE              // AEB自动紧急制动
+{ 
+  Msg_0x246.MRR_AEB_STATE .phys = getValue(Env_MRR_AEB_STATE); 
+}
+
+on envVar Env_MRR_PCW_STATE               // FCW前方碰撞预警
+{ 
+  Msg_0x246.MRR_PCW_STATE .phys = getValue(Env_MRR_PCW_STATE); 
+}
+
+on envVar Env_EPS_S_SafeLampRed               // EPS电子助力转向(red)
+{ 
+  Msg_0x260.EPS_S_SafeLampRed .phys = getValue(Env_EPS_S_SafeLampRed); 
+}
+
+on envVar Env_EPS_S_WarningLampYellow               // EPS电子助力转向(yellow)
+{ 
+  Msg_0x260.EPS_S_WarningLampYellow .phys = getValue(Env_EPS_S_WarningLampYellow); 
+}
+
+on envVar Env_EMS_BatteryVoltageError               // 蓄电池充电故障
+{ 
+  Msg_0x10B.EMS_BatteryVoltageError.phys = getValue(Env_EMS_BatteryVoltageError); 
+}
+
+on envVar Env_MRR_TakeOverReq                //车辆接管请求
+{ 
+  Msg_0x246.MRR_TakeOverReq.phys = getValue(Env_MRR_TakeOverReq); 
+}
+
+on envVar Env_Textinfo                //ACC文本信息
+{ 
+  Msg_0x246.Textinfo.phys = getValue(Env_Textinfo); 
+}
+
+on envVar Env_FCW_preWarning        //预测型紧急制动(对车)
+{ 
+  Msg_0x246.FCW_preWarning.phys = getValue(Env_FCW_preWarning); 
+}
+
+on envVar Env_MRR_PCW_preWarning        //预测型紧急制动(对人)
+{ 
+  Msg_0x246.MRR_PCW_preWarning.phys = getValue(Env_MRR_PCW_preWarning); 
+}
+
+
+on envVar Env_MRR_PCW_latentWarning       
+{ 
+  Msg_0x246.MRR_PCW_latentWarning.phys = getValue(Env_MRR_PCW_latentWarning);
+}
+
+on envVar Env_FCW_latentWarning       
+{ 
+  Msg_0x246.FCW_latentWarning.phys = getValue(Env_FCW_latentWarning);
+}
+
+on envVar Env_IPM_LaneAssit_HandsonReq     //车道辅助显示
+{ 
+  Msg_0x245.IPM_LaneAssit_HandsonReq.phys = getValue(Env_IPM_LaneAssit_HandsonReq); 
+}
+
+
+on envVar Env_SOD_BLIS_display     //盲点信息系统显示:BSD故障
+{ 
+  Msg_0x275.SOD_BLIS_display.phys = getValue(Env_SOD_BLIS_display); 
+}
+
+on envVar Env_SOD_CTA_warningReqLeft    //盲点信息系统显示:左倒车提醒
+{ 
+  Msg_0x275.SOD_CTA_warningReqLeft.phys = getValue(Env_SOD_CTA_warningReqLeft); 
+}
+
+on envVar Env_SOD_CTA_warningReqRight     //盲点信息系统显示:右倒车提醒
+{ 
+  Msg_0x275.SOD_CTA_warningReqRight.phys = getValue(Env_SOD_CTA_warningReqRight); 
+}
+
+on envVar Env_EMS_DieslPrtcWarn_D_Rq        //排气过滤器
+{ 
+  Msg_0x368.EMS_DieslPrtcWarn_D_Rq.phys = getValue(Env_EMS_DieslPrtcWarn_D_Rq); 
+}
+
+on envVar Env_EMS_ManRgenTxt_D_RqDsply   //OCR 装配
+{ 
+  Msg_0x368.EMS_ManRgenTxt_D_RqDsply.phys = getValue(Env_EMS_ManRgenTxt_D_RqDsply); 
+}
+
+on envVar Env_EMS_Soot_Pc_Dsply   //积碳百分比
+{ 
+  Msg_0x368.EMS_Soot_Pc_Dsply = getValue(Env_EMS_Soot_Pc_Dsply); 
+}
+
+on envVar Env_EMS_UreaTxt       //尿素少IC文字提示
+{ 
+  Msg_0x368.EMS_UreaTxt.phys = getValue(Env_EMS_UreaTxt); 
+}
+
+on envVar Env_EMS_UreaLvl       //尿素百分比
+{ 
+  Msg_0x368.EMS_UreaLvl = getValue(Env_EMS_UreaLvl); 
+}
+
+on envVar Env_EMS_UreaQty       //尿素不合格
+{ 
+  Msg_0x368.EMS_UreaQty.phys = getValue(Env_EMS_UreaQty); 
+}
+
+on envVar Env_EMS_TroqLimtHour      //限扭hour
+{ 
+  Msg_0x368.EMS_TroqLimtHour.phys = getValue(Env_EMS_TroqLimtHour); 
+}
+
+on envVar Env_EMS_TroqLimtMin      //限扭minute
+{ 
+  Msg_0x368.EMS_TroqLimtMin.phys = getValue(Env_EMS_TroqLimtMin); 
+}
+
+on envVar Env_EMS_SpeedLimtHour     //限速hour
+{ 
+  Msg_0x368.EMS_SpeedLimtHour.phys = getValue(Env_EMS_SpeedLimtHour); 
+}
+
+on envVar Env_EMS_SpeedLimtMin    //限速minute
+{ 
+  Msg_0x368.EMS_SpeedLimtMin.phys = getValue(Env_EMS_SpeedLimtMin); 
+}
+
+on envVar Env_EMS_OBDTxt        //排放系统故障
+{ 
+  Msg_0x366.EMS_OBDTxt.phys = getValue(Env_EMS_OBDTxt); 
+}
+
+on envVar Env_TCU_Gearbox_Gonglimp    //TCU故障
+{ 
+  Msg_0x395.TCU_Gearbox_Gonglimp.phys = getValue(Env_TCU_Gearbox_Gonglimp); 
+}
+
+on envVar Env_TrnSrvcRqd_B_Rq           //TCU故障
+{ 
+  Msg_0x395.TrnSrvcRqd_B_Rq.phys = getValue(Env_TrnSrvcRqd_B_Rq); 
+}
+
+on envVar Env_TCU_DrvShiftAllwCondRmd     //TCU换挡允许条件提醒
+{ 
+  Msg_0x395.TCU_DrvShiftAllwCondRmd.phys = getValue(Env_TCU_DrvShiftAllwCondRmd); 
+}
+
+on envVar Env_TCU_StGearMode //驾驶模式
+{ 
+  Msg_0x123.TCU_StGearMode.phys = getValue(Env_TCU_StGearMode); 
+}
+
+on envVar Env_TCU_DisplayGear //自动换挡
+{ 
+  Msg_0x123.TCU_DisplayGear.phys = getValue(Env_TCU_DisplayGear); 
+}
+
+on envVar Env_TCU_Driverwarning //自动换挡提示
+{ 
+  Msg_0x395.TCU_Driverwarning.phys = getValue(Env_TCU_Driverwarning); 
+}
+
+on envVar Env_EMS_SVS        //发动机故障
+{ 
+  Msg_0x366.EMS_SVS.phys = getValue(Env_EMS_SVS); 
+}
+
+on envVar Env_SWM_Menu_Up        //up
+{ 
+  Msg_0x31A.SWM_Menu_Up.phys = getValue(Env_SWM_Menu_Up); 
+}
+
+on envVar Env_SWM_Menu_Down        //down
+{ 
+  Msg_0x31A.SWM_Menu_Down.phys = getValue(Env_SWM_Menu_Down);
+}
+
+on envVar Env_SWM_Menu_Left        //left
+{ 
+  Msg_0x31A.SWM_Menu_Left.phys = getValue(Env_SWM_Menu_Left);
+}
+
+on envVar Env_SWM_Menu_Right        //right
+{ 
+  Msg_0x31A.SWM_Menu_Right.phys = getValue(Env_SWM_Menu_Right);
+  Msg_0x31A.SWM_Menu_Confirm.phys = getValue(Env_SWM_Menu_Confirm);
+}
+
+on envVar Env_SWM_Menu_Confirm        //ok
+{ 
+  Msg_0x31A.SWM_Menu_Confirm.phys = getValue(Env_SWM_Menu_Confirm);
+}
+
+on envVar Env_EMS_CruiseControlStatus  //定速巡航
+{ 
+  Msg_0x151.EMS_CruiseControlStatus.phys = getValue(Env_EMS_CruiseControlStatus); 
+}
+
+on envVar Env_EMS_TargCruiseSpeed //定速巡航速度
+{ 
+  Msg_0x151.EMS_TargCruiseSpeed = getValue(Env_EMS_TargCruiseSpeed); 
+}
+
+on envVar Env_EMS_RemindShiftGear_MT //MT换档提醒
+{ 
+  Msg_0x366.EMS_RemindShiftGear_MT.phys = getValue(Env_EMS_RemindShiftGear_MT); 
+}
+
+on envVar Env_SODLCA_OFFTelltale   //BSD
+{ 
+  Msg_0x275.SODLCA_OFFTelltale.phys = getValue(Env_SODLCA_OFFTelltale); 
+}
+
+on envVar Env_DOA_OFFTelltale //DOW
+{ 
+  Msg_0x275.DOA_OFFTelltale.phys = getValue(Env_DOA_OFFTelltale); 
+}
+
+on envVar Env_IPM_LaneAssit_WarningAudio
+{ 
+  Msg_0x245.IPM_LaneAssit_WarningAudio.phys = getValue(Env_IPM_LaneAssit_WarningAudio); 
+}
+
+on envVar Env_SOD_LCA_warningReqLeft
+{ 
+  Msg_0x275.SOD_LCA_warningReqLeft.phys = getValue(Env_SOD_LCA_warningReqLeft); 
+}
+
+on envVar Env_SOD_LCA_warningReqRight
+{ 
+  Msg_0x275.SOD_LCA_warningReqRight.phys = getValue(Env_SOD_LCA_warningReqRight); 
+}
+
+on envVar Env_SOD_DOA_warningReqLeftFront
+{ 
+  Msg_0x275.SOD_DOA_warningReqLeftFront.phys = getValue(Env_SOD_DOA_warningReqLeftFront); 
+}
+
+on envVar Env_SOD_DOA_warningReqLeftRear
+{ 
+  Msg_0x275.SOD_DOA_warningReqLeftRear.phys = getValue(Env_SOD_DOA_warningReqLeftRear); 
+}
+
+on envVar Env_SOD_DOA_warningReqRightFront
+{ 
+  Msg_0x275.SOD_DOA_warningReqRightFront.phys = getValue(Env_SOD_DOA_warningReqRightFront); 
+}
+
+on envVar Env_SOD_DOA_warningReqRightRear
+{ 
+  Msg_0x275.SOD_DOA_warningReqRightRear.phys = getValue(Env_SOD_DOA_warningReqRightRear); 
+}
+
+on envVar Env_PAM_ChimeCmdSoundCadence
+{ 
+  Msg_0x271.PAM_ChimeCmdSoundCadence.phys = getValue(Env_PAM_ChimeCmdSoundCadence); 
+}
+
+on envVar Env_PAM_RearSysTemWorkSts
+{ 
+  Msg_0x271.PAM_RearSysTemWorkSts.phys = getValue(Env_PAM_RearSysTemWorkSts); 
+}
+
+on envVar Env_TBOX_Year
+{ 
+ Msg_0x582.TBOX_Year = getValue(Env_TBOX_Year);
+}
+
+on envVar Env_TBOX_Month
+{ 
+ Msg_0x582.TBOX_Month = getValue(Env_TBOX_Month);
+}
+
+on envVar Env_TBOX_Date
+{ 
+ Msg_0x582.TBOX_Date = getValue(Env_TBOX_Date);
+}
+
+on envVar Env_TBOX_Hour
+{ 
+ Msg_0x582.TBOX_Hour.phys = getValue(Env_TBOX_Hour);
+}
+
+on envVar Env_TBOX_Minute
+{ 
+ Msg_0x582.TBOX_Minute.phys = getValue(Env_TBOX_Minute);
+}
+
+on envVar Env_TBOX_Second
+{ 
+ Msg_0x582.TBOX_Second.phys = getValue(Env_TBOX_Second);
+}
+
+on envVar Env_TBOX_RealTime_UB
+{ 
+ Msg_0x582.TBOX_RealTime_UB.phys = getValue(Env_TBOX_RealTime_UB);
+}
+
+on envVar Env_EMS_Totaldemeter
+{ 
+ Msg_0x636.EMS_BackupOdometer = getValue(Env_EMS_Totaldemeter);
+}
+
+on envVar Env_IPM_SLASpdlimit
+{ 
+   Msg_0x245.IPM_SLASpdlimit.phys = getValue(Env_IPM_SLASpdlimit);
+ 
+}
+
+on envVar Env_IPM_SLAState
+{ 
+ Msg_0x245.IPM_SLAState.phys = getValue(Env_IPM_SLAState);
+}
+
+on envVar Env_EMS_CluthPedalStatus
+{ 
+ Msg_0x10B.EMS_CluthPedalStatus.phys = getValue(Env_EMS_CluthPedalStatus); 
+}
+
+on envVar Env_EMS_EngOperationStatus
+{ 
+  Msg_0x10B.EMS_EngOperationStatus.phys = getValue(Env_EMS_EngOperationStatus);
+}
+
+on envVar Env_IPM_DDD_WarningLevel
+{ 
+  Msg_0x245.IPM_DDD_WarningLevel.phys = getValue(Env_IPM_DDD_WarningLevel);
+}
+
+on envVar Env_IPM_DDD_IndexStatus
+{ 
+ Msg_0x245.IPM_DDD_IndexStatus.phys = getValue(Env_IPM_DDD_IndexStatus);
+}
+
+void  odo()
+{
+
+  int odo_factor = 0;
+  int  varWhlFrntLe = 0;
+  int  varWhlFrntRi = 0;
+  
+  odo_factor = getValue(Env_FrntLeFactor);
+  
+  switch(getValue(Env_odo))
+  {
+    case 0:
+      Msg_0x221.ABS_VehSpdLgt = getValue(Env_ABS_VehSpdLgt);
+      Msg_0x10B.EMS_EngSpeed = getValue(Env_EMS_EngSpeed);
+      break;
+    case 1 :
+      Msg_0x10B.EMS_EngSpeed = 2000;
+      Msg_0x221.ABS_VehSpdLgt = 800;
+      varWhlFrntLe = $ABS_WhlMilgFrntLe +odo_factor;
+  		varWhlFrntRi = $ABS_WhlMilgFrntRi +odo_factor;
+      
+      if(varWhlFrntLe >= 65535)
+      {
+        varWhlFrntLe = varWhlFrntLe - 65535;
+      }
+      if(varWhlFrntRi >= 65535)
+      {
+        varWhlFrntRi = varWhlFrntRi - 65535;
+      }
+      Msg_0x221.ABS_WhlMilgFrntLe = varWhlFrntLe;
+      Msg_0x221.ABS_WhlMilgFrntRi = varWhlFrntRi; 
+      break;
+    case 2:
+      Msg_0x10B.EMS_EngSpeed = 1600;
+      Msg_0x221.ABS_VehSpdLgt = 0;
+      break;
+    //Default :
+  }
+  /*
+  if(getValue(Env_odo) == 1)
+  {  
+    Msg_0x10B.EMS_EngSpeed = 2000;
+    Msg_0x221.ABS_VehSpdLgt = 800;
+    varWhlFrntLe = $ABS_WhlMilgFrntLe +odo_factor;
+		varWhlFrntRi = $ABS_WhlMilgFrntRi +odo_factor;
+    
+    if(varWhlFrntLe >= 65535)
+    {
+      varWhlFrntLe = varWhlFrntLe - 65535;
+    }
+    if(varWhlFrntRi >= 65535)
+    {
+      varWhlFrntRi = varWhlFrntRi - 65535;
+    }
+    Msg_0x221.ABS_WhlMilgFrntLe = varWhlFrntLe;
+    Msg_0x221.ABS_WhlMilgFrntRi = varWhlFrntRi; 
+  }
+  else
+  {
+    Msg_0x221.ABS_VehSpdLgt = getValue(Env_ABS_VehSpdLgt);
+    Msg_0x10B.EMS_EngSpeed = getValue(Env_EMS_EngSpeed);
+  }
+  */
+  
+}
+
+void afc ()
+{
+   
+  int fuel_factor = 0;
+  int cEMS_Fuelcounter = 0 ;    // unit :uL  
+  
+  fuel_factor = getValue(Env_Fuelcounter);
+  
+  switch(getValue(Env_odo))
+  {
+    case 0:
+      break;
+    case 1:
+      cEMS_Fuelcounter = $EMS_Fuelcounter.raw + fuel_factor;
+       if(cEMS_Fuelcounter >= 65535)
+      {
+        cEMS_Fuelcounter = cEMS_Fuelcounter - 65535;
+      }
+      Msg_0x366.EMS_Fuelcounter = cEMS_Fuelcounter;
+      break;
+      
+    case 2:
+      cEMS_Fuelcounter = $EMS_Fuelcounter.raw + fuel_factor;
+       if(cEMS_Fuelcounter >= 65535)
+      {
+        cEMS_Fuelcounter = cEMS_Fuelcounter - 65535;
+      }
+      Msg_0x366.EMS_Fuelcounter = cEMS_Fuelcounter;
+      break;
+      
+     
+  }
+  /*
+  if(getValue(Env_afc) == 1)
+  {
+    cEMS_Fuelcounter = $EMS_Fuelcounter.raw + fuel_factor;
+    
+     if(cEMS_Fuelcounter >= 65535)
+    {
+      cEMS_Fuelcounter = cEMS_Fuelcounter - 65535;
+    }
+    
+    Msg_0x366.EMS_Fuelcounter = cEMS_Fuelcounter;
+  }
+  else
+  {
+    //Msg_0x366.EMS_Fuelcounter = 0;
+  }
+  */
+}
+
+void ifc_1 ()    //怠速
+{
+   
+  int fuel_factor = 0;
+  int cEMS_Fuelcounter = 0 ;    // unit :uL  
+  
+  fuel_factor = getValue(Env_Fuelcounter);
+  
+  if(getValue(Env_ifc_Idling) == 1)
+  {
+  
+    
+    cEMS_Fuelcounter = $EMS_Fuelcounter.raw + fuel_factor;
+    
+     if(cEMS_Fuelcounter >= 65535)
+    {
+      cEMS_Fuelcounter = cEMS_Fuelcounter - 65535;
+    }
+    
+    Msg_0x366.EMS_Fuelcounter = cEMS_Fuelcounter;
+  }
+  else
+  {
+    
+  }
+  
+}

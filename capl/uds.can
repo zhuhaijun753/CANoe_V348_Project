@@ -1,0 +1,4376 @@
+/*@!Encoding:1252*/
+
+// shenhangtian :20190716
+includes
+{
+  
+}
+
+variables
+{
+    /*                      Parameters                  */
+    const byte BS = 8;
+    const byte STMIN = 20;
+    const byte FILLDATA = 0xCC;   
+    
+    const byte SF = 0x00;
+    const byte FF = 0x10;
+    const byte CF = 0x20;
+    const byte FC = 0x30;
+    
+    const long P2_TIMER = 2500;
+    
+    /*--------------------------------------------------*/
+    
+    message 0x730 diagUDS_txmsg_phy;
+    message 0x7DF diagUDS_txmsg_fun;
+    
+    msTimer diagUDS_TimerP2;
+    msTimer diagUDS_TimerSendCF;
+    
+    byte    diagUDS_STmin;
+    
+    byte diagUDS_rxDataBuf[4096];
+    byte diagUDS_txDataBuf_func[4096];
+    byte diagUDS_txDataBuf_phy[4096];
+    
+    long diagUDS_rxDataBufLength;
+    long diagUDS_rxDataLength;
+    byte diagUDS_rxSequenceNum;
+    
+    byte diagUDS_txDataBufLength;
+    byte diagUDS_txDataLength;
+    byte diagUDS_txDataBlockNum;
+    
+    
+    byte diagUDS_rxDataIndication;
+    
+    byte diagUDS_ReadDIDsRespDataBuf[100];
+    byte diagUDS_ReadDIDsRespDataBufLen;
+        
+    byte diagUDS_WriteDIDsReqDataBuf[100];
+    byte diagUDS_WriteDIDsReqDataBufLen;
+    
+    byte diagUDS_Session;
+    
+    byte diagUDS_IOCntrlTellTale_Extended[8];
+    byte diagUDS_IOCntrlTellTale_EOL[8];
+    
+    byte didDF00Config[20];     //hshen8
+    
+    byte tmpBuf[4096];
+    
+    byte pcCustomerReadDIDFlag;
+    long pcCustomerReadNextDID;
+    
+    byte pcSaveReadDIDFlag;
+    long pcSaveReadNextDID;
+    
+    byte pcSaveWriteDIDFlag;
+    long pcSaveWriteNextDID;
+    
+    byte gaugeCali_start_seqence;
+    byte gaugeCali_read_seqence;
+    byte gaugeCali_write_seqence;
+    
+    byte runin_start_sequence;
+  
+    byte vehicle_config_arr[4];
+}
+
+
+
+
+on envVar pcVariant
+{
+    byte pcTmpBuffer[20];
+    switch(getvalue(this))
+    {
+        case 0:             /* FS1-10849-A  */
+            putvalue(pcFE81RequestData, pcTmpBuffer, 0);
+            putvalue(pcFE82RequestData, pcTmpBuffer, 0);
+            putvalue(pcF192RequestData, pcTmpBuffer, 0);
+            putvalue(pcFE84RequestData, pcTmpBuffer, 0);
+            putvalue(pcFE85RequestData, pcTmpBuffer, 0);
+            putvalue(pcFE86RequestData, pcTmpBuffer, 0);
+            putvalue(pcF18BRequestData, pcTmpBuffer, 0);
+            putvalue(pcFE88RequestData, pcTmpBuffer, 0);
+            putvalue(pcF18ARequestData, pcTmpBuffer, 0);
+            putvalue(pcFE8BRequestData, pcTmpBuffer, 0);
+            putvalue(pcFE8CRequestData, pcTmpBuffer, 0);
+            putvalue(pcDF00RequestData, pcTmpBuffer, 0);
+            putvalue(pcF193RequestData, pcTmpBuffer, 0);
+            break;
+        case 1:             /* FS1-10849-B  */
+            putvalue(pcFE81RequestData, pcTmpBuffer, 0);
+            putvalue(pcFE82RequestData, pcTmpBuffer, 0);
+            putvalue(pcF192RequestData, pcTmpBuffer, 0);
+            putvalue(pcFE84RequestData, pcTmpBuffer, 0);
+            putvalue(pcFE85RequestData, pcTmpBuffer, 0);
+            putvalue(pcFE86RequestData, pcTmpBuffer, 0);
+            putvalue(pcF18BRequestData, pcTmpBuffer, 0);
+            putvalue(pcFE88RequestData, pcTmpBuffer, 0);
+            putvalue(pcF18ARequestData, pcTmpBuffer, 0);
+            putvalue(pcFE8BRequestData, pcTmpBuffer, 0);
+            putvalue(pcFE8CRequestData, pcTmpBuffer, 0);
+            putvalue(pcDF00RequestData, pcTmpBuffer, 0);
+            putvalue(pcF193RequestData, pcTmpBuffer, 0);
+            break;
+        case 2:             /* FS1-10849-C  */
+            putvalue(pcFE81RequestData, pcTmpBuffer, 0);
+            putvalue(pcFE82RequestData, pcTmpBuffer, 0);
+            putvalue(pcF192RequestData, pcTmpBuffer, 0);
+            putvalue(pcFE84RequestData, pcTmpBuffer, 0);
+            putvalue(pcFE85RequestData, pcTmpBuffer, 0);
+            putvalue(pcFE86RequestData, pcTmpBuffer, 0);
+            putvalue(pcF18BRequestData, pcTmpBuffer, 0);
+            putvalue(pcFE88RequestData, pcTmpBuffer, 0);
+            putvalue(pcF18ARequestData, pcTmpBuffer, 0);
+            putvalue(pcFE8BRequestData, pcTmpBuffer, 0);
+            putvalue(pcFE8CRequestData, pcTmpBuffer, 0);
+            putvalue(pcDF00RequestData, pcTmpBuffer, 0);
+            putvalue(pcF193RequestData, pcTmpBuffer, 0);
+            break;
+        case 3:             /* FS1-10849-D  */
+            putvalue(pcFE81RequestData, pcTmpBuffer, 0);
+            putvalue(pcFE82RequestData, pcTmpBuffer, 0);
+            putvalue(pcF192RequestData, pcTmpBuffer, 0);
+            putvalue(pcFE84RequestData, pcTmpBuffer, 0);
+            putvalue(pcFE85RequestData, pcTmpBuffer, 0);
+            putvalue(pcFE86RequestData, pcTmpBuffer, 0);
+            putvalue(pcF18BRequestData, pcTmpBuffer, 0);
+            putvalue(pcFE88RequestData, pcTmpBuffer, 0);
+            putvalue(pcF18ARequestData, pcTmpBuffer, 0);
+            putvalue(pcFE8BRequestData, pcTmpBuffer, 0);
+            putvalue(pcFE8CRequestData, pcTmpBuffer, 0);
+            putvalue(pcDF00RequestData, pcTmpBuffer, 0);
+            putvalue(pcF193RequestData, pcTmpBuffer, 0);
+            break;
+        case 4:             /* FS1-10849-E  */
+            /* JCI-P/N : 3169116 - 02 */
+            pcTmpBuffer[0] = '3';
+            pcTmpBuffer[1] = '1';
+            pcTmpBuffer[2] = '6';
+            pcTmpBuffer[3] = '9';
+            pcTmpBuffer[4] = '1';
+            pcTmpBuffer[5] = '1';
+            pcTmpBuffer[6] = '6';
+            pcTmpBuffer[7] = '2';       /* Revision */
+            pcTmpBuffer[8] = ' ';
+            pcTmpBuffer[9] = ' ';
+            pcTmpBuffer[10] = ' ';
+            pcTmpBuffer[11] = ' ';
+            pcTmpBuffer[12] = ' ';
+            pcTmpBuffer[13] = ' ';
+            pcTmpBuffer[14] = ' ';
+            putvalue(pcFE81RequestData, pcTmpBuffer, 15);
+            
+            //pcTmpBuffer[0] = 'V';
+            //pcTmpBuffer[1] = 'P';
+            //pcTmpBuffer[2] = 'G';
+            //pcTmpBuffer[3] = 'W';
+            //pcTmpBuffer[4] = 'A';
+            //pcTmpBuffer[5] = 'F';
+            //pcTmpBuffer[6] = '-';
+            //pcTmpBuffer[7] = '1';       
+            //pcTmpBuffer[8] = '4';
+            //pcTmpBuffer[9] = 'B';
+            //pcTmpBuffer[10] = '1';
+            //pcTmpBuffer[11] = '1';
+            //pcTmpBuffer[12] = '5';
+            //pcTmpBuffer[13] = 'A';
+            //pcTmpBuffer[14] = 'C';
+            putvalue(pcFE82RequestData, pcTmpBuffer, 0);
+            
+            //pcTmpBuffer[0] = 'V';
+            //pcTmpBuffer[1] = 'P';
+            //pcTmpBuffer[2] = 'G';
+            //pcTmpBuffer[3] = 'W';
+            //pcTmpBuffer[4] = 'A';
+            //pcTmpBuffer[5] = 'F';
+            //pcTmpBuffer[6] = '-';
+            //pcTmpBuffer[7] = '1';       
+            //pcTmpBuffer[8] = '4';
+            //pcTmpBuffer[9] = 'B';
+            //pcTmpBuffer[10] = '1';
+            //pcTmpBuffer[11] = '1';
+            //pcTmpBuffer[12] = '5';
+            //pcTmpBuffer[13] = 'A';
+            //pcTmpBuffer[14] = 'C';
+            putvalue(pcF192RequestData, pcTmpBuffer, 0);
+            
+            pcTmpBuffer[0] = 0x00;
+            pcTmpBuffer[1] = 0x00;
+            pcTmpBuffer[2] = 0x00;
+            pcTmpBuffer[3] = 0x00;
+            putvalue(pcFE84RequestData, pcTmpBuffer, 4);
+            
+            putvalue(pcFE86RequestData, pcTmpBuffer, 0);
+            
+            pcTmpBuffer[0] = 0x10;
+            pcTmpBuffer[1] = 0x03;
+            pcTmpBuffer[2] = 0x16;
+            pcTmpBuffer[3] = 0x20;
+            putvalue(pcF18BRequestData, pcTmpBuffer, 4);
+            
+            pcTmpBuffer[0] = 0x00;
+            pcTmpBuffer[1] = 0x00;
+            pcTmpBuffer[2] = 0x00;
+            putvalue(pcFE88RequestData, pcTmpBuffer, 3);
+            
+            putvalue(pcF18ARequestData, pcTmpBuffer, 0);
+            
+            putvalue(pcFE8BRequestData, pcTmpBuffer, 0);
+            
+            pcTmpBuffer[0] = 0x04; 
+            putvalue(pcFE8CRequestData, pcTmpBuffer, 1);
+            
+            pcTmpBuffer[0] = 0x03; 
+            putvalue(pcF193RequestData, pcTmpBuffer, 1);
+            break;
+        case 5:             /* FS1-10849-F  */
+            /* SAVE-P/N : VPGWAF-10849-AA - A */
+            pcTmpBuffer[0] = 'V';
+            pcTmpBuffer[1] = 'P';
+            pcTmpBuffer[2] = 'G';
+            pcTmpBuffer[3] = 'W';
+            pcTmpBuffer[4] = 'A';
+            pcTmpBuffer[5] = 'F';
+            pcTmpBuffer[6] = '-';
+            pcTmpBuffer[7] = '1';       
+            pcTmpBuffer[8] = '0';
+            pcTmpBuffer[9] = '8';
+            pcTmpBuffer[10] = '4';
+            pcTmpBuffer[11] = '9';
+            pcTmpBuffer[12] = '-';
+            pcTmpBuffer[13] = 'A';      /* Revision */
+            pcTmpBuffer[14] = 'A';      
+            putvalue(pcFE81RequestData, pcTmpBuffer, 15);
+            
+            //pcTmpBuffer[0] = 'V';
+            //pcTmpBuffer[1] = 'P';
+            //pcTmpBuffer[2] = 'G';
+            //pcTmpBuffer[3] = 'W';
+            //pcTmpBuffer[4] = 'A';
+            //pcTmpBuffer[5] = 'F';
+            //pcTmpBuffer[6] = '-';
+            //pcTmpBuffer[7] = '1';       
+            //pcTmpBuffer[8] = '4';
+            //pcTmpBuffer[9] = 'B';
+            //pcTmpBuffer[10] = '1';
+            //pcTmpBuffer[11] = '1';
+            //pcTmpBuffer[12] = '5';
+            //pcTmpBuffer[13] = 'A';
+            //pcTmpBuffer[14] = 'C';
+            putvalue(pcFE82RequestData, pcTmpBuffer, 0);
+            
+            //pcTmpBuffer[0] = 'V';
+            //pcTmpBuffer[1] = 'P';
+            //pcTmpBuffer[2] = 'G';
+            //pcTmpBuffer[3] = 'W';
+            //pcTmpBuffer[4] = 'A';
+            //pcTmpBuffer[5] = 'F';
+            //pcTmpBuffer[6] = '-';
+            //pcTmpBuffer[7] = '1';       
+            //pcTmpBuffer[8] = '4';
+            //pcTmpBuffer[9] = 'B';
+            //pcTmpBuffer[10] = '1';
+            //pcTmpBuffer[11] = '1';
+            //pcTmpBuffer[12] = '5';
+            //pcTmpBuffer[13] = 'A';
+            //pcTmpBuffer[14] = 'C';
+            putvalue(pcF192RequestData, pcTmpBuffer, 0);
+            
+            pcTmpBuffer[0] = 0x00;
+            pcTmpBuffer[1] = 0x00;
+            pcTmpBuffer[2] = 0x00;
+            pcTmpBuffer[3] = 0x00;
+            putvalue(pcFE84RequestData, pcTmpBuffer, 4);
+            
+            putvalue(pcFE86RequestData, pcTmpBuffer, 0);
+            
+            pcTmpBuffer[0] = 0x10;
+            pcTmpBuffer[1] = 0x03;
+            pcTmpBuffer[2] = 0x16;
+            pcTmpBuffer[3] = 0x20;
+            putvalue(pcF18BRequestData, pcTmpBuffer, 4);
+            
+            pcTmpBuffer[0] = 0x00;
+            pcTmpBuffer[1] = 0x00;
+            pcTmpBuffer[2] = 0x00;
+            putvalue(pcFE88RequestData, pcTmpBuffer, 3);
+            
+            putvalue(pcF18ARequestData, pcTmpBuffer, 0);
+            
+            putvalue(pcFE8BRequestData, pcTmpBuffer, 0);
+            
+            pcTmpBuffer[0] = 0x05; 
+            putvalue(pcFE8CRequestData, pcTmpBuffer, 1);
+            
+            pcTmpBuffer[0] = 0x03; 
+            putvalue(pcF193RequestData, pcTmpBuffer, 1);
+            break;
+    }
+}
+
+on timer diagUDS_TimerP2
+{
+    if(getvalue(udsMsgAddressing) == 0)
+    {
+        diagUDS_txDataBuf_phy[0] = 0x3E;
+        if( getvalue(udsSuppressBit) > 0 )
+        {
+            diagUDS_txDataBuf_phy[1] = 0x80;
+        }
+        else
+        {
+            diagUDS_txDataBuf_phy[1] = 0x00;
+        }    
+        
+        diagUDS_txDataBufLength = 2;
+        udsDiag_SendPhyMessage();
+    }
+    else
+    {
+        diagUDS_txDataBuf_func[0] = 0x3E;
+        if( getvalue(udsSuppressBit) > 0 )
+        {
+            diagUDS_txDataBuf_func[1] = 0x80;
+        }
+        else
+        {
+            diagUDS_txDataBuf_phy[1] = 0x00;
+        }    
+        
+        diagUDS_txDataBufLength = 2;
+        udsDiag_SendFunMessage();        
+    }
+}
+
+on timer diagUDS_TimerSendCF
+{
+    byte j;
+    if( diagUDS_txDataBufLength > diagUDS_txDataLength )
+    {
+        diagUDS_txDataBlockNum ++;
+        if( diagUDS_txDataLength + 7 < diagUDS_txDataBufLength )
+        {
+            diagUDS_txmsg_phy.byte(0) = CF + diagUDS_txDataBlockNum;
+            for( j=1; j<8;j++)
+            {
+                diagUDS_txmsg_phy.byte(j) = diagUDS_txDataBuf_phy[diagUDS_txDataLength + j -1 ];
+            }
+            diagUDS_txDataLength = diagUDS_txDataLength + 7;
+            diagUDS_txmsg_phy.dlc = 8;
+            output(diagUDS_txmsg_phy);
+            setTimer(diagUDS_TimerSendCF, diagUDS_STmin);
+        }
+        else
+        {
+            diagUDS_txmsg_phy.byte(0) = CF + diagUDS_txDataBlockNum;
+            for( j=1; j<8;j++)
+            {
+                diagUDS_txmsg_phy.byte(j) = diagUDS_txDataBuf_phy[diagUDS_txDataLength + j -1 ];
+            }
+            diagUDS_txDataLength = diagUDS_txDataBufLength;
+            diagUDS_txmsg_phy.dlc = 8;
+            output(diagUDS_txmsg_phy);
+            cancelTimer(diagUDS_TimerSendCF);
+        }    
+    }
+    else
+    {
+        cancelTimer(diagUDS_TimerSendCF);
+    }      
+}
+
+on start
+{
+    putvalue(udsSecurityLevel, 1);
+    
+    putvalue(udsIO_Telltale_CtrlOption, diagUDS_IOCntrlTellTale_Extended, 8);
+    putvalue(udsIO_Clock_CtrlOption, 25000);
+}
+
+on envVar udsTestPresentFlag
+{
+    if(getvalue(this) > 0)
+    {
+        settimer(diagUDS_TimerP2, P2_TIMER);
+    }
+    else
+    {
+        canceltimer(diagUDS_TimerP2);
+    }
+}
+
+on envVar udsSession
+{
+    switch( getvalue(this))
+    {
+        case 0:
+            if(getvalue(udsMsgAddressing) == 0)
+            {
+                diagUDS_txDataBuf_phy[0] = 0x10;
+                if( getvalue(udsSuppressBit) > 0 )
+                {
+                    diagUDS_txDataBuf_phy[1] = 0x81;
+                }
+                else
+                {
+                    diagUDS_txDataBuf_phy[1] = 0x01;
+                }
+                diagUDS_txDataBufLength = 2;
+                
+                udsDiag_SendPhyMessage();
+            }
+            else
+            {
+                diagUDS_txDataBuf_func[0] = 0x10;
+                if( getvalue(udsSuppressBit) > 0 )
+                {
+                    diagUDS_txDataBuf_func[1] = 0x81;
+                }
+                else
+                {
+                    diagUDS_txDataBuf_func[1] = 0x01;
+                }
+                diagUDS_txDataBufLength = 2;
+                
+                udsDiag_SendFunMessage();
+            }
+            break;
+        case 1:
+            if(getvalue(udsMsgAddressing) == 0)
+            {
+                diagUDS_txDataBuf_phy[0] = 0x10;
+                if( getvalue(udsSuppressBit) > 0 )
+                {
+                    diagUDS_txDataBuf_phy[1] = 0x82;
+                }
+                else
+                {
+                    diagUDS_txDataBuf_phy[1] = 0x02;
+                }
+                diagUDS_txDataBufLength = 2;
+                
+                udsDiag_SendPhyMessage();
+            }
+            else
+            {
+                diagUDS_txDataBuf_func[0] = 0x10;
+                if( getvalue(udsSuppressBit) > 0 )
+                {
+                    diagUDS_txDataBuf_func[1] = 0x82;
+                }
+                else
+                {
+                    diagUDS_txDataBuf_func[1] = 0x02;
+                }
+                diagUDS_txDataBufLength = 2;
+                
+                udsDiag_SendFunMessage();
+            }
+            break;
+        case 2:
+            if(getvalue(udsMsgAddressing) == 0)
+            {
+                diagUDS_txDataBuf_phy[0] = 0x10;
+                if( getvalue(udsSuppressBit) > 0 )
+                {
+                    diagUDS_txDataBuf_phy[1] = 0x83;
+                }
+                else
+                {
+                    diagUDS_txDataBuf_phy[1] = 0x03;
+                }
+                diagUDS_txDataBufLength = 2;
+                
+                udsDiag_SendPhyMessage();
+            }
+            else
+            {
+                diagUDS_txDataBuf_func[0] = 0x10;
+                if( getvalue(udsSuppressBit) > 0 )
+                {
+                    diagUDS_txDataBuf_func[1] = 0x83;
+                }
+                else
+                {
+                    diagUDS_txDataBuf_func[1] = 0x03;
+                }
+                diagUDS_txDataBufLength = 2;
+                
+                udsDiag_SendFunMessage();
+            }
+            break;
+        case 3:
+            if(getvalue(udsMsgAddressing) == 0)
+            {
+                diagUDS_txDataBuf_phy[0] = 0x10;
+                if( getvalue(udsSuppressBit) > 0 )
+                {
+                    diagUDS_txDataBuf_phy[1] = 0xE0;
+                }
+                else
+                {
+                    diagUDS_txDataBuf_phy[1] = 0x60;
+                }
+                diagUDS_txDataBufLength = 2;
+                
+                udsDiag_SendPhyMessage();
+            }
+            else
+            {
+                diagUDS_txDataBuf_func[0] = 0x10;
+                if( getvalue(udsSuppressBit) > 0 )
+                {
+                    diagUDS_txDataBuf_func[1] = 0xE0;
+                }
+                else
+                {
+                    diagUDS_txDataBuf_func[1] = 0x60;
+                }
+                diagUDS_txDataBufLength = 2;
+                
+                udsDiag_SendFunMessage();
+            }            
+            break;
+        default:
+            break;
+    }
+    
+}
+
+on envVar udsEcuReset
+{
+    if( getvalue(this) != 0 )
+    {
+        if(getvalue(udsMsgAddressing) == 0)
+        {
+            diagUDS_txDataBuf_phy[0] = 0x11;
+            diagUDS_txDataBuf_phy[1] = getvalue(this);
+            if( getvalue(udsSuppressBit) > 0 )
+            {
+                diagUDS_txDataBuf_phy[1] += 0x80;
+            }
+            
+            diagUDS_txDataBufLength = 2;
+                           
+            udsDiag_SendPhyMessage();
+        }
+        else
+        {
+            diagUDS_txDataBuf_func[0] = 0x11;
+            diagUDS_txDataBuf_func[1] = getvalue(this);
+            if( getvalue(udsSuppressBit) > 0 )
+            {
+                diagUDS_txDataBuf_func[1] += 0x80;
+            }
+            
+            diagUDS_txDataBufLength = 2;
+                    
+            udsDiag_SendFunMessage();
+        }
+    }
+}
+
+
+
+on envVar udsClearDTCs
+{
+    if( getvalue(this) != 0 )
+    {
+        if(getvalue(udsMsgAddressing) == 0)
+        {
+            diagUDS_txDataBuf_phy[0] = 0x14;
+            diagUDS_txDataBuf_phy[1] = (getvalue(this) & 0xFF0000) >> 16;
+            diagUDS_txDataBuf_phy[2] = (getvalue(this) & 0xFF00) >> 8;
+            diagUDS_txDataBuf_phy[3] = (getvalue(this) & 0xFF);
+            
+            diagUDS_txDataBufLength = 4;
+            
+            udsDiag_SendPhyMessage();
+        }
+        else
+        {
+            diagUDS_txDataBuf_func[0] = 0x14;
+            diagUDS_txDataBuf_func[1] = (getvalue(this) & 0xFF0000) >> 16;
+            diagUDS_txDataBuf_func[2] = (getvalue(this) & 0xFF00) >> 8;
+            diagUDS_txDataBuf_func[3] = (getvalue(this) & 0xFF);
+            
+            diagUDS_txDataBufLength = 4;
+            
+            udsDiag_SendFunMessage();            
+        }
+    }
+}
+
+
+
+on envVar udsReadDIDsSingleShot
+{
+    if( getvalue(this) != 0)
+    {
+        if(getvalue(udsReadDIDs) != 0 )
+        {
+            if(getvalue(udsMsgAddressing) == 0)
+            {
+                diagUDS_txDataBuf_phy[0] = 0x22;
+                diagUDS_txDataBuf_phy[1] = (getvalue(udsReadDIDs) & 0xFF00) >> 8;
+                diagUDS_txDataBuf_phy[2] = (getvalue(udsReadDIDs) & 0xFF);
+                
+                diagUDS_txDataBufLength = 3;
+                
+                udsDiag_SendPhyMessage();
+            }
+            else
+            {
+                diagUDS_txDataBuf_func[0] = 0x22;
+                diagUDS_txDataBuf_func[1] = (getvalue(udsReadDIDs) & 0xFF00) >> 8;
+                diagUDS_txDataBuf_func[2] = (getvalue(udsReadDIDs) & 0xFF);
+                
+                diagUDS_txDataBufLength = 3;
+                
+                udsDiag_SendFunMessage();            
+            }            
+        }
+    }
+}
+
+on envVar udsReportDTC_Num
+{
+    if( getvalue(this) != 0)
+    {
+        diagUDS_txDataBuf_phy[0] = 0x19;
+        diagUDS_txDataBuf_phy[1] = 0x01;
+        
+        diagUDS_txDataBuf_phy[2] = 0x00;
+        if( getvalue(udsReportDTC_Mask_B0) )
+        {
+            diagUDS_txDataBuf_phy[2] |= 0x01;
+        }
+        if( getvalue(udsReportDTC_Mask_B1) )
+        {
+            diagUDS_txDataBuf_phy[2] |= 0x02;
+        }
+        if( getvalue(udsReportDTC_Mask_B2) )
+        {
+            diagUDS_txDataBuf_phy[2] |= 0x04;
+        }
+        if( getvalue(udsReportDTC_Mask_B3) )
+        {
+            diagUDS_txDataBuf_phy[2] |= 0x08;
+        }
+        if( getvalue(udsReportDTC_Mask_B4) )
+        {
+            diagUDS_txDataBuf_phy[2] |= 0x10;
+        }       
+        if( getvalue(udsReportDTC_Mask_B5) )
+        {
+            diagUDS_txDataBuf_phy[2] |= 0x20;
+        }        
+        if( getvalue(udsReportDTC_Mask_B6) )
+        {
+            diagUDS_txDataBuf_phy[2] |= 0x40;
+        }  
+        if( getvalue(udsReportDTC_Mask_B7) )
+        {
+            diagUDS_txDataBuf_phy[2] |= 0x80;
+        }        
+        
+        diagUDS_txDataBufLength = 3;
+                
+        udsDiag_SendPhyMessage();
+    }
+}
+
+on envVar udsReportDTC
+{
+    if( getvalue(this) != 0)
+    {
+        diagUDS_txDataBuf_phy[0] = 0x19;
+        diagUDS_txDataBuf_phy[1] = 0x02;
+        
+        diagUDS_txDataBuf_phy[2] = 0x00;
+        if( getvalue(udsReportDTC_Mask_B0) )
+        {
+            diagUDS_txDataBuf_phy[2] |= 0x01;
+        }
+        if( getvalue(udsReportDTC_Mask_B1) )
+        {
+            diagUDS_txDataBuf_phy[2] |= 0x02;
+        }
+        if( getvalue(udsReportDTC_Mask_B2) )
+        {
+            diagUDS_txDataBuf_phy[2] |= 0x04;
+        }
+        if( getvalue(udsReportDTC_Mask_B3) )
+        {
+            diagUDS_txDataBuf_phy[2] |= 0x08;
+        }
+        if( getvalue(udsReportDTC_Mask_B4) )
+        {
+            diagUDS_txDataBuf_phy[2] |= 0x10;
+        }       
+        if( getvalue(udsReportDTC_Mask_B5) )
+        {
+            diagUDS_txDataBuf_phy[2] |= 0x20;
+        }        
+        if( getvalue(udsReportDTC_Mask_B6) )
+        {
+            diagUDS_txDataBuf_phy[2] |= 0x40;
+        }  
+        if( getvalue(udsReportDTC_Mask_B7) )
+        {
+            diagUDS_txDataBuf_phy[2] |= 0x80;
+        }        
+        
+        diagUDS_txDataBufLength = 3;
+                
+        udsDiag_SendPhyMessage();
+    } 
+}
+
+
+
+on envVar udsReportDTC_All
+{
+    if( getvalue(this) != 0)
+    {
+        diagUDS_txDataBuf_phy[0] = 0x19;
+        diagUDS_txDataBuf_phy[1] = 0x0A;
+        
+        diagUDS_txDataBufLength = 2;
+                
+        udsDiag_SendPhyMessage();
+    }
+}
+
+on envVar udsWriteDIDsSingleShot
+{
+    byte i;
+    if( getvalue(this) != 0)
+    {
+        if(getvalue(udsWriteDIDs) != 0 )
+        {
+            diagUDS_txDataBuf_phy[0] = 0x2E;
+            diagUDS_txDataBuf_phy[1] = (getvalue(udsWriteDIDs)&0xFF00) >> 8;
+            diagUDS_txDataBuf_phy[2] = (getvalue(udsWriteDIDs)&0xFF);
+            
+            getvalue(udsWriteDIDsData, diagUDS_WriteDIDsReqDataBuf, 0);
+            for(i=0;i<getValueSize(udsWriteDIDsData);i++)
+            {
+                diagUDS_txDataBuf_phy[2+i+1] = diagUDS_WriteDIDsReqDataBuf[i];
+            }
+            diagUDS_txDataBufLength = 3 + getValueSize(udsWriteDIDsData);
+            udsDiag_SendPhyMessage();
+        }
+    }
+}
+
+
+
+on envVar udsSecuritySeed
+{
+    if( getvalue(this) != 0)
+    {
+        diagUDS_txDataBuf_phy[0] = 0x27;
+        diagUDS_txDataBuf_phy[1] = (getvalue(udsSecurityLevel)-1) * 2 + 1;
+        diagUDS_txDataBufLength = 2;
+        udsDiag_SendPhyMessage(); 
+    }
+}
+
+on envVar udsSecurityKey
+{
+    if( getvalue(this) != 0)
+    {
+        diagUDS_txDataBuf_phy[0] = 0x27;
+        diagUDS_txDataBuf_phy[1] = (getvalue(udsSecurityLevel)-1) * 2 + 2;
+        getvalue(udsSecurityKeyData, tmpBuf, 0);
+        diagUDS_txDataBuf_phy[2] = tmpBuf[0];
+        diagUDS_txDataBuf_phy[3] = tmpBuf[1];
+        diagUDS_txDataBuf_phy[4] = tmpBuf[2];
+        diagUDS_txDataBuf_phy[5] = tmpBuf[3];
+        diagUDS_txDataBufLength = 6;
+        udsDiag_SendPhyMessage(); 
+    }
+}
+
+on envVar udsIO_Gauge_ShortAdjust
+{
+    byte udsIO_Telltale_ShortAdjust_Array[8];
+    byte udsIO_Telltale_ShortAdjust_length;
+    
+    if(getvalue(this))
+    {
+        diagUDS_txDataBuf_phy[0] = 0x2F;
+        diagUDS_txDataBuf_phy[1] = 0xFE;
+        diagUDS_txDataBuf_phy[2] = 0x05;
+        diagUDS_txDataBuf_phy[3] = 0x03;      
+        diagUDS_txDataBuf_phy[4] = getvalue(udsIO_Gauge_CtrlType);
+        switch( diagUDS_txDataBuf_phy[4] )
+        {
+            case 0x80:
+                diagUDS_txDataBuf_phy[5] = (getvalue(udsIO_GaugeTemp_CtrlOption) & 0xFF00) >> 8;
+                diagUDS_txDataBuf_phy[6] = (getvalue(udsIO_GaugeTemp_CtrlOption) & 0xFF);
+                break;
+            case 0x81:
+                diagUDS_txDataBuf_phy[5] = (getvalue(udsIO_GaugeFuel_CtrlOption) & 0xFF00) >> 8;
+                diagUDS_txDataBuf_phy[6] = (getvalue(udsIO_GaugeFuel_CtrlOption) & 0xFF);
+                break;   
+            case 0x82:
+                diagUDS_txDataBuf_phy[5] = (getvalue(udsIO_GaugeSpeed_CtrlOption)& 0xFF00) >> 8;
+                diagUDS_txDataBuf_phy[6] = (getvalue(udsIO_GaugeSpeed_CtrlOption)& 0xFF);
+                break;                
+            case 0x83:
+                diagUDS_txDataBuf_phy[5] = (getvalue(udsIO_GaugeTach_CtrlOption)& 0xFF00) >> 8;
+                diagUDS_txDataBuf_phy[6] = (getvalue(udsIO_GaugeTach_CtrlOption)& 0xFF);
+                break;                
+        }
+        diagUDS_txDataBufLength = 7;
+                           
+        udsDiag_SendPhyMessage();       
+    }   
+}
+
+on envVar udsIO_Gauge_ShortAdjust_Step
+{
+    byte udsIO_Telltale_ShortAdjust_Array[8];
+    byte udsIO_Telltale_ShortAdjust_length;
+    
+    if(getvalue(this))
+    {
+        diagUDS_txDataBuf_phy[0] = 0x2F;
+        diagUDS_txDataBuf_phy[1] = 0xFE;
+        diagUDS_txDataBuf_phy[2] = 0x04;
+        diagUDS_txDataBuf_phy[3] = 0x03;      
+        diagUDS_txDataBuf_phy[4] = getvalue(udsIO_Gauge_CtrlType_Step);
+        switch( diagUDS_txDataBuf_phy[4] )
+        {
+            case 0x80:
+                diagUDS_txDataBuf_phy[5] = (getvalue(udsIO_GaugeTemp_CtrlOption_Step) & 0xFF00) >> 8;
+                diagUDS_txDataBuf_phy[6] = (getvalue(udsIO_GaugeTemp_CtrlOption_Step) & 0xFF);
+                break;
+            case 0x81:
+                diagUDS_txDataBuf_phy[5] = (getvalue(udsIO_GaugeFuel_CtrlOption_Step) & 0xFF00) >> 8;
+                diagUDS_txDataBuf_phy[6] = (getvalue(udsIO_GaugeFuel_CtrlOption_Step) & 0xFF);
+                break;   
+            case 0x82:
+                diagUDS_txDataBuf_phy[5] = (getvalue(udsIO_GaugeSpeed_CtrlOption_Step)& 0xFF00) >> 8;
+                diagUDS_txDataBuf_phy[6] = (getvalue(udsIO_GaugeSpeed_CtrlOption_Step)& 0xFF);
+                break;                
+            case 0x83:
+                diagUDS_txDataBuf_phy[5] = (getvalue(udsIO_GaugeTach_CtrlOption_Step)& 0xFF00) >> 8;
+                diagUDS_txDataBuf_phy[6] = (getvalue(udsIO_GaugeTach_CtrlOption_Step)& 0xFF);
+                break;                
+            case 0x8F:
+                diagUDS_txDataBuf_phy[5] = (getvalue(udsIO_GaugeAll_CtrlOption_Step)& 0xFF00) >> 8;
+                diagUDS_txDataBuf_phy[6] = (getvalue(udsIO_GaugeAll_CtrlOption_Step)& 0xFF);
+                break;
+        }
+        diagUDS_txDataBufLength = 7;
+                           
+        udsDiag_SendPhyMessage();       
+    }   
+}
+
+on envVar udsIO_Gauge_ShortAdjust_Deg
+{
+    byte udsIO_Telltale_ShortAdjust_Array[8];
+    byte udsIO_Telltale_ShortAdjust_length;
+    
+    if(getvalue(this))
+    {
+        diagUDS_txDataBuf_phy[0] = 0x2F;
+        diagUDS_txDataBuf_phy[1] = 0xFE;
+        diagUDS_txDataBuf_phy[2] = 0x04;
+        diagUDS_txDataBuf_phy[3] = 0x03;      
+        diagUDS_txDataBuf_phy[4] = getvalue(udsIO_Gauge_CtrlType_Deg);
+        switch( diagUDS_txDataBuf_phy[4] )
+        {
+            case 0xB0:
+                diagUDS_txDataBuf_phy[5] = (getvalue(udsIO_GaugeTemp_CtrlOption_Deg) & 0xFF00) >> 8;
+                diagUDS_txDataBuf_phy[6] = (getvalue(udsIO_GaugeTemp_CtrlOption_Deg) & 0xFF);
+                break;
+            case 0xB1:
+                diagUDS_txDataBuf_phy[5] = (getvalue(udsIO_GaugeFuel_CtrlOption_Deg) & 0xFF00) >> 8;
+                diagUDS_txDataBuf_phy[6] = (getvalue(udsIO_GaugeFuel_CtrlOption_Deg) & 0xFF);
+                break;   
+            case 0xB2:
+                diagUDS_txDataBuf_phy[5] = (getvalue(udsIO_GaugeSpeed_CtrlOption_Deg)& 0xFF00) >> 8;
+                diagUDS_txDataBuf_phy[6] = (getvalue(udsIO_GaugeSpeed_CtrlOption_Deg)& 0xFF);
+                break;                
+            case 0xB3:
+                diagUDS_txDataBuf_phy[5] = (getvalue(udsIO_GaugeTach_CtrlOption_Deg)& 0xFF00) >> 8;
+                diagUDS_txDataBuf_phy[6] = (getvalue(udsIO_GaugeTach_CtrlOption_Deg)& 0xFF);
+                break;     
+            case 0xBF:
+                diagUDS_txDataBuf_phy[5] = (getvalue(udsIO_GaugeAll_CtrlOption_Deg)& 0xFF00) >> 8;
+                diagUDS_txDataBuf_phy[6] = (getvalue(udsIO_GaugeAll_CtrlOption_Deg)& 0xFF);
+                break; 
+        }
+        diagUDS_txDataBufLength = 7;
+                           
+        udsDiag_SendPhyMessage();       
+    }   
+}
+
+
+on envVar udsIO_Gauge_ReturnECU
+{    
+    if(getvalue(this))
+    {
+        diagUDS_txDataBuf_phy[0] = 0x2F;
+        diagUDS_txDataBuf_phy[1] = 0xFE;
+        diagUDS_txDataBuf_phy[2] = 0x05;
+        diagUDS_txDataBuf_phy[3] = 0x00;        
+        diagUDS_txDataBufLength = 4;
+                           
+        udsDiag_SendPhyMessage();       
+    }   
+}
+
+on envVar udsIO_Gauge_ReturnECU_Step
+{    
+    if(getvalue(this))
+    {
+        diagUDS_txDataBuf_phy[0] = 0x2F;
+        diagUDS_txDataBuf_phy[1] = 0xFE;
+        diagUDS_txDataBuf_phy[2] = 0x04;
+        diagUDS_txDataBuf_phy[3] = 0x00;        
+        diagUDS_txDataBufLength = 4;
+                           
+        udsDiag_SendPhyMessage();       
+    }   
+}
+
+on envVar udsIO_Gauge_ReturnECU_Deg
+{    
+    if(getvalue(this))
+    {
+        diagUDS_txDataBuf_phy[0] = 0x2F;
+        diagUDS_txDataBuf_phy[1] = 0xFE;
+        diagUDS_txDataBuf_phy[2] = 0x04;
+        diagUDS_txDataBuf_phy[3] = 0x00;        
+        diagUDS_txDataBufLength = 4;
+                           
+        udsDiag_SendPhyMessage();       
+    }   
+}
+
+on envVar udsIO_Telltale_ShortAdjust
+{
+    byte udsIO_Telltale_ShortAdjust_Array[8];
+    byte udsIO_Telltale_ShortAdjust_length;
+    
+    if(getvalue(this))
+    {
+        diagUDS_txDataBuf_phy[0] = 0x2E;
+        diagUDS_txDataBuf_phy[1] = 0xDF;
+        diagUDS_txDataBuf_phy[2] = 0x00;
+        //diagUDS_txDataBuf_phy[3] = 0x03;
+        
+        getvalue(udsIO_Telltale_CtrlOption, udsIO_Telltale_ShortAdjust_Array, 0);
+        udsIO_Telltale_ShortAdjust_length = getValueSize(udsIO_Telltale_CtrlOption);
+        
+        diagUDS_txDataBuf_phy[3] = udsIO_Telltale_ShortAdjust_Array[0];
+        diagUDS_txDataBuf_phy[4] = udsIO_Telltale_ShortAdjust_Array[1];
+        diagUDS_txDataBuf_phy[5] = udsIO_Telltale_ShortAdjust_Array[2];
+        diagUDS_txDataBuf_phy[6] = udsIO_Telltale_ShortAdjust_Array[3];
+        diagUDS_txDataBuf_phy[7] = udsIO_Telltale_ShortAdjust_Array[4];
+        diagUDS_txDataBuf_phy[8] = udsIO_Telltale_ShortAdjust_Array[5];
+        diagUDS_txDataBuf_phy[9] = udsIO_Telltale_ShortAdjust_Array[6];
+        diagUDS_txDataBuf_phy[10] = udsIO_Telltale_ShortAdjust_Array[7];
+            
+        diagUDS_txDataBufLength = 3+udsIO_Telltale_ShortAdjust_length;
+                           
+        udsDiag_SendPhyMessage();       
+    }   
+}
+
+on envVar udsIO_Telltale_ReturnECU
+{
+    byte udsIO_Telltale_ShortAdjust_Array[8];
+    byte udsIO_Telltale_ShortAdjust_length;
+    
+    if(getvalue(this))
+    {
+        diagUDS_txDataBuf_phy[0] = 0x2F;
+        diagUDS_txDataBuf_phy[1] = 0xFD;
+        diagUDS_txDataBuf_phy[2] = 0x8E;
+        diagUDS_txDataBuf_phy[3] = 0x00;        
+        diagUDS_txDataBufLength = 4;
+                           
+        udsDiag_SendPhyMessage();       
+    }   
+}
+
+on envVar udsIO_Backlight_ShortAdjust_FD82
+{
+   
+    if(getvalue(this))
+    {
+        diagUDS_txDataBuf_phy[0] = 0x2F;
+        diagUDS_txDataBuf_phy[1] = 0xFD;
+        diagUDS_txDataBuf_phy[2] = 0x82;
+        diagUDS_txDataBuf_phy[3] = 0x03;
+        
+        diagUDS_txDataBuf_phy[4] = getvalue(udsIO_Backlight_CtrlOption_FD82);
+            
+        diagUDS_txDataBufLength = 5;
+                           
+        udsDiag_SendPhyMessage();       
+    }   
+}
+
+on envVar udsIO_Backlight_ReturnECU_FD82
+{  
+    if(getvalue(this))
+    {
+        diagUDS_txDataBuf_phy[0] = 0x2F;
+        diagUDS_txDataBuf_phy[1] = 0xFD;
+        diagUDS_txDataBuf_phy[2] = 0x82;
+        diagUDS_txDataBuf_phy[3] = 0x00;        
+        diagUDS_txDataBufLength = 4;
+                           
+        udsDiag_SendPhyMessage();       
+    }   
+}
+
+on envVar udsIO_Backlight_ShortAdjust_FE02
+{    
+    if(getvalue(this))
+    {
+        diagUDS_txDataBuf_phy[0] = 0x2F;
+        diagUDS_txDataBuf_phy[1] = 0xFE;
+        diagUDS_txDataBuf_phy[2] = 0x02;
+        diagUDS_txDataBuf_phy[3] = 0x03;
+        
+        diagUDS_txDataBuf_phy[4] = getvalue(udsIO_Backlight_CtrlOption_FE02_TFT);
+        diagUDS_txDataBuf_phy[5] = getvalue(udsIO_Backlight_CtrlOption_FE02_BigScale);
+        diagUDS_txDataBuf_phy[6] = getvalue(udsIO_Backlight_CtrlOption_FE02_SmallScale);
+        diagUDS_txDataBuf_phy[7] = getvalue(udsIO_Backlight_CtrlOption_FE02_BigPointer);
+        diagUDS_txDataBuf_phy[8] = getvalue(udsIO_Backlight_CtrlOption_FE02_SmallPointer);
+            
+        diagUDS_txDataBufLength = 9;
+                           
+        udsDiag_SendPhyMessage();       
+    }   
+}
+
+on envVar udsIO_Backlight_ReturnECU_FE02
+{  
+    if(getvalue(this))
+    {
+        diagUDS_txDataBuf_phy[0] = 0x2F;
+        diagUDS_txDataBuf_phy[1] = 0xFE;
+        diagUDS_txDataBuf_phy[2] = 0x02;
+        diagUDS_txDataBuf_phy[3] = 0x00;        
+        diagUDS_txDataBufLength = 4;
+                           
+        udsDiag_SendPhyMessage();       
+    }   
+}
+
+on envVar udsIO_LCD_ShortAdjust_FD83_Black
+{    
+    if(getvalue(this))
+    {
+        diagUDS_txDataBuf_phy[0] = 0x2F;
+        diagUDS_txDataBuf_phy[1] = 0xFD;
+        diagUDS_txDataBuf_phy[2] = 0x83;
+        diagUDS_txDataBuf_phy[3] = 0x03;
+        
+        diagUDS_txDataBuf_phy[4] = 0x00;
+            
+        diagUDS_txDataBufLength = 5;
+                           
+        udsDiag_SendPhyMessage();       
+    }   
+}
+
+on envVar udsIO_LCD_ShortAdjust_FD83_Red
+{    
+    if(getvalue(this))
+    {
+        diagUDS_txDataBuf_phy[0] = 0x2F;
+        diagUDS_txDataBuf_phy[1] = 0xFD;
+        diagUDS_txDataBuf_phy[2] = 0x83;
+        diagUDS_txDataBuf_phy[3] = 0x03;
+        
+        diagUDS_txDataBuf_phy[4] = 0x01;
+            
+        diagUDS_txDataBufLength = 5;
+                           
+        udsDiag_SendPhyMessage();       
+    }   
+}
+
+on envVar udsIO_LCD_ShortAdjust_FD83_Green
+{    
+    if(getvalue(this))
+    {
+        diagUDS_txDataBuf_phy[0] = 0x2F;
+        diagUDS_txDataBuf_phy[1] = 0xFD;
+        diagUDS_txDataBuf_phy[2] = 0x83;
+        diagUDS_txDataBuf_phy[3] = 0x03;
+        
+        diagUDS_txDataBuf_phy[4] = 0x02;
+            
+        diagUDS_txDataBufLength = 5;
+                           
+        udsDiag_SendPhyMessage();       
+    }   
+}
+
+on envVar udsIO_LCD_ShortAdjust_FD83_Blue
+{    
+    if(getvalue(this))
+    {
+        diagUDS_txDataBuf_phy[0] = 0x2F;
+        diagUDS_txDataBuf_phy[1] = 0xFD;
+        diagUDS_txDataBuf_phy[2] = 0x83;
+        diagUDS_txDataBuf_phy[3] = 0x03;
+        
+        diagUDS_txDataBuf_phy[4] = 0x03;
+            
+        diagUDS_txDataBufLength = 5;
+                           
+        udsDiag_SendPhyMessage();       
+    }   
+}
+
+on envVar udsIO_LCD_ShortAdjust_FD83_White
+{    
+    if(getvalue(this))
+    {
+        diagUDS_txDataBuf_phy[0] = 0x2F;
+        diagUDS_txDataBuf_phy[1] = 0xFD;
+        diagUDS_txDataBuf_phy[2] = 0x83;
+        diagUDS_txDataBuf_phy[3] = 0x03;
+        
+        diagUDS_txDataBuf_phy[4] = 0x04;
+            
+        diagUDS_txDataBufLength = 5;
+                           
+        udsDiag_SendPhyMessage();       
+    }   
+}
+
+on envVar udsIO_LCD_ReturnECU_FD83
+{  
+    if(getvalue(this))
+    {
+        diagUDS_txDataBuf_phy[0] = 0x2F;
+        diagUDS_txDataBuf_phy[1] = 0xFD;
+        diagUDS_txDataBuf_phy[2] = 0x83;
+        diagUDS_txDataBuf_phy[3] = 0x00;        
+        diagUDS_txDataBufLength = 4;
+                           
+        udsDiag_SendPhyMessage();       
+    }   
+}
+
+on envVar udsIO_LCD_ShortAdjust_FE03_Black
+{    
+    if(getvalue(this))
+    {
+        diagUDS_txDataBuf_phy[0] = 0x2F;
+        diagUDS_txDataBuf_phy[1] = 0xFE;
+        diagUDS_txDataBuf_phy[2] = 0x03;
+        diagUDS_txDataBuf_phy[3] = 0x03;
+        
+        diagUDS_txDataBuf_phy[4] = 0x00;
+            
+        diagUDS_txDataBufLength = 5;
+                           
+        udsDiag_SendPhyMessage();       
+    }   
+}
+
+on envVar udsIO_LCD_ShortAdjust_FE03_Red
+{    
+    if(getvalue(this))
+    {
+        diagUDS_txDataBuf_phy[0] = 0x2F;
+        diagUDS_txDataBuf_phy[1] = 0xFE;
+        diagUDS_txDataBuf_phy[2] = 0x03;
+        diagUDS_txDataBuf_phy[3] = 0x03;
+        
+        diagUDS_txDataBuf_phy[4] = 0x01;
+            
+        diagUDS_txDataBufLength = 5;
+                           
+        udsDiag_SendPhyMessage();       
+    }   
+}
+
+on envVar udsIO_LCD_ShortAdjust_FE03_Green
+{    
+    if(getvalue(this))
+    {
+        diagUDS_txDataBuf_phy[0] = 0x2F;
+        diagUDS_txDataBuf_phy[1] = 0xFE;
+        diagUDS_txDataBuf_phy[2] = 0x03;
+        diagUDS_txDataBuf_phy[3] = 0x03;
+        
+        diagUDS_txDataBuf_phy[4] = 0x02;
+            
+        diagUDS_txDataBufLength = 5;
+                           
+        udsDiag_SendPhyMessage();       
+    }   
+}
+
+on envVar udsIO_LCD_ShortAdjust_FE03_Blue
+{    
+    if(getvalue(this))
+    {
+        diagUDS_txDataBuf_phy[0] = 0x2F;
+        diagUDS_txDataBuf_phy[1] = 0xFE;
+        diagUDS_txDataBuf_phy[2] = 0x03;
+        diagUDS_txDataBuf_phy[3] = 0x03;
+        
+        diagUDS_txDataBuf_phy[4] = 0x03;
+            
+        diagUDS_txDataBufLength = 5;
+                           
+        udsDiag_SendPhyMessage();       
+    }   
+}
+
+on envVar udsIO_LCD_ShortAdjust_FE03_White
+{    
+    if(getvalue(this))
+    {
+        diagUDS_txDataBuf_phy[0] = 0x2F;
+        diagUDS_txDataBuf_phy[1] = 0xFE;
+        diagUDS_txDataBuf_phy[2] = 0x03;
+        diagUDS_txDataBuf_phy[3] = 0x03;
+        
+        diagUDS_txDataBuf_phy[4] = 0x04;
+            
+        diagUDS_txDataBufLength = 5;
+                           
+        udsDiag_SendPhyMessage();       
+    }   
+}
+
+on envVar udsIO_LCD_ShortAdjust_FE03_Sp1
+{    
+    if(getvalue(this))
+    {
+        diagUDS_txDataBuf_phy[0] = 0x2F;
+        diagUDS_txDataBuf_phy[1] = 0xFE;
+        diagUDS_txDataBuf_phy[2] = 0x03;
+        diagUDS_txDataBuf_phy[3] = 0x03;
+        
+        diagUDS_txDataBuf_phy[4] = 0x05;
+            
+        diagUDS_txDataBufLength = 5;
+                           
+        udsDiag_SendPhyMessage();       
+    }   
+}
+
+on envVar udsIO_LCD_ShortAdjust_FE03_Sp2
+{    
+    if(getvalue(this))
+    {
+        diagUDS_txDataBuf_phy[0] = 0x2F;
+        diagUDS_txDataBuf_phy[1] = 0xFE;
+        diagUDS_txDataBuf_phy[2] = 0x03;
+        diagUDS_txDataBuf_phy[3] = 0x03;
+        
+        diagUDS_txDataBuf_phy[4] = 0x06;
+            
+        diagUDS_txDataBufLength = 5;
+                           
+        udsDiag_SendPhyMessage();       
+    }   
+}
+
+on envVar udsIO_LCD_ReturnECU_FE03
+{  
+    if(getvalue(this))
+    {
+        diagUDS_txDataBuf_phy[0] = 0x2F;
+        diagUDS_txDataBuf_phy[1] = 0xFE;
+        diagUDS_txDataBuf_phy[2] = 0x03;
+        diagUDS_txDataBuf_phy[3] = 0x00;        
+        diagUDS_txDataBufLength = 4;
+                           
+        udsDiag_SendPhyMessage();       
+    }   
+}
+
+on envVar udsIO_Buzzer_ShortAdjust
+{    
+    diagUDS_txDataBuf_phy[0] = 0x2F;
+    diagUDS_txDataBuf_phy[1] = 0xFE;
+    diagUDS_txDataBuf_phy[2] = 0x08;
+    diagUDS_txDataBuf_phy[3] = 0x03;
+       
+    diagUDS_txDataBuf_phy[4] = getvalue(this);
+            
+    diagUDS_txDataBufLength = 5;
+                           
+    udsDiag_SendPhyMessage();       
+}
+
+on envVar udsIO_Buzzer_ReturnECU
+{  
+    if(getvalue(this))
+    {
+        diagUDS_txDataBuf_phy[0] = 0x2F;
+        diagUDS_txDataBuf_phy[1] = 0xFE;
+        diagUDS_txDataBuf_phy[2] = 0x08;
+        diagUDS_txDataBuf_phy[3] = 0x00;        
+        diagUDS_txDataBufLength = 4;
+                           
+        udsDiag_SendPhyMessage();       
+    }   
+}
+
+on envVar udsIO_Clock_ShortAdjust
+{    
+    diagUDS_txDataBuf_phy[0] = 0x2F;
+    diagUDS_txDataBuf_phy[1] = 0xFE;
+    diagUDS_txDataBuf_phy[2] = 0x0A;
+    diagUDS_txDataBuf_phy[3] = 0x03;
+       
+    diagUDS_txDataBuf_phy[4] = (getvalue(udsIO_Clock_CtrlOption) >> 8);
+    diagUDS_txDataBuf_phy[5] = (getvalue(udsIO_Clock_CtrlOption) & 0xFF);
+            
+    diagUDS_txDataBufLength = 6;
+                           
+    udsDiag_SendPhyMessage();       
+}
+
+on envVar udsIO_Clock_ReturnECU
+{  
+    if(getvalue(this))
+    {
+        diagUDS_txDataBuf_phy[0] = 0x2F;
+        diagUDS_txDataBuf_phy[1] = 0xFE;
+        diagUDS_txDataBuf_phy[2] = 0x0A;
+        diagUDS_txDataBuf_phy[3] = 0x00;        
+        diagUDS_txDataBufLength = 4;
+                           
+        udsDiag_SendPhyMessage();       
+    }   
+}
+
+on envVar udsIO_HighTorque_ShortAdjust
+{    
+    if(getvalue(this))
+    {
+        diagUDS_txDataBuf_phy[0] = 0x2F;
+        diagUDS_txDataBuf_phy[1] = 0xFE;
+        diagUDS_txDataBuf_phy[2] = 0x06;
+        diagUDS_txDataBuf_phy[3] = 0x03;
+           
+        diagUDS_txDataBuf_phy[4] = 0x8F;
+            
+        diagUDS_txDataBufLength = 5;
+                           
+        udsDiag_SendPhyMessage();       
+    }
+}
+
+on envVar udsIO_HighTorque_ReturnECU
+{  
+    if(getvalue(this))
+    {
+        diagUDS_txDataBuf_phy[0] = 0x2F;
+        diagUDS_txDataBuf_phy[1] = 0xFE;
+        diagUDS_txDataBuf_phy[2] = 0x06;
+        diagUDS_txDataBuf_phy[3] = 0x00;        
+        diagUDS_txDataBufLength = 4;
+                           
+        udsDiag_SendPhyMessage();       
+    }   
+}
+
+on envVar udsIO_LowTorque_ShortAdjust
+{    
+    if(getvalue(this))
+    {
+        diagUDS_txDataBuf_phy[0] = 0x2F;
+        diagUDS_txDataBuf_phy[1] = 0xFE;
+        diagUDS_txDataBuf_phy[2] = 0x07;
+        diagUDS_txDataBuf_phy[3] = 0x03;
+           
+        diagUDS_txDataBuf_phy[4] = getvalue(udsIO_LowTorque_CtrlOption);
+            
+        diagUDS_txDataBufLength = 5;
+                           
+        udsDiag_SendPhyMessage();       
+    }
+}
+
+on envVar udsIO_LowTorque_ReturnECU
+{  
+    if(getvalue(this))
+    {
+        diagUDS_txDataBuf_phy[0] = 0x2F;
+        diagUDS_txDataBuf_phy[1] = 0xFE;
+        diagUDS_txDataBuf_phy[2] = 0x07;
+        diagUDS_txDataBuf_phy[3] = 0x00;        
+        diagUDS_txDataBufLength = 4;
+                           
+        udsDiag_SendPhyMessage();       
+    }   
+}
+
+on envVar udsIO_DigOut_ShortAdjust_BIT0
+{    
+    diagUDS_txDataBuf_phy[0] = 0x2F;
+    diagUDS_txDataBuf_phy[1] = 0xFE;
+    diagUDS_txDataBuf_phy[2] = 0x0B;
+    diagUDS_txDataBuf_phy[3] = 0x03;
+       
+    diagUDS_txDataBuf_phy[4] = 0x00;
+    if( getvalue(this) )
+    {
+        diagUDS_txDataBuf_phy[4] |= 0x01;
+    }
+    if( getvalue(udsIO_DigOut_ShortAdjust_BIT1) )
+    {
+        diagUDS_txDataBuf_phy[4] |= 0x02;
+    }
+    if( getvalue(udsIO_DigOut_ShortAdjust_BIT2) )
+    {
+        diagUDS_txDataBuf_phy[4] |= 0x04;
+    }
+    if( getvalue(udsIO_DigOut_ShortAdjust_BIT3) )
+    {
+        diagUDS_txDataBuf_phy[4] |= 0x08;
+    }
+    if( getvalue(udsIO_DigOut_ShortAdjust_BIT4) )
+    {
+        diagUDS_txDataBuf_phy[4] |= 0x10;
+    }
+    if( getvalue(udsIO_DigOut_ShortAdjust_BIT5) )
+    {
+        diagUDS_txDataBuf_phy[4] |= 0x20;
+    }
+    if( getvalue(udsIO_DigOut_ShortAdjust_BIT6) )
+    {
+        diagUDS_txDataBuf_phy[4] |= 0x40;
+    }
+    if( getvalue(udsIO_DigOut_ShortAdjust_BIT7) )
+    {
+        diagUDS_txDataBuf_phy[4] |= 0x80;
+    }
+    
+    diagUDS_txDataBufLength = 5;
+                           
+    udsDiag_SendPhyMessage();       
+}
+
+on envVar udsIO_DigOut_ShortAdjust_BIT1
+{    
+    diagUDS_txDataBuf_phy[0] = 0x2F;
+    diagUDS_txDataBuf_phy[1] = 0xFE;
+    diagUDS_txDataBuf_phy[2] = 0x0B;
+    diagUDS_txDataBuf_phy[3] = 0x03;
+       
+    diagUDS_txDataBuf_phy[4] = 0x00;
+    if( getvalue(udsIO_DigOut_ShortAdjust_BIT0) )
+    {
+        diagUDS_txDataBuf_phy[4] |= 0x01;
+    }
+    if( getvalue(this) )
+    {
+        diagUDS_txDataBuf_phy[4] |= 0x02;
+    }
+    if( getvalue(udsIO_DigOut_ShortAdjust_BIT2) )
+    {
+        diagUDS_txDataBuf_phy[4] |= 0x04;
+    }
+    if( getvalue(udsIO_DigOut_ShortAdjust_BIT3) )
+    {
+        diagUDS_txDataBuf_phy[4] |= 0x08;
+    }
+    if( getvalue(udsIO_DigOut_ShortAdjust_BIT4) )
+    {
+        diagUDS_txDataBuf_phy[4] |= 0x10;
+    }
+    if( getvalue(udsIO_DigOut_ShortAdjust_BIT5) )
+    {
+        diagUDS_txDataBuf_phy[4] |= 0x20;
+    }
+    if( getvalue(udsIO_DigOut_ShortAdjust_BIT6) )
+    {
+        diagUDS_txDataBuf_phy[4] |= 0x40;
+    }
+    if( getvalue(udsIO_DigOut_ShortAdjust_BIT7) )
+    {
+        diagUDS_txDataBuf_phy[4] |= 0x80;
+    }
+    
+    diagUDS_txDataBufLength = 5;
+                           
+    udsDiag_SendPhyMessage();       
+}
+
+on envVar udsIO_DigOut_ShortAdjust_BIT2
+{    
+    diagUDS_txDataBuf_phy[0] = 0x2F;
+    diagUDS_txDataBuf_phy[1] = 0xFE;
+    diagUDS_txDataBuf_phy[2] = 0x0B;
+    diagUDS_txDataBuf_phy[3] = 0x03;
+       
+    diagUDS_txDataBuf_phy[4] = 0x00;
+    if( getvalue(udsIO_DigOut_ShortAdjust_BIT0) )
+    {
+        diagUDS_txDataBuf_phy[4] |= 0x01;
+    }
+    if( getvalue(udsIO_DigOut_ShortAdjust_BIT1) )
+    {
+        diagUDS_txDataBuf_phy[4] |= 0x02;
+    }
+    if( getvalue(this) )
+    {
+        diagUDS_txDataBuf_phy[4] |= 0x04;
+    }
+    if( getvalue(udsIO_DigOut_ShortAdjust_BIT3) )
+    {
+        diagUDS_txDataBuf_phy[4] |= 0x08;
+    }
+    if( getvalue(udsIO_DigOut_ShortAdjust_BIT4) )
+    {
+        diagUDS_txDataBuf_phy[4] |= 0x10;
+    }
+    if( getvalue(udsIO_DigOut_ShortAdjust_BIT5) )
+    {
+        diagUDS_txDataBuf_phy[4] |= 0x20;
+    }
+    if( getvalue(udsIO_DigOut_ShortAdjust_BIT6) )
+    {
+        diagUDS_txDataBuf_phy[4] |= 0x40;
+    }
+    if( getvalue(udsIO_DigOut_ShortAdjust_BIT7) )
+    {
+        diagUDS_txDataBuf_phy[4] |= 0x80;
+    }
+    
+    diagUDS_txDataBufLength = 5;
+                           
+    udsDiag_SendPhyMessage();       
+}
+
+on envVar udsIO_DigOut_ShortAdjust_BIT3
+{    
+    diagUDS_txDataBuf_phy[0] = 0x2F;
+    diagUDS_txDataBuf_phy[1] = 0xFE;
+    diagUDS_txDataBuf_phy[2] = 0x0B;
+    diagUDS_txDataBuf_phy[3] = 0x03;
+       
+    diagUDS_txDataBuf_phy[4] = 0x00;
+    if( getvalue(udsIO_DigOut_ShortAdjust_BIT0) )
+    {
+        diagUDS_txDataBuf_phy[4] |= 0x01;
+    }
+    if( getvalue(udsIO_DigOut_ShortAdjust_BIT1) )
+    {
+        diagUDS_txDataBuf_phy[4] |= 0x02;
+    }
+    if( getvalue(udsIO_DigOut_ShortAdjust_BIT2) )
+    {
+        diagUDS_txDataBuf_phy[4] |= 0x04;
+    }
+    if( getvalue(this) )
+    {
+        diagUDS_txDataBuf_phy[4] |= 0x08;
+    }
+    if( getvalue(udsIO_DigOut_ShortAdjust_BIT4) )
+    {
+        diagUDS_txDataBuf_phy[4] |= 0x10;
+    }
+    if( getvalue(udsIO_DigOut_ShortAdjust_BIT5) )
+    {
+        diagUDS_txDataBuf_phy[4] |= 0x20;
+    }
+    if( getvalue(udsIO_DigOut_ShortAdjust_BIT6) )
+    {
+        diagUDS_txDataBuf_phy[4] |= 0x40;
+    }
+    if( getvalue(udsIO_DigOut_ShortAdjust_BIT7) )
+    {
+        diagUDS_txDataBuf_phy[4] |= 0x80;
+    }
+    
+    diagUDS_txDataBufLength = 5;
+                           
+    udsDiag_SendPhyMessage();       
+}
+
+on envVar udsIO_DigOut_ShortAdjust_BIT4
+{    
+    diagUDS_txDataBuf_phy[0] = 0x2F;
+    diagUDS_txDataBuf_phy[1] = 0xFE;
+    diagUDS_txDataBuf_phy[2] = 0x0B;
+    diagUDS_txDataBuf_phy[3] = 0x03;
+       
+    diagUDS_txDataBuf_phy[4] = 0x00;
+    if( getvalue(udsIO_DigOut_ShortAdjust_BIT0) )
+    {
+        diagUDS_txDataBuf_phy[4] |= 0x01;
+    }
+    if( getvalue(udsIO_DigOut_ShortAdjust_BIT1) )
+    {
+        diagUDS_txDataBuf_phy[4] |= 0x02;
+    }
+    if( getvalue(udsIO_DigOut_ShortAdjust_BIT2) )
+    {
+        diagUDS_txDataBuf_phy[4] |= 0x04;
+    }
+    if( getvalue(udsIO_DigOut_ShortAdjust_BIT3) )
+    {
+        diagUDS_txDataBuf_phy[4] |= 0x08;
+    }
+    if( getvalue(this) )
+    {
+        diagUDS_txDataBuf_phy[4] |= 0x10;
+    }
+    if( getvalue(udsIO_DigOut_ShortAdjust_BIT5) )
+    {
+        diagUDS_txDataBuf_phy[4] |= 0x20;
+    }
+    if( getvalue(udsIO_DigOut_ShortAdjust_BIT6) )
+    {
+        diagUDS_txDataBuf_phy[4] |= 0x40;
+    }
+    if( getvalue(udsIO_DigOut_ShortAdjust_BIT7) )
+    {
+        diagUDS_txDataBuf_phy[4] |= 0x80;
+    }
+    
+    diagUDS_txDataBufLength = 5;
+                           
+    udsDiag_SendPhyMessage();       
+}
+
+on envVar udsIO_DigOut_ShortAdjust_BIT5
+{    
+    diagUDS_txDataBuf_phy[0] = 0x2F;
+    diagUDS_txDataBuf_phy[1] = 0xFE;
+    diagUDS_txDataBuf_phy[2] = 0x0B;
+    diagUDS_txDataBuf_phy[3] = 0x03;
+       
+    diagUDS_txDataBuf_phy[4] = 0x00;
+    if( getvalue(udsIO_DigOut_ShortAdjust_BIT0) )
+    {
+        diagUDS_txDataBuf_phy[4] |= 0x01;
+    }
+    if( getvalue(udsIO_DigOut_ShortAdjust_BIT1) )
+    {
+        diagUDS_txDataBuf_phy[4] |= 0x02;
+    }
+    if( getvalue(udsIO_DigOut_ShortAdjust_BIT2) )
+    {
+        diagUDS_txDataBuf_phy[4] |= 0x04;
+    }
+    if( getvalue(udsIO_DigOut_ShortAdjust_BIT3) )
+    {
+        diagUDS_txDataBuf_phy[4] |= 0x08;
+    }
+    if( getvalue(udsIO_DigOut_ShortAdjust_BIT4) )
+    {
+        diagUDS_txDataBuf_phy[4] |= 0x10;
+    }
+    if( getvalue(this) )
+    {
+        diagUDS_txDataBuf_phy[4] |= 0x20;
+    }
+    if( getvalue(udsIO_DigOut_ShortAdjust_BIT6) )
+    {
+        diagUDS_txDataBuf_phy[4] |= 0x40;
+    }
+    if( getvalue(udsIO_DigOut_ShortAdjust_BIT7) )
+    {
+        diagUDS_txDataBuf_phy[4] |= 0x80;
+    }
+    
+    diagUDS_txDataBufLength = 5;
+                           
+    udsDiag_SendPhyMessage();       
+}
+
+on envVar udsIO_DigOut_ShortAdjust_BIT6
+{    
+    diagUDS_txDataBuf_phy[0] = 0x2F;
+    diagUDS_txDataBuf_phy[1] = 0xFE;
+    diagUDS_txDataBuf_phy[2] = 0x0B;
+    diagUDS_txDataBuf_phy[3] = 0x03;
+       
+    diagUDS_txDataBuf_phy[4] = 0x00;
+    if( getvalue(udsIO_DigOut_ShortAdjust_BIT0) )
+    {
+        diagUDS_txDataBuf_phy[4] |= 0x01;
+    }
+    if( getvalue(udsIO_DigOut_ShortAdjust_BIT1) )
+    {
+        diagUDS_txDataBuf_phy[4] |= 0x02;
+    }
+    if( getvalue(udsIO_DigOut_ShortAdjust_BIT2) )
+    {
+        diagUDS_txDataBuf_phy[4] |= 0x04;
+    }
+    if( getvalue(udsIO_DigOut_ShortAdjust_BIT3) )
+    {
+        diagUDS_txDataBuf_phy[4] |= 0x08;
+    }
+    if( getvalue(udsIO_DigOut_ShortAdjust_BIT4) )
+    {
+        diagUDS_txDataBuf_phy[4] |= 0x10;
+    }
+    if( getvalue(udsIO_DigOut_ShortAdjust_BIT5) )
+    {
+        diagUDS_txDataBuf_phy[4] |= 0x20;
+    }
+    if( getvalue(this) )
+    {
+        diagUDS_txDataBuf_phy[4] |= 0x40;
+    }
+    if( getvalue(udsIO_DigOut_ShortAdjust_BIT7) )
+    {
+        diagUDS_txDataBuf_phy[4] |= 0x80;
+    }
+    
+    diagUDS_txDataBufLength = 5;
+                           
+    udsDiag_SendPhyMessage();       
+}
+
+on envVar udsIO_DigOut_ShortAdjust_BIT7
+{    
+    diagUDS_txDataBuf_phy[0] = 0x2F;
+    diagUDS_txDataBuf_phy[1] = 0xFE;
+    diagUDS_txDataBuf_phy[2] = 0x0B;
+    diagUDS_txDataBuf_phy[3] = 0x03;
+       
+    diagUDS_txDataBuf_phy[4] = 0x00;
+    if( getvalue(udsIO_DigOut_ShortAdjust_BIT0) )
+    {
+        diagUDS_txDataBuf_phy[4] |= 0x01;
+    }
+    if( getvalue(udsIO_DigOut_ShortAdjust_BIT1) )
+    {
+        diagUDS_txDataBuf_phy[4] |= 0x02;
+    }
+    if( getvalue(udsIO_DigOut_ShortAdjust_BIT2) )
+    {
+        diagUDS_txDataBuf_phy[4] |= 0x04;
+    }
+    if( getvalue(udsIO_DigOut_ShortAdjust_BIT3) )
+    {
+        diagUDS_txDataBuf_phy[4] |= 0x08;
+    }
+    if( getvalue(udsIO_DigOut_ShortAdjust_BIT4) )
+    {
+        diagUDS_txDataBuf_phy[4] |= 0x10;
+    }
+    if( getvalue(udsIO_DigOut_ShortAdjust_BIT5) )
+    {
+        diagUDS_txDataBuf_phy[4] |= 0x20;
+    }
+    if( getvalue(udsIO_DigOut_ShortAdjust_BIT6) )
+    {
+        diagUDS_txDataBuf_phy[4] |= 0x40;
+    }
+    if( getvalue(this) )
+    {
+        diagUDS_txDataBuf_phy[4] |= 0x80;
+    }
+    
+    diagUDS_txDataBufLength = 5;
+                           
+    udsDiag_SendPhyMessage();       
+}
+
+on envVar udsIO_DigOut_ReturnECU
+{  
+    if(getvalue(this))
+    {
+        diagUDS_txDataBuf_phy[0] = 0x2F;
+        diagUDS_txDataBuf_phy[1] = 0xFE;
+        diagUDS_txDataBuf_phy[2] = 0x0B;
+        diagUDS_txDataBuf_phy[3] = 0x00;        
+        diagUDS_txDataBufLength = 4;
+                           
+        udsDiag_SendPhyMessage();       
+    }   
+}
+
+on envVar udsIO_TT_LeftTurn
+{
+    diagUDS_IOCntrlTellTale_Extended[0] &= 0xFC;
+    diagUDS_IOCntrlTellTale_Extended[0] |= (getvalue(this) << 0) ;
+    putvalue(udsIO_Telltale_CtrlOption, diagUDS_IOCntrlTellTale_Extended, 8);
+}
+
+
+on envVar udsIO_TT_RightTurn
+{
+    diagUDS_IOCntrlTellTale_Extended[0] &= 0xF3;
+    diagUDS_IOCntrlTellTale_Extended[0] |= (getvalue(this) << 2);
+    putvalue(udsIO_Telltale_CtrlOption, diagUDS_IOCntrlTellTale_Extended, 8);
+}
+
+on envVar udsIO_TT_FrontFog
+{
+    diagUDS_IOCntrlTellTale_Extended[0] &= 0xCF;
+    diagUDS_IOCntrlTellTale_Extended[0] |= (getvalue(this) << 4);
+    putvalue(udsIO_Telltale_CtrlOption, diagUDS_IOCntrlTellTale_Extended, 8);
+}
+
+on envVar udsIO_TT_RearFog
+{
+    diagUDS_IOCntrlTellTale_Extended[0] &= 0x3F;
+    diagUDS_IOCntrlTellTale_Extended[0] |= (getvalue(this) << 6);
+    putvalue(udsIO_Telltale_CtrlOption, diagUDS_IOCntrlTellTale_Extended, 8);
+}
+
+on envVar udsIO_TT_HighBeam
+{
+    diagUDS_IOCntrlTellTale_Extended[1] &= 0xFC;
+    diagUDS_IOCntrlTellTale_Extended[1] |= (getvalue(this) << 0);
+    putvalue(udsIO_Telltale_CtrlOption, diagUDS_IOCntrlTellTale_Extended, 8);
+}
+
+on envVar udsIO_TT_ABS
+{
+    diagUDS_IOCntrlTellTale_Extended[1] &= 0xF3;
+    diagUDS_IOCntrlTellTale_Extended[1] |= (getvalue(this) << 2);
+    putvalue(udsIO_Telltale_CtrlOption, diagUDS_IOCntrlTellTale_Extended, 8);
+}
+
+on envVar udsIO_TT_AutoCruise
+{
+    diagUDS_IOCntrlTellTale_Extended[1] &= 0xCF;
+    diagUDS_IOCntrlTellTale_Extended[1] |= (getvalue(this) << 4);
+    putvalue(udsIO_Telltale_CtrlOption, diagUDS_IOCntrlTellTale_Extended, 8);
+}
+
+on envVar udsIO_TT_EngineCoolant
+{
+    diagUDS_IOCntrlTellTale_Extended[1] &= 0x3F;
+    diagUDS_IOCntrlTellTale_Extended[1] |= (getvalue(this) << 6);
+    putvalue(udsIO_Telltale_CtrlOption, diagUDS_IOCntrlTellTale_Extended, 8);
+}
+
+on envVar udsIO_TT_IMMO
+{
+    diagUDS_IOCntrlTellTale_Extended[2] &= 0xFC;
+    diagUDS_IOCntrlTellTale_Extended[2] |= (getvalue(this) << 0);
+    putvalue(udsIO_Telltale_CtrlOption, diagUDS_IOCntrlTellTale_Extended, 8);
+}
+
+on envVar udsIO_TT_OilPressure
+{
+    diagUDS_IOCntrlTellTale_Extended[2] &= 0xF3;
+    diagUDS_IOCntrlTellTale_Extended[2] |= (getvalue(this) << 2);
+    putvalue(udsIO_Telltale_CtrlOption, diagUDS_IOCntrlTellTale_Extended, 8);
+}
+
+on envVar udsIO_TT_PepsFault
+{
+    diagUDS_IOCntrlTellTale_Extended[2] &= 0xCF;
+    diagUDS_IOCntrlTellTale_Extended[2] |= (getvalue(this) << 4);
+    putvalue(udsIO_Telltale_CtrlOption, diagUDS_IOCntrlTellTale_Extended, 8);
+}
+
+on envVar udsIO_TT_SVS
+{
+    diagUDS_IOCntrlTellTale_Extended[2] &= 0x3F;
+    diagUDS_IOCntrlTellTale_Extended[2] |= (getvalue(this) << 6);
+    putvalue(udsIO_Telltale_CtrlOption, diagUDS_IOCntrlTellTale_Extended, 8);
+}
+
+on envVar udsIO_TT_LowFuel
+{
+    diagUDS_IOCntrlTellTale_Extended[3] &= 0xFC;
+    diagUDS_IOCntrlTellTale_Extended[3] |= (getvalue(this) << 0);
+    putvalue(udsIO_Telltale_CtrlOption, diagUDS_IOCntrlTellTale_Extended, 8);
+}
+
+on envVar udsIO_TT_ApbStatus
+{
+    diagUDS_IOCntrlTellTale_Extended[3] &= 0xF3;
+    diagUDS_IOCntrlTellTale_Extended[3] |= (getvalue(this) << 2);
+    putvalue(udsIO_Telltale_CtrlOption, diagUDS_IOCntrlTellTale_Extended, 8);
+}
+
+on envVar udsIO_TT_EpsRed
+{
+    diagUDS_IOCntrlTellTale_Extended[3] &= 0xCF;
+    diagUDS_IOCntrlTellTale_Extended[3] |= (getvalue(this) << 4);
+    putvalue(udsIO_Telltale_CtrlOption, diagUDS_IOCntrlTellTale_Extended, 8);
+}
+
+on envVar udsIO_TT_EBD
+{
+    diagUDS_IOCntrlTellTale_Extended[3] &= 0x3F;
+    diagUDS_IOCntrlTellTale_Extended[3] |= (getvalue(this) << 6);
+    putvalue(udsIO_Telltale_CtrlOption, diagUDS_IOCntrlTellTale_Extended, 8);
+}
+
+on envVar udsIO_TT_DrAirbag
+{
+    diagUDS_IOCntrlTellTale_Extended[4] &= 0xFC;
+    diagUDS_IOCntrlTellTale_Extended[4] |= (getvalue(this) << 0);
+    putvalue(udsIO_Telltale_CtrlOption, diagUDS_IOCntrlTellTale_Extended, 8);
+}
+
+on envVar udsIO_TT_Charge
+{
+    diagUDS_IOCntrlTellTale_Extended[4] &= 0xF3;
+    diagUDS_IOCntrlTellTale_Extended[4] |= (getvalue(this) << 2);
+    putvalue(udsIO_Telltale_CtrlOption, diagUDS_IOCntrlTellTale_Extended, 8);
+}
+
+on envVar udsIO_TT_OBD
+{
+    diagUDS_IOCntrlTellTale_Extended[4] &= 0xCF;
+    diagUDS_IOCntrlTellTale_Extended[4] |= (getvalue(this) << 4);
+    putvalue(udsIO_Telltale_CtrlOption, diagUDS_IOCntrlTellTale_Extended, 8);
+}
+
+on envVar udsIO_TT_TPMS
+{
+    diagUDS_IOCntrlTellTale_Extended[4] &= 0x3F;
+    diagUDS_IOCntrlTellTale_Extended[4] |= (getvalue(this) << 6);
+    putvalue(udsIO_Telltale_CtrlOption, diagUDS_IOCntrlTellTale_Extended, 8);
+}
+
+on envVar udsIO_TT_DrSeatbelt
+{   
+    diagUDS_IOCntrlTellTale_Extended[5] &= 0xFC;
+    diagUDS_IOCntrlTellTale_Extended[5] |= (getvalue(this) << 0);
+    putvalue(udsIO_Telltale_CtrlOption, diagUDS_IOCntrlTellTale_Extended, 8);
+}
+
+on envVar udsIO_TT_PsSeatbelt
+{
+    diagUDS_IOCntrlTellTale_Extended[5] &= 0xF3;
+    diagUDS_IOCntrlTellTale_Extended[5] |= (getvalue(this) << 2);
+    putvalue(udsIO_Telltale_CtrlOption, diagUDS_IOCntrlTellTale_Extended, 8);
+}
+
+on envVar udsIO_TT_ESP
+{
+    diagUDS_IOCntrlTellTale_Extended[5] &= 0xCF;
+    diagUDS_IOCntrlTellTale_Extended[5] |= (getvalue(this) << 4);
+    putvalue(udsIO_Telltale_CtrlOption, diagUDS_IOCntrlTellTale_Extended, 8);
+}
+
+on envVar udsIO_TT_ESPOFF
+{
+    diagUDS_IOCntrlTellTale_Extended[5] &= 0x3F;
+    diagUDS_IOCntrlTellTale_Extended[5] |= (getvalue(this) << 6);
+    putvalue(udsIO_Telltale_CtrlOption, diagUDS_IOCntrlTellTale_Extended, 8);
+}
+
+on envVar udsIO_TT_ESCL
+{
+    diagUDS_IOCntrlTellTale_Extended[6] &= 0xFC;
+    diagUDS_IOCntrlTellTale_Extended[6] |= (getvalue(this) << 0);
+    putvalue(udsIO_Telltale_CtrlOption, diagUDS_IOCntrlTellTale_Extended, 8);
+}
+
+on envVar udsIO_TT_PosLamp
+{
+    diagUDS_IOCntrlTellTale_Extended[6] &= 0xF3;
+    diagUDS_IOCntrlTellTale_Extended[6] |= (getvalue(this) << 2);
+    putvalue(udsIO_Telltale_CtrlOption, diagUDS_IOCntrlTellTale_Extended, 8);
+}
+
+on envVar udsIO_TT_ApbMal
+{
+    diagUDS_IOCntrlTellTale_Extended[6] &= 0xCF;
+    diagUDS_IOCntrlTellTale_Extended[6] |= (getvalue(this) << 4);
+    putvalue(udsIO_Telltale_CtrlOption, diagUDS_IOCntrlTellTale_Extended, 8);
+}
+
+on envVar udsIO_TT_GearShift
+{
+    diagUDS_IOCntrlTellTale_Extended[6] &= 0x3F;
+    diagUDS_IOCntrlTellTale_Extended[6] |= (getvalue(this) << 6);
+    putvalue(udsIO_Telltale_CtrlOption, diagUDS_IOCntrlTellTale_Extended, 8);
+}
+
+on envVar udsIO_TT_EpsYellow
+{
+    diagUDS_IOCntrlTellTale_Extended[7] &= 0xFC;
+    diagUDS_IOCntrlTellTale_Extended[7] |= (getvalue(this)<<0);
+    putvalue(udsIO_Telltale_CtrlOption, diagUDS_IOCntrlTellTale_Extended, 8);
+}
+
+
+
+on envVar udsCommCtrl_RxCommand
+{
+    if(getvalue(udsMsgAddressing) == 0)
+    {
+        diagUDS_txDataBuf_phy[0] = 0x28;
+        
+        diagUDS_txDataBuf_phy[1] = 0x00;
+        if( getvalue(this) )
+        {
+            diagUDS_txDataBuf_phy[1] |= 0x02;
+        }
+        if( getvalue(udsCommCtrl_TxCommand) )
+        {
+            diagUDS_txDataBuf_phy[1] |= 0x01;
+        }
+        
+        if( getvalue(udsSuppressBit) > 0 )
+        {
+            diagUDS_txDataBuf_phy[1] += 0x80;
+        }
+        
+        diagUDS_txDataBuf_phy[2] = getvalue(udsCommCtrl_MsgGroup);
+            
+        diagUDS_txDataBufLength = 3;
+                           
+        udsDiag_SendPhyMessage();
+    }
+    else
+    {
+        
+        diagUDS_txDataBuf_func[0] = 0x28;
+        
+        diagUDS_txDataBuf_func[1] = 0x00;
+        if( getvalue(this) )
+        {
+            diagUDS_txDataBuf_func[1] |= 0x02;
+        }
+        if( getvalue(udsCommCtrl_TxCommand) )
+        {
+            diagUDS_txDataBuf_func[1] |= 0x01;
+        }
+        
+        if( getvalue(udsSuppressBit) > 0 )
+        {
+            diagUDS_txDataBuf_func[1] += 0x80;
+        }
+        
+        diagUDS_txDataBuf_func[2] = getvalue(udsCommCtrl_MsgGroup);
+            
+        diagUDS_txDataBufLength = 3;
+                           
+        udsDiag_SendFunMessage();
+    }
+}
+
+on envVar udsCommCtrl_TxCommand
+{
+    if(getvalue(udsMsgAddressing) == 0)
+    {
+        diagUDS_txDataBuf_phy[0] = 0x28;
+        
+        diagUDS_txDataBuf_phy[1] = 0x00;
+        if( getvalue(this) )
+        {
+            diagUDS_txDataBuf_phy[1] |= 0x01;
+        }
+        if( getvalue(udsCommCtrl_RxCommand) )
+        {
+            diagUDS_txDataBuf_phy[1] |= 0x02;
+        }
+        
+        if( getvalue(udsSuppressBit) > 0 )
+        {
+            diagUDS_txDataBuf_phy[1] += 0x80;
+        }
+        
+        diagUDS_txDataBuf_phy[2] = getvalue(udsCommCtrl_MsgGroup);
+            
+        diagUDS_txDataBufLength = 3;
+                           
+        udsDiag_SendPhyMessage();
+    }
+    else
+    {
+        
+        diagUDS_txDataBuf_func[0] = 0x28;
+        
+        diagUDS_txDataBuf_func[1] = 0x00;
+        if( getvalue(this) )
+        {
+            diagUDS_txDataBuf_func[1] |= 0x01;
+        }
+        if( getvalue(udsCommCtrl_RxCommand) )
+        {
+            diagUDS_txDataBuf_func[1] |= 0x02;
+        }
+        
+        if( getvalue(udsSuppressBit) > 0 )
+        {
+            diagUDS_txDataBuf_func[1] += 0x80;
+        }
+        
+        diagUDS_txDataBuf_func[2] = getvalue(udsCommCtrl_MsgGroup);
+            
+        diagUDS_txDataBufLength = 3;
+                           
+        udsDiag_SendFunMessage();
+    }
+}
+
+on envVar udsDTCCtrl_Option
+{
+    if(getvalue(udsMsgAddressing) == 0)
+    {
+        diagUDS_txDataBuf_phy[0] = 0x85;
+        
+        diagUDS_txDataBuf_phy[1] = getvalue(this);
+                    
+        diagUDS_txDataBufLength = 2;
+                           
+        udsDiag_SendPhyMessage();
+    }
+    else
+    {
+        diagUDS_txDataBuf_func[0] = 0x85;
+        
+        diagUDS_txDataBuf_func[1] = getvalue(this);
+            
+        diagUDS_txDataBufLength = 2;
+                           
+        udsDiag_SendFunMessage();
+    }  
+}
+
+on envVar udsSingleShotPhy
+{
+    if( getvalue(this) >0 )
+    {     
+        getvalue(udsPhyRequestData, diagUDS_txDataBuf_phy, 0);
+        diagUDS_txDataBufLength = getValueSize(udsPhyRequestData);
+        udsDiag_SendPhyMessage();
+    }
+}
+
+on envVar udsSingleShotFun
+{
+    if( getvalue(this) >0 )
+    {
+        getvalue(udsFunRequestData, diagUDS_txDataBuf_func, 0);
+        diagUDS_txDataBufLength = getValueSize(udsFunRequestData);
+        udsDiag_SendFunMessage();
+    }
+}
+
+on message 0x738
+{
+    byte i;
+    
+    switch ( this.byte(0) & 0xF0 )
+    {
+        case 0x00: /* SF */
+            diagUDS_rxDataBufLength = this.byte(0) & 0x0F;
+            
+            for( i = 1; i < 8; i++ )                                                        /* Get SF Data                  */
+            {
+                diagUDS_rxDataBuf[i-1] = this.byte(i);
+            }
+            
+            udsDiag_SetRxIndication();
+
+            diagUDS_rxDataLength = 0;                                                       /* clear received data length   */
+            diagUDS_rxSequenceNum = 0;
+            break;
+        case 0x10: /* FF */
+            
+            diagUDS_rxDataBufLength = ((this.byte(0) & 0x0F) << 8) + this.byte(1);            /* Get Data Length              */
+            
+            write("%d", diagUDS_rxDataBufLength);
+            for( i = 2; i < 8; i++ )                                                        /* Get FF Data                  */
+            {
+                diagUDS_rxDataBuf[i-2] = this.byte(i);
+            }
+            
+            diagUDS_rxDataLength = 6;
+            diagUDS_rxSequenceNum = 0;
+            
+            if(getvalue(udsMsgAddressing) == 0)                                             /* Send FC Frame                */
+            {
+                diagUDS_txmsg_phy.byte(0) = 0x30;
+                diagUDS_txmsg_phy.byte(1) = BS;
+                diagUDS_txmsg_phy.byte(2) = STMIN;
+                diagUDS_txmsg_phy.byte(3) = FILLDATA;
+                diagUDS_txmsg_phy.byte(4) = FILLDATA;
+                diagUDS_txmsg_phy.byte(5) = FILLDATA;
+                diagUDS_txmsg_phy.byte(6) = FILLDATA;
+                diagUDS_txmsg_phy.byte(7) = FILLDATA;
+                diagUDS_txmsg_phy.dlc = 8;
+                output(diagUDS_txmsg_phy);
+            }
+            else
+            {
+                diagUDS_txmsg_fun.byte(0) = 0x30;
+                diagUDS_txmsg_fun.byte(1) = BS;
+                diagUDS_txmsg_fun.byte(2) = STMIN;
+                diagUDS_txmsg_fun.byte(3) = FILLDATA;
+                diagUDS_txmsg_fun.byte(4) = FILLDATA;
+                diagUDS_txmsg_fun.byte(5) = FILLDATA;
+                diagUDS_txmsg_fun.byte(6) = FILLDATA;
+                diagUDS_txmsg_fun.byte(7) = FILLDATA;
+                diagUDS_txmsg_fun.dlc = 8;
+                output(diagUDS_txmsg_fun);
+            }
+            break;
+        case 0x20:
+            /* CF */
+            if( (this.byte(0) & 0x0F) == 0x00 )
+            {
+                if(diagUDS_rxDataBufLength > (diagUDS_rxDataLength + 7))
+                {
+                    for(i=1; i<8; i++)
+                    {
+                        diagUDS_rxDataBuf[diagUDS_rxDataLength + i - 1] = this.byte(i);
+                    }
+                    diagUDS_rxDataLength = diagUDS_rxDataLength + 7;
+                }
+                else
+                {
+                    for(i=1;i<= (diagUDS_rxDataBufLength-diagUDS_rxDataLength);i++)
+                    {
+                        diagUDS_rxDataBuf[diagUDS_rxDataLength + i - 1] = this.byte(i);
+                    }
+                    diagUDS_rxDataLength = diagUDS_rxDataBufLength;
+                    udsDiag_SetRxIndication();
+                }
+                diagUDS_rxSequenceNum = this.byte(0) & 0x0F;
+            }
+            else if( (this.byte(0) & 0x0F) == (diagUDS_rxSequenceNum + 1) )
+            {
+                if(diagUDS_rxDataBufLength > (diagUDS_rxDataLength + 7))
+                {
+                    for(i=1; i<8; i++)
+                    {
+                        diagUDS_rxDataBuf[diagUDS_rxDataLength + i- 1 ] = this.byte(i);
+                    }
+                    diagUDS_rxDataLength = diagUDS_rxDataLength + 7;
+                }
+                else
+                {
+                    for(i=1;i<= (diagUDS_rxDataBufLength-diagUDS_rxDataLength);i++)
+                    {
+                        diagUDS_rxDataBuf[diagUDS_rxDataLength + i - 1] = this.byte(i);
+                    }
+                    diagUDS_rxDataLength = diagUDS_rxDataBufLength;
+                    udsDiag_SetRxIndication();
+                }
+                diagUDS_rxSequenceNum = this.byte(0) & 0x0F;
+            }
+            else
+            {
+                write("Incorrect Sequence Number, Message Abort");
+            }    
+            
+            if( (this.byte(0) & 0x0F) >= BS )
+            {
+                if( udsDiag_TestRxIndication() == 0 )
+                {
+                    if(getvalue(udsMsgAddressing) == 0)                                             /* Send FC Frame                */
+                    {
+                        diagUDS_txmsg_phy.byte(0) = 0x30;
+                        diagUDS_txmsg_phy.byte(1) = BS;
+                        diagUDS_txmsg_phy.byte(2) = STMIN;
+                        diagUDS_txmsg_phy.byte(3) = FILLDATA;
+                        diagUDS_txmsg_phy.byte(4) = FILLDATA;
+                        diagUDS_txmsg_phy.byte(5) = FILLDATA;
+                        diagUDS_txmsg_phy.byte(6) = FILLDATA;
+                        diagUDS_txmsg_phy.byte(7) = FILLDATA;
+                        diagUDS_txmsg_phy.dlc = 8;
+                        output(diagUDS_txmsg_phy);
+                    }
+                    else
+                    {
+                        diagUDS_txmsg_fun.byte(0) = 0x30;
+                        diagUDS_txmsg_fun.byte(1) = BS;
+                        diagUDS_txmsg_fun.byte(2) = STMIN;
+                        diagUDS_txmsg_fun.byte(3) = FILLDATA;
+                        diagUDS_txmsg_fun.byte(4) = FILLDATA;
+                        diagUDS_txmsg_fun.byte(5) = FILLDATA;
+                        diagUDS_txmsg_fun.byte(6) = FILLDATA;
+                        diagUDS_txmsg_fun.byte(7) = FILLDATA;
+                        diagUDS_txmsg_fun.dlc = 8;
+                        output(diagUDS_txmsg_fun);
+                    }
+                }
+            }
+            break;
+        case 0x30:
+            /* FC */
+            diagUDS_STmin = this.byte(2);
+            setTimer(diagUDS_TimerSendCF, diagUDS_STmin);
+            break;
+        default:
+            break;
+    }
+    
+    udsDiagMain();    
+}
+
+
+
+void udsDiagMain()
+{
+    long i;
+    byte diagUDS_Seed[4];
+    byte diagUDS_Key[4];
+    long diag_seed;
+    long diag_key;
+    long diag_high_seed;
+    long diag_low_seed;
+    long dtc;
+    byte dtcstatus;
+    char dtcCodeName[32];
+    long dtcnum;
+    
+    long tmpVal;
+    
+    long did;
+    
+    if( udsDiag_TestRxIndication() > 0 )
+    {
+        udsDiag_ClrRxIndication();
+
+        putvalue(udsPhyResponseData,diagUDS_rxDataBuf, diagUDS_rxDataBufLength);
+       
+        switch(diagUDS_rxDataBuf[0])
+        {
+            case 0x7F:
+                /* Negative Response */
+                break;
+            case 0x10 + 0x40:
+                diagUDS_Session = diagUDS_rxDataBuf[1];
+                
+                if( (pcSaveReadDIDFlag == 1) || (pcSaveWriteDIDFlag == 1) )
+                {
+                    pcEOLRequestSeed();
+                }
+                else if( gaugeCali_start_seqence == 1)
+                {
+                    pcEOLRequestSeed();
+                }
+                else if(runin_start_sequence == 1 )
+                {
+                    pcEOLRequestSeed();
+                }
+                break;
+            case 0x11 + 0x40:
+                break;
+            case 0x14 + 0x40:
+                break;
+            case 0x19 + 0x40:
+                switch(diagUDS_rxDataBuf[1])
+                {
+                    case 0x01:
+                        putvalue(udsReportDTC_MaskResp, diagUDS_rxDataBuf[2]);
+                        putvalue(udsReportDTC_FormatResp, diagUDS_rxDataBuf[3]);
+                        
+                        dtcnum = (diagUDS_rxDataBuf[4] * 256) + diagUDS_rxDataBuf[5];
+                        
+                        putvalue(udsReportDTC_NumResp, dtcnum );
+                        break;
+                    case 0x02:
+                        putvalue(udsReportDTC_MaskResp, diagUDS_rxDataBuf[2]);
+                        
+                        for( i = 3; i < diagUDS_rxDataBufLength; )
+                        {
+                            dtc = diagUDS_rxDataBuf[i] << 16;
+                            i ++;
+                            dtc = dtc + (diagUDS_rxDataBuf[i] << 8);
+                            i ++;
+                            dtc = dtc + diagUDS_rxDataBuf[i];
+                            i ++;
+                            
+                            udsDiag_GetDTCName(dtc);
+                            
+                            getvalue(tmpStr, dtcCodeName);
+                            
+                            dtcstatus = diagUDS_rxDataBuf[i];
+                            i ++;
+                            
+                            dtcnum = ((i-3)/4);
+                            putvalue(udsReportDTC_NumResp, dtcnum );
+                            
+                            switch( ((i-3)/4) - 1 )
+                            {
+                                case 0:
+                                    putvalue(udsReportDTC_DTCCode_00, dtc);
+                                    putvalue(udsReportDTC_DTCName_00, dtcCodeName);
+                                    putvalue(udsReportDTC_DTCStatue_00,dtcstatus);
+                                    break;
+                                case 1:
+                                    putvalue(udsReportDTC_DTCCode_01, dtc);
+                                    putvalue(udsReportDTC_DTCName_01, dtcCodeName);
+                                    putvalue(udsReportDTC_DTCStatue_01,dtcstatus);
+                                    break;  
+                                case 2:
+                                    putvalue(udsReportDTC_DTCCode_02, dtc);
+                                    putvalue(udsReportDTC_DTCName_02, dtcCodeName);
+                                    putvalue(udsReportDTC_DTCStatue_02,dtcstatus);
+                                    break;     
+                                case 3:
+                                    putvalue(udsReportDTC_DTCCode_03, dtc);
+                                    putvalue(udsReportDTC_DTCName_03, dtcCodeName);
+                                    putvalue(udsReportDTC_DTCStatue_03,dtcstatus);
+                                    break;   
+                                case 4:
+                                    putvalue(udsReportDTC_DTCCode_04, dtc);
+                                    putvalue(udsReportDTC_DTCName_04, dtcCodeName);
+                                    putvalue(udsReportDTC_DTCStatue_04,dtcstatus);
+                                    break;
+                                case 5:
+                                    putvalue(udsReportDTC_DTCCode_05, dtc);
+                                    putvalue(udsReportDTC_DTCName_05, dtcCodeName);
+                                    putvalue(udsReportDTC_DTCStatue_05,dtcstatus);
+                                    break;
+                                case 6:
+                                    putvalue(udsReportDTC_DTCCode_06, dtc);
+                                    putvalue(udsReportDTC_DTCName_06, dtcCodeName);
+                                    putvalue(udsReportDTC_DTCStatue_06,dtcstatus);
+                                    break;  
+                                case 7:
+                                    putvalue(udsReportDTC_DTCCode_07, dtc);
+                                    putvalue(udsReportDTC_DTCName_07, dtcCodeName);
+                                    putvalue(udsReportDTC_DTCStatue_07,dtcstatus);
+                                    break;     
+                                case 8:
+                                    putvalue(udsReportDTC_DTCCode_08, dtc);
+                                    putvalue(udsReportDTC_DTCName_08, dtcCodeName);
+                                    putvalue(udsReportDTC_DTCStatue_08,dtcstatus);
+                                    break;   
+                                case 9:
+                                    putvalue(udsReportDTC_DTCCode_09, dtc);
+                                    putvalue(udsReportDTC_DTCName_09, dtcCodeName);
+                                    putvalue(udsReportDTC_DTCStatue_09,dtcstatus);
+                                    break;
+                                case 10:
+                                    putvalue(udsReportDTC_DTCCode_10, dtc);
+                                    putvalue(udsReportDTC_DTCName_10, dtcCodeName);
+                                    putvalue(udsReportDTC_DTCStatue_10,dtcstatus);
+                                    break;
+                                case 11:
+                                    putvalue(udsReportDTC_DTCCode_11, dtc);
+                                    putvalue(udsReportDTC_DTCName_11, dtcCodeName);
+                                    putvalue(udsReportDTC_DTCStatue_11,dtcstatus);
+                                    break;  
+                                case 12:
+                                    putvalue(udsReportDTC_DTCCode_12, dtc);
+                                    putvalue(udsReportDTC_DTCName_12, dtcCodeName);
+                                    putvalue(udsReportDTC_DTCStatue_12,dtcstatus);
+                                    break;     
+                                case 13:
+                                    putvalue(udsReportDTC_DTCCode_13, dtc);
+                                    putvalue(udsReportDTC_DTCName_13, dtcCodeName);
+                                    putvalue(udsReportDTC_DTCStatue_13,dtcstatus);
+                                    break;   
+                                case 14:
+                                    putvalue(udsReportDTC_DTCCode_14, dtc);
+                                    putvalue(udsReportDTC_DTCName_14, dtcCodeName);
+                                    putvalue(udsReportDTC_DTCStatue_14,dtcstatus);
+                                    break;
+                                case 15:
+                                    putvalue(udsReportDTC_DTCCode_15, dtc);
+                                    putvalue(udsReportDTC_DTCName_15, dtcCodeName);
+                                    putvalue(udsReportDTC_DTCStatue_15,dtcstatus);
+                                    break;
+                                case 16:
+                                    putvalue(udsReportDTC_DTCCode_16, dtc);
+                                    putvalue(udsReportDTC_DTCName_16, dtcCodeName);
+                                    putvalue(udsReportDTC_DTCStatue_16,dtcstatus);
+                                    break;  
+                                case 17:
+                                    putvalue(udsReportDTC_DTCCode_17, dtc);
+                                    putvalue(udsReportDTC_DTCName_17, dtcCodeName);
+                                    putvalue(udsReportDTC_DTCStatue_17,dtcstatus);
+                                    break;     
+                                case 18:
+                                    putvalue(udsReportDTC_DTCCode_18, dtc);
+                                    putvalue(udsReportDTC_DTCName_18, dtcCodeName);
+                                    putvalue(udsReportDTC_DTCStatue_18,dtcstatus);
+                                    break;   
+                                case 19:
+                                    putvalue(udsReportDTC_DTCCode_19, dtc);
+                                    putvalue(udsReportDTC_DTCName_19, dtcCodeName);
+                                    putvalue(udsReportDTC_DTCStatue_19,dtcstatus);
+                                    break;                                    
+                            }
+                        }
+                        break;
+                    case 0x0A:
+                        putvalue(udsReportDTC_MaskResp, diagUDS_rxDataBuf[2]);
+                                    
+                        for( i = 3; i < diagUDS_rxDataBufLength; )
+                        {
+                            dtc = diagUDS_rxDataBuf[i] << 16;
+                            i ++;
+                            dtc = dtc + (diagUDS_rxDataBuf[i] << 8);
+                            i ++;
+                            dtc = dtc + diagUDS_rxDataBuf[i];
+                            i ++;
+                            
+                            udsDiag_GetDTCName(dtc);
+                            getvalue(tmpStr, dtcCodeName);
+                            
+                            dtcstatus = diagUDS_rxDataBuf[i];
+                            i ++;
+                            
+                            dtcnum = ((i-3)/4);
+                            putvalue(udsReportDTC_NumResp, dtcnum );
+                            
+                            switch( (i-3)/4 - 1 )
+                            {
+                                case 0:
+                                    putvalue(udsReportDTC_DTCCode_00, dtc);
+                                    putvalue(udsReportDTC_DTCName_00, dtcCodeName);
+                                    putvalue(udsReportDTC_DTCStatue_00,dtcstatus);
+                                    break;
+                                case 1:
+                                    putvalue(udsReportDTC_DTCCode_01, dtc);
+                                    putvalue(udsReportDTC_DTCName_01, dtcCodeName);
+                                    putvalue(udsReportDTC_DTCStatue_01,dtcstatus);
+                                    break;  
+                                case 2:
+                                    putvalue(udsReportDTC_DTCCode_02, dtc);
+                                    putvalue(udsReportDTC_DTCName_02, dtcCodeName);
+                                    putvalue(udsReportDTC_DTCStatue_02,dtcstatus);
+                                    break;     
+                                case 3:
+                                    putvalue(udsReportDTC_DTCCode_03, dtc);
+                                    putvalue(udsReportDTC_DTCName_03, dtcCodeName);
+                                    putvalue(udsReportDTC_DTCStatue_03,dtcstatus);
+                                    break;   
+                                case 4:
+                                    putvalue(udsReportDTC_DTCCode_04, dtc);
+                                    putvalue(udsReportDTC_DTCName_04, dtcCodeName);
+                                    putvalue(udsReportDTC_DTCStatue_04,dtcstatus);
+                                    break;
+                                case 5:
+                                    putvalue(udsReportDTC_DTCCode_05, dtc);
+                                    putvalue(udsReportDTC_DTCName_05, dtcCodeName);
+                                    putvalue(udsReportDTC_DTCStatue_05,dtcstatus);
+                                    break;
+                                case 6:
+                                    putvalue(udsReportDTC_DTCCode_06, dtc);
+                                    putvalue(udsReportDTC_DTCName_06, dtcCodeName);
+                                    putvalue(udsReportDTC_DTCStatue_06,dtcstatus);
+                                    break;  
+                                case 7:
+                                    putvalue(udsReportDTC_DTCCode_07, dtc);
+                                    putvalue(udsReportDTC_DTCName_07, dtcCodeName);
+                                    putvalue(udsReportDTC_DTCStatue_07,dtcstatus);
+                                    break;     
+                                case 8:
+                                    putvalue(udsReportDTC_DTCCode_08, dtc);
+                                    putvalue(udsReportDTC_DTCName_08, dtcCodeName);
+                                    putvalue(udsReportDTC_DTCStatue_08,dtcstatus);
+                                    break;   
+                                case 9:
+                                    putvalue(udsReportDTC_DTCCode_09, dtc);
+                                    putvalue(udsReportDTC_DTCName_09, dtcCodeName);
+                                    putvalue(udsReportDTC_DTCStatue_09,dtcstatus);
+                                    break;
+                                case 10:
+                                    putvalue(udsReportDTC_DTCCode_10, dtc);
+                                    putvalue(udsReportDTC_DTCName_10, dtcCodeName);
+                                    putvalue(udsReportDTC_DTCStatue_10,dtcstatus);
+                                    break;
+                                case 11:
+                                    putvalue(udsReportDTC_DTCCode_11, dtc);
+                                    putvalue(udsReportDTC_DTCName_11, dtcCodeName);
+                                    putvalue(udsReportDTC_DTCStatue_11,dtcstatus);
+                                    break;  
+                                case 12:
+                                    putvalue(udsReportDTC_DTCCode_12, dtc);
+                                    putvalue(udsReportDTC_DTCName_12, dtcCodeName);
+                                    putvalue(udsReportDTC_DTCStatue_12,dtcstatus);
+                                    break;     
+                                case 13:
+                                    putvalue(udsReportDTC_DTCCode_13, dtc);
+                                    putvalue(udsReportDTC_DTCName_13, dtcCodeName);
+                                    putvalue(udsReportDTC_DTCStatue_13,dtcstatus);
+                                    break;   
+                                case 14:
+                                    putvalue(udsReportDTC_DTCCode_14, dtc);
+                                    putvalue(udsReportDTC_DTCName_14, dtcCodeName);
+                                    putvalue(udsReportDTC_DTCStatue_14,dtcstatus);
+                                    break;
+                                case 15:
+                                    putvalue(udsReportDTC_DTCCode_15, dtc);
+                                    putvalue(udsReportDTC_DTCName_15, dtcCodeName);
+                                    putvalue(udsReportDTC_DTCStatue_15,dtcstatus);
+                                    break;
+                                case 16:
+                                    putvalue(udsReportDTC_DTCCode_16, dtc);
+                                    putvalue(udsReportDTC_DTCName_16, dtcCodeName);
+                                    putvalue(udsReportDTC_DTCStatue_16,dtcstatus);
+                                    break;  
+                                case 17:
+                                    putvalue(udsReportDTC_DTCCode_17, dtc);
+                                    putvalue(udsReportDTC_DTCName_17, dtcCodeName);
+                                    putvalue(udsReportDTC_DTCStatue_17,dtcstatus);
+                                    break;     
+                                case 18:
+                                    putvalue(udsReportDTC_DTCCode_18, dtc);
+                                    putvalue(udsReportDTC_DTCName_18, dtcCodeName);
+                                    putvalue(udsReportDTC_DTCStatue_18,dtcstatus);
+                                    break;   
+                                case 19:
+                                    putvalue(udsReportDTC_DTCCode_19, dtc);
+                                    putvalue(udsReportDTC_DTCName_19, dtcCodeName);
+                                    putvalue(udsReportDTC_DTCStatue_19,dtcstatus);
+                                    break;                                    
+                            }
+                        }                                    
+                        break;
+                }
+                break;
+            case 0x2E + 0x40:
+                for( i = 3; i<=diagUDS_rxDataBufLength; i++)
+                {
+                    diagUDS_WriteDIDsReqDataBuf[i-3] = diagUDS_rxDataBuf[i];
+                }
+                diagUDS_WriteDIDsReqDataBufLen = diagUDS_rxDataBufLength-3;
+                
+                did = (diagUDS_rxDataBuf[1] << 8) + diagUDS_rxDataBuf[2];
+                
+                switch (did)
+                {
+                    case 0xFE81:
+                        if( pcSaveWriteDIDFlag == 1 )
+                        {
+                            pcSaveWriteNextDID = 0xFE84;
+                            pcWriteDID(pcSaveWriteNextDID);
+                        }
+                        break;
+                    case 0xFE84:
+                        if( pcSaveWriteDIDFlag == 1 )
+                        {
+                            pcSaveWriteNextDID = 0xF18B;
+                            pcWriteDID(pcSaveWriteNextDID);
+                        }
+                        break;
+                    case 0xF18B:
+                        if( pcSaveWriteDIDFlag == 1 )
+                        {
+                            pcSaveWriteNextDID = 0xFE88;
+                            pcWriteDID(pcSaveWriteNextDID);
+                        }
+                        break;
+                    case 0xFE88:
+                        if( pcSaveWriteDIDFlag == 1 )
+                        {
+                            pcSaveWriteNextDID = 0xFE8C;
+                            pcWriteDID(pcSaveWriteNextDID);
+                        }
+                        break;
+                    case 0xFE8C:
+                        if( pcSaveWriteDIDFlag == 1 )
+                        {
+                            pcSaveWriteNextDID = 0xDF00;
+                            pcWriteDID(pcSaveWriteNextDID);
+                        }
+                        break;
+                    case 0xDF00:
+                        if( pcSaveWriteDIDFlag == 1 )
+                        {
+                            pcSaveWriteNextDID = 0xF193;
+                            pcWriteDID(pcSaveWriteNextDID);
+                        }
+                        break;
+                    case 0xF193:
+                        pcSaveWriteDIDFlag = 0;
+                        break;
+                    case 0xFE91:
+                        if( gaugeCali_write_seqence == 1 )
+                        {
+                            pcWriteDID(0xFE92);
+                        }
+                        break;
+                    case 0xFE92:
+                        if( gaugeCali_write_seqence == 1 )
+                        {
+                            pcWriteDID(0xFE90);
+                        }
+                        break;
+                    case 0xFE90:
+                        if( gaugeCali_write_seqence == 1 )
+                        {
+                            pcWriteDID(0xFE8F);
+                        }
+                        break;
+                    case 0xFE8F:
+                        gaugeCali_write_seqence = 0;
+                        putvalue(envGaugeCali_WriteAllResult, 1);
+                        break;
+                    case 0xFE96:
+                        runin_start_sequence = 0;
+                        putvalue(envRunin_WriteConfigResult, 1);
+                        break;
+                    
+                }
+                break;
+            case 0x22 + 0x40:
+                for( i = 3; i<=diagUDS_rxDataBufLength; i++)
+                {
+                    diagUDS_ReadDIDsRespDataBuf[i-3] = diagUDS_rxDataBuf[i];
+                }
+                
+                diagUDS_ReadDIDsRespDataBufLen = diagUDS_rxDataBufLength-3;
+                putvalue(udsReadDIDsResult, diagUDS_ReadDIDsRespDataBuf, diagUDS_ReadDIDsRespDataBufLen);
+                
+                did = (diagUDS_rxDataBuf[1] << 8) + diagUDS_rxDataBuf[2];
+                switch (did)
+                {
+                    case 0xF187:
+                        putvalue(pcF187ResponseData, diagUDS_ReadDIDsRespDataBuf, diagUDS_ReadDIDsRespDataBufLen);
+                        
+                        if( pcCustomerReadDIDFlag == 1 )
+                        {
+                            pcCustomerReadNextDID = 0xF18A;
+                            pcReadDID(pcCustomerReadNextDID);
+                        }
+                        break;
+                    case 0xF18A:
+                        putvalue(pcF18AResponseData, diagUDS_ReadDIDsRespDataBuf, diagUDS_ReadDIDsRespDataBufLen);
+                        
+                        if( pcCustomerReadDIDFlag == 1 )
+                        {
+                            pcCustomerReadNextDID = 0xF18B;
+                            pcReadDID(pcCustomerReadNextDID);
+                        }
+                        if( pcSaveReadDIDFlag == 1 )
+                        {
+                            pcSaveReadNextDID = 0xFE8B;
+                            pcReadDID(pcSaveReadNextDID);
+                        }
+                        break;
+                    case 0xF18B:
+                        putvalue(pcF18BResponseData, diagUDS_ReadDIDsRespDataBuf, diagUDS_ReadDIDsRespDataBufLen);
+                        
+                        if( pcCustomerReadDIDFlag == 1 )
+                        {
+                            pcCustomerReadNextDID = 0xF18C;
+                            pcReadDID(pcCustomerReadNextDID);
+                        }
+                        if( pcSaveReadDIDFlag == 1 )
+                        {
+                            pcSaveReadNextDID = 0xFE88;
+                            pcReadDID(pcSaveReadNextDID);
+                        }
+                        break;
+                    case 0xF18C:
+                        putvalue(pcF18CResponseData, diagUDS_ReadDIDsRespDataBuf, diagUDS_ReadDIDsRespDataBufLen);
+                        
+                        if( pcCustomerReadDIDFlag == 1 )
+                        {
+                            pcCustomerReadNextDID = 0xF190;
+                            pcReadDID(pcCustomerReadNextDID);
+                        }
+                        break;
+                    case 0xF190:
+                        putvalue(pcF190ResponseData, diagUDS_ReadDIDsRespDataBuf, diagUDS_ReadDIDsRespDataBufLen);
+                        
+                        if( pcCustomerReadDIDFlag == 1 )
+                        {
+                            pcCustomerReadNextDID = 0xF193;
+                            pcReadDID(pcCustomerReadNextDID);
+                        }
+                        break;
+                    case 0xF193:
+                        putvalue(pcF193ResponseData, diagUDS_ReadDIDsRespDataBuf, diagUDS_ReadDIDsRespDataBufLen);
+                        
+                        if( pcCustomerReadDIDFlag == 1 )
+                        {
+                            pcCustomerReadNextDID = 0xF195;
+                            pcReadDID(pcCustomerReadNextDID);
+                        }
+                        else if( pcSaveReadDIDFlag == 1 )
+                        {
+                            pcSaveReadNextDID = 0xF195;
+                            pcReadDID(pcSaveReadNextDID);
+                        }   
+                        break;
+                    case 0xF195:
+                        putvalue(pcF195ResponseData, diagUDS_ReadDIDsRespDataBuf, diagUDS_ReadDIDsRespDataBufLen);
+                        
+                        if( pcCustomerReadDIDFlag == 1 )
+                        {
+                            pcCustomerReadNextDID = 0xF197;
+                            pcReadDID(pcCustomerReadNextDID);
+                        }
+                        else if( pcSaveReadDIDFlag == 1 )
+                        {
+                            pcSaveReadDIDFlag = 0;
+                        }  
+                        break;
+                    case 0xF197:
+                        putvalue(pcF197ResponseData, diagUDS_ReadDIDsRespDataBuf, diagUDS_ReadDIDsRespDataBufLen);
+                        
+                        if( pcCustomerReadDIDFlag == 1 )
+                        {
+                            pcCustomerReadNextDID = 0xF15A;
+                            pcReadDID(pcCustomerReadNextDID);
+                        }
+                        break;
+                    case 0xF15A:
+                        putvalue(pcF15AResponseData, diagUDS_ReadDIDsRespDataBuf, diagUDS_ReadDIDsRespDataBufLen);
+                        
+                        if( pcCustomerReadDIDFlag == 1 )
+                        {
+                            pcCustomerReadNextDID = 0xF15B;
+                            pcReadDID(pcCustomerReadNextDID);
+                        }
+                        break;
+                    case 0xF15B:
+                        putvalue(pcF15BResponseData, diagUDS_ReadDIDsRespDataBuf, diagUDS_ReadDIDsRespDataBufLen);
+                        
+                        if( pcCustomerReadDIDFlag == 1 )
+                        {
+                            pcCustomerReadNextDID = 0xF1A0;
+                            pcReadDID(pcCustomerReadNextDID);
+                        }
+                        break;
+                    case 0xF1A0:
+                        putvalue(pcF1A0ResponseData, diagUDS_ReadDIDsRespDataBuf, diagUDS_ReadDIDsRespDataBufLen);
+                        
+                        pcCustomerReadDIDFlag = 0;
+                        break;
+                    case 0xFE81:
+                        putvalue(pcFE81ResponseData, diagUDS_ReadDIDsRespDataBuf, diagUDS_ReadDIDsRespDataBufLen);
+                        
+                        if( pcSaveReadDIDFlag == 1 )
+                        {
+                            pcSaveReadNextDID = 0xFE82;
+                            pcReadDID(pcSaveReadNextDID);
+                        }
+                        break;
+                    case 0xFE82:
+                        putvalue(pcFE82ResponseData, diagUDS_ReadDIDsRespDataBuf, diagUDS_ReadDIDsRespDataBufLen);
+                        
+                        if( pcSaveReadDIDFlag == 1 )
+                        {
+                            pcSaveReadNextDID = 0xF192;
+                            pcReadDID(pcSaveReadNextDID);
+                        }
+                        break;
+                    case 0xF192:
+                        putvalue(pcF192ResponseData, diagUDS_ReadDIDsRespDataBuf, diagUDS_ReadDIDsRespDataBufLen);
+                        
+                        if( pcSaveReadDIDFlag == 1 )
+                        {
+                            pcSaveReadNextDID = 0xFE84;
+                            pcReadDID(pcSaveReadNextDID);
+                        }
+                        break;
+                    case 0xFE84:
+                        putvalue(pcFE84ResponseData, diagUDS_ReadDIDsRespDataBuf, diagUDS_ReadDIDsRespDataBufLen);
+                        
+                        if( pcSaveReadDIDFlag == 1 )
+                        {
+                            pcSaveReadNextDID = 0xFE85;
+                            pcReadDID(pcSaveReadNextDID);
+                        }
+                        break;
+                    case 0xFE85:
+                        putvalue(pcFE85ResponseData, diagUDS_ReadDIDsRespDataBuf, diagUDS_ReadDIDsRespDataBufLen);
+                        
+                        if( pcSaveReadDIDFlag == 1 )
+                        {
+                            pcSaveReadNextDID = 0xFE86;
+                            pcReadDID(pcSaveReadNextDID);
+                        }
+                        break;   
+                    case 0xFE86:
+                        putvalue(pcFE86ResponseData, diagUDS_ReadDIDsRespDataBuf, diagUDS_ReadDIDsRespDataBufLen);
+                        
+                        if( pcSaveReadDIDFlag == 1 )
+                        {
+                            pcSaveReadNextDID = 0xF18B;
+                            pcReadDID(pcSaveReadNextDID);
+                        }
+                        break;  
+                    case 0xFE88:
+                        putvalue(pcFE88ResponseData, diagUDS_ReadDIDsRespDataBuf, diagUDS_ReadDIDsRespDataBufLen);
+                        
+                        if( pcSaveReadDIDFlag == 1 )
+                        {
+                            pcSaveReadNextDID = 0xF18A;
+                            pcReadDID(pcSaveReadNextDID);
+                        }
+                        break; 
+                    case 0xFE8B:
+                        putvalue(pcFE8BResponseData, diagUDS_ReadDIDsRespDataBuf, diagUDS_ReadDIDsRespDataBufLen);
+                        
+                        if( pcSaveReadDIDFlag == 1 )
+                        {
+                            pcSaveReadNextDID = 0xFE8C;
+                            pcReadDID(pcSaveReadNextDID);
+                        }
+                        break;
+                    case 0xFE8C:
+                        putvalue(pcFE8CResponseData, diagUDS_ReadDIDsRespDataBuf, diagUDS_ReadDIDsRespDataBufLen);
+                        
+                        if( pcSaveReadDIDFlag == 1 )
+                        {
+                            pcSaveReadNextDID = 0xDF00;
+                            pcReadDID(pcSaveReadNextDID);
+                        }
+                        break;
+                    case 0xDF00:
+                        putvalue(pcDF00ResponseData, diagUDS_ReadDIDsRespDataBuf, diagUDS_ReadDIDsRespDataBufLen);
+                        
+                        if( pcSaveReadDIDFlag == 1 )
+                        {
+                            pcSaveReadNextDID = 0xF193;
+                            pcReadDID(pcSaveReadNextDID);
+                        }
+                        break;
+                    case 0xFE91:    /* Speed Gauge */
+                        
+                        tmpVal = (diagUDS_ReadDIDsRespDataBuf[0] << 8) + diagUDS_ReadDIDsRespDataBuf[1];
+                        putvalue(envGaugeCali_Speed_MinVal, tmpVal);
+                        
+                        tmpVal = (diagUDS_ReadDIDsRespDataBuf[2] << 8) + diagUDS_ReadDIDsRespDataBuf[3];
+                        putvalue(envGaugeCali_Speed_MaxVal, tmpVal);
+                        
+                        if( gaugeCali_read_seqence == 1 )
+                        {
+                            pcReadDID(0xFE92);
+                        }
+                        break;
+                    case 0xFE92:    /* Tach Gauge */
+                        
+                        tmpVal = (diagUDS_ReadDIDsRespDataBuf[0] << 8) + diagUDS_ReadDIDsRespDataBuf[1];
+                        putvalue(envGaugeCali_Tach_MinVal, tmpVal);
+                        
+                        tmpVal = (diagUDS_ReadDIDsRespDataBuf[2] << 8) + diagUDS_ReadDIDsRespDataBuf[3];
+                        putvalue(envGaugeCali_Tach_MaxVal, tmpVal);
+                        
+                        if( gaugeCali_read_seqence == 1 )
+                        {
+                            pcReadDID(0xFE8F);
+                        }
+                        break;
+                    case 0xFE8F:    /* Temp Gauge */
+                        tmpVal = (diagUDS_ReadDIDsRespDataBuf[0] << 8) + diagUDS_ReadDIDsRespDataBuf[1];
+                        putvalue(envGaugeCali_Temp_MinVal, tmpVal);
+                        
+                        tmpVal = (diagUDS_ReadDIDsRespDataBuf[2] << 8) + diagUDS_ReadDIDsRespDataBuf[3];
+                        putvalue(envGaugeCali_Temp_WarnVal, tmpVal);
+                        
+                        tmpVal = (diagUDS_ReadDIDsRespDataBuf[4] << 8) + diagUDS_ReadDIDsRespDataBuf[5];
+                        putvalue(envGaugeCali_Temp_MaxVal, tmpVal);
+                        
+                        if( gaugeCali_read_seqence == 1 )
+                        {
+                            pcReadDID(0xFE90);
+                        }
+                        break;
+                    case 0xFE90:    /* Fuel Gauge */
+                        
+                        tmpVal = (diagUDS_ReadDIDsRespDataBuf[0] << 8) + diagUDS_ReadDIDsRespDataBuf[1];
+                        putvalue(envGaugeCali_Fuel_MinVal, tmpVal);
+                        
+                        tmpVal = (diagUDS_ReadDIDsRespDataBuf[2] << 8) + diagUDS_ReadDIDsRespDataBuf[3];
+                        putvalue(envGaugeCali_Fuel_WarnVal, tmpVal);
+                        
+                        tmpVal = (diagUDS_ReadDIDsRespDataBuf[4] << 8) + diagUDS_ReadDIDsRespDataBuf[5];
+                        putvalue(envGaugeCali_Fuel_MaxVal, tmpVal);
+                        
+                        gaugeCali_read_seqence = 0;
+
+                        break;
+                }
+                break;
+            case 0x27 + 0x40:
+                write("%d", diagUDS_rxDataBufLength);
+                for( i = 2; i<diagUDS_rxDataBufLength; i++)
+                {
+                    diagUDS_Seed[i-2] = diagUDS_rxDataBuf[i];
+                }
+                
+                putvalue(udsSecuritySeedData, diagUDS_Seed,4);
+                
+                switch(diagUDS_rxDataBuf[1])
+                {
+                    case 1:
+                        diag_seed = (diagUDS_Seed[0] << 24) + (diagUDS_Seed[1] << 16) + (diagUDS_Seed[2] << 8) + (diagUDS_Seed[3]);
+                        for(i=0;i<35;i++)
+                        {
+                            if( diag_seed & 0x80000000 )
+                            {
+                                diag_seed = (diag_seed << 1);
+                                diag_seed = (diag_seed ^ 0x8EC9AA7E);
+                            }
+                            else
+                            {
+                                diag_seed = (diag_seed << 1);
+                            }
+                        }
+                        //hshen8
+                        diagUDS_Key[3] = (diag_seed & 0xFF000000) >> 24;
+                        diagUDS_Key[2] = (diag_seed & 0xFF0000) >> 16;
+                        diagUDS_Key[1] = (diag_seed & 0xFF00) >> 8;
+                        diagUDS_Key[0] = (diag_seed & 0xFF);
+                        /*
+                        diagUDS_Key[0] = (diag_seed & 0xFF000000) >> 24;
+                        diagUDS_Key[1] = (diag_seed & 0xFF0000) >> 16;
+                        diagUDS_Key[2] = (diag_seed & 0xFF00) >> 8;
+                        diagUDS_Key[3] = (diag_seed & 0xFF);
+                        */
+                        putvalue(udsSecurityKeyData,diagUDS_Key,4);
+                        break;
+                    case 3:
+                        diag_seed = (diagUDS_Seed[0] << 24) + (diagUDS_Seed[1] << 16) + (diagUDS_Seed[2] << 8) + (diagUDS_Seed[3]);
+                        
+                        for(i=0;i<35;i++)
+                        {
+                            if( diag_seed & 0x80000000 )
+                            {
+                                diag_seed = diag_seed << 1;
+                                diag_seed = diag_seed ^ 0x8EC9AA7E;
+                            }
+                            else
+                            {
+                                diag_seed = diag_seed << 1;
+                            }
+                        }
+                        diagUDS_Key[0] = (diag_seed & 0xFF000000) >> 24;
+                        diagUDS_Key[1] = (diag_seed & 0xFF0000) >> 16;
+                        diagUDS_Key[2] = (diag_seed & 0xFF00) >> 8;
+                        diagUDS_Key[3] = (diag_seed & 0xFF);
+                        putvalue(udsSecurityKeyData,diagUDS_Key,4);
+                        break;
+                    case 5:
+                        diag_high_seed = (diagUDS_Seed[0] << 8) + (diagUDS_Seed[1] << 0);
+                        diag_low_seed = (diagUDS_Seed[2] << 8) + (diagUDS_Seed[3]);
+                        
+                        diag_seed = (diag_high_seed * 36125 + 12345) ^ ((diag_low_seed*32125) + 12345) ^ 0x87654321;
+                        
+                        diagUDS_Key[0] = (diag_seed & 0xFF000000) >> 24;
+                        diagUDS_Key[1] = (diag_seed & 0xFF0000) >> 16;
+                        diagUDS_Key[2] = (diag_seed & 0xFF00) >> 8;
+                        diagUDS_Key[3] = (diag_seed & 0xFF);
+                        
+                        putvalue(udsSecurityKeyData,diagUDS_Key,4);
+                        
+                        if( (pcSaveReadDIDFlag == 1) || (pcSaveWriteDIDFlag == 1) )
+                        {
+                            pcEOLSendKey();
+                        }
+                        else if( gaugeCali_start_seqence == 1 )
+                        {
+                            pcEOLSendKey();
+                        }
+                        else if( runin_start_sequence == 1 )
+                        {
+                            pcEOLSendKey();
+                        }
+                        break;
+                    case 6:
+                        if( pcSaveReadDIDFlag == 1 )
+                        {
+                            pcReadDID(0xFE81);
+                        }
+                        else if(pcSaveWriteDIDFlag == 1)
+                        {
+                            pcSaveWriteNextDID = 0xFE81;
+                            pcWriteDID(pcSaveWriteNextDID);
+                        }
+                        else if( gaugeCali_start_seqence == 1 )
+                        {
+                            gaugeCali_start_seqence = 0;
+                        }
+                        else if( runin_start_sequence == 1 )
+                        {
+                            pcWriteDID(0xFE96);
+                        }
+                        break;
+                    default:
+                        break;
+                } 
+                break;
+
+        }
+    }
+}
+
+
+byte udsDiag_TestRxIndication()
+{
+    byte retval;
+    
+    if( diagUDS_rxDataIndication != 0x00 )
+    {
+        retval = 0x1;
+    }
+    else
+    {
+        retval = 0x0;
+    }    
+    return retval;
+}
+
+
+void udsDiag_ClrRxIndication()
+{
+    diagUDS_rxDataIndication = 0x00;
+}
+
+void udsDiag_SetRxIndication()
+{
+    diagUDS_rxDataIndication = 0xFF;
+}
+
+
+void udsDiag_SendPhyMessage()
+{
+    byte i;
+    
+    if(getvalue(udsTestPresentFlag) > 0 )
+    {
+        settimer(diagUDS_TimerP2, P2_TIMER);
+    }
+    
+    putvalue(udsPhyRequestData, diagUDS_txDataBuf_phy, diagUDS_txDataBufLength);
+    putvalue(udsFunRequestData, diagUDS_txDataBuf_func, 0);
+    putvalue(udsPhyResponseData, diagUDS_rxDataBuf, 0);
+    
+    if(diagUDS_txDataBufLength <= 7)
+    {
+        /* Single Frame */
+        diagUDS_txmsg_phy.byte(0) = SF + diagUDS_txDataBufLength;
+        for(i=1; i<=7;i++)
+        {
+            diagUDS_txmsg_phy.byte(i) = diagUDS_txDataBuf_phy[i-1];
+        }
+        diagUDS_txmsg_phy.dlc = 8;
+        output(diagUDS_txmsg_phy);
+    }
+    else
+    {
+        diagUDS_txmsg_phy.byte(0) = FF + ((diagUDS_txDataBufLength & 0xFF00) >> 8);
+        diagUDS_txmsg_phy.byte(1) = ((diagUDS_txDataBufLength & 0xFF));
+        
+        for(i=2; i<=7;i++)
+        {
+            diagUDS_txmsg_phy.byte(i) = diagUDS_txDataBuf_phy[i-2];
+        }
+        
+        diagUDS_txDataLength = 6;
+        diagUDS_txDataBlockNum = 0;
+        diagUDS_txmsg_phy.dlc = 8;
+        output(diagUDS_txmsg_phy);
+    }
+}
+
+void udsDiag_SendFunMessage()
+{
+    byte i;
+    
+    if(getvalue(udsTestPresentFlag) > 0 )
+    {
+        settimer(diagUDS_TimerP2, P2_TIMER);
+    }
+    
+    putvalue(udsPhyRequestData, diagUDS_txDataBuf_phy, 0);
+    putvalue(udsFunRequestData, diagUDS_txDataBuf_func, diagUDS_txDataBufLength);
+    putvalue(udsPhyResponseData, diagUDS_rxDataBuf, 0);
+    
+    if(diagUDS_txDataBufLength <= 7)
+    {
+        /* Single Frame */
+        diagUDS_txmsg_fun.byte(0) = SF + diagUDS_txDataBufLength;
+        for(i=1; i<=7;i++)
+        {
+            diagUDS_txmsg_fun.byte(i) = diagUDS_txDataBuf_func[i-1];
+        }
+        diagUDS_txmsg_fun.dlc = 8;
+        output(diagUDS_txmsg_fun);
+    }
+    else
+    {
+    }    
+}
+
+void udsDiag_GetIOControlTellTale()
+{
+    switch( diagUDS_Session )
+    {
+        case 0x03:
+            diagUDS_IOCntrlTellTale_Extended[0] = getvalue(udsIO_TT_LeftTurn) + (getvalue(udsIO_TT_RightTurn)<<2) + (getvalue(udsIO_TT_FrontFog)<<4) + (getvalue(udsIO_TT_RearFog)<<6);
+            break;
+        case 0x06:
+            break;
+    }
+}
+
+void udsDiag_GetDTCName(long dtccode)
+{
+    switch(dtccode)
+    {
+        case 0xC07300:
+            putvalue(tmpStr, "CAN BUS OFF FAILURE");
+            break;
+        case 0xE20D00:
+            putvalue(tmpStr, "LIMP HOME");
+            break;
+        case 0x91021E:
+            putvalue(tmpStr, "BACKLIGHT SENSOR CIRCUIT FAULT");
+            break;
+        case 0xC14000:
+            putvalue(tmpStr, "LOST COMMUNICATION WITH BCM");
+            break;  
+        case 0xC24000:
+            putvalue(tmpStr, "LOST COMMUNICATION WITH PEPS/IMMO");
+            break;      
+        case 0xF00316:
+            putvalue(tmpStr, "LOW VOLTAGE");
+            break;   
+        case 0xF00317:
+            putvalue(tmpStr, "HIGH VOLTAGE");
+            break;  
+        case 0x910301:
+            putvalue(tmpStr, "CHARGE TELLTALE FAILURE");
+            break;
+        case 0x910401:
+            putvalue(tmpStr, "LOW OIL PRESSURE TELLTALE FAILURE");
+            break;       
+        case 0x910501:
+            putvalue(tmpStr, "TPMS TELLTALE FAILURE");
+            break;      
+        case 0x910601:
+            putvalue(tmpStr, "ESP TELLTALE FAILURE");
+            break; 
+        case 0x910701:
+            putvalue(tmpStr, "IMMO TELLTALE FAILURE");
+            break;
+        case 0x910801:
+            putvalue(tmpStr, "ESCL TELLTALE FAILURE");
+            break;  
+        case 0x910901:
+            putvalue(tmpStr, "SVS TELLTALE FAILURE");
+            break;             
+        case 0x910A01:
+            putvalue(tmpStr, "OBD TELLTALE FAILURE");
+            break;  
+        case 0x910B01:
+            putvalue(tmpStr, "AUTO CRUISE TELLTALE FAILURE");
+            break;       
+        case 0x910C01:
+            putvalue(tmpStr, "ABS TELLTALE FAILURE");
+            break; 
+        case 0x910D01:
+            putvalue(tmpStr, "EBD TELLTALE FAILURE");
+            break;            
+        case 0x910E01:
+            putvalue(tmpStr, "DR AIRBAG TELLTALE FAILURE");
+            break;  
+        case 0x910F01:
+            putvalue(tmpStr, "ESP(RED) TELLTALE FAILURE");
+            break; 
+        case 0x911001:
+            putvalue(tmpStr, "ESP(YELLOW) TELLTALE FAILURE");
+            break;             
+    }
+}
+
+
+
+on envVar pcCustomerReadAll
+{
+    pcCustomerReadNextDID = 0xF187;
+    
+    pcCustomerReadDIDFlag = 1;
+    pcReadDID(pcCustomerReadNextDID);
+}
+
+on envVar pcSaveReadAll
+{
+    pcSaveReadDIDFlag = 1;
+    
+    pcEolSession();
+}
+
+on envVar pcSaveWriteAll
+{
+    pcSaveWriteDIDFlag = 1;
+    
+    pcEolSession();
+}
+
+
+void pcReadDID(long DIDs)
+{
+    diagUDS_txDataBuf_phy[0] = 0x22;
+    diagUDS_txDataBuf_phy[1] = (DIDs & 0xFF00) >> 8;
+    diagUDS_txDataBuf_phy[2] = (DIDs & 0xFF);
+    
+    diagUDS_txDataBufLength = 3;
+   
+    udsDiag_SendPhyMessage();
+}
+
+void pcWriteDID(long DIDs)
+{
+    byte tmpBuf[20];
+    byte tmpBufLen;
+    byte i;
+    long tmpvalue;
+    
+    diagUDS_txDataBuf_phy[0] = 0x2E;
+    diagUDS_txDataBuf_phy[1] = (DIDs & 0xFF00) >> 8;
+    diagUDS_txDataBuf_phy[2] = (DIDs & 0xFF);
+    
+    switch( DIDs )
+    {
+        case 0xFE81:
+            getvalue(pcFE81RequestData, tmpBuf, 0);
+            tmpBufLen = getValueSize(pcFE81RequestData);
+            
+            for( i = 0; i< tmpBufLen;i++)
+            {
+                diagUDS_txDataBuf_phy[3+i] = tmpBuf[i];
+            }
+            diagUDS_txDataBufLength = 3 + tmpBufLen;
+            break;
+        case 0xFE84:
+            getvalue(pcFE84RequestData, tmpBuf, 0);
+            tmpBufLen = getValueSize(pcFE84RequestData);
+            
+            for( i = 0; i< tmpBufLen;i++)
+            {
+                diagUDS_txDataBuf_phy[3+i] = tmpBuf[i];
+            }
+            diagUDS_txDataBufLength = 3 + tmpBufLen;
+            break;
+        case 0xF18B:
+            getvalue(pcF18BRequestData, tmpBuf, 0);
+            tmpBufLen = getValueSize(pcF18BRequestData);
+            
+            for( i = 0; i< tmpBufLen;i++)
+            {
+                diagUDS_txDataBuf_phy[3+i] = tmpBuf[i];
+            }
+            diagUDS_txDataBufLength = 3 + tmpBufLen;
+            break;
+        case 0xFE88:
+            getvalue(pcFE88RequestData, tmpBuf, 0);
+            tmpBufLen = getValueSize(pcFE88RequestData);
+            
+            for( i = 0; i< tmpBufLen;i++)
+            {
+                diagUDS_txDataBuf_phy[3+i] = tmpBuf[i];
+            }
+            diagUDS_txDataBufLength = 3 + tmpBufLen;
+            break;
+        case 0xFE8C:
+            getvalue(pcFE8CRequestData, tmpBuf, 0);
+            tmpBufLen = getValueSize(pcFE8CRequestData);
+            
+            for( i = 0; i< tmpBufLen;i++)
+            {
+                diagUDS_txDataBuf_phy[3+i] = tmpBuf[i];
+            }
+            diagUDS_txDataBufLength = 3 + tmpBufLen;
+            break;
+        case 0xDF00:
+            getvalue(pcDF00RequestData, tmpBuf, 0);
+            tmpBufLen = getValueSize(pcDF00RequestData);
+            
+            for( i = 0; i< tmpBufLen;i++)
+            {
+                diagUDS_txDataBuf_phy[3+i] = tmpBuf[i];
+            }
+            diagUDS_txDataBufLength = 3 + tmpBufLen;
+            break;
+        case 0xF193:
+            getvalue(pcF193RequestData, tmpBuf, 0);
+            tmpBufLen = getValueSize(pcF193RequestData);
+            
+            for( i = 0; i< tmpBufLen;i++)
+            {
+                diagUDS_txDataBuf_phy[3+i] = tmpBuf[i];
+            }
+            diagUDS_txDataBufLength = 3 + tmpBufLen;
+            break;  
+        case 0xFE91:    /* Speed Gauge */
+            tmpvalue = getvalue(envGaugeCali_Speed_MinVal);
+            diagUDS_txDataBuf_phy[3] = ( tmpvalue & 0xFF00 ) >> 8;
+            diagUDS_txDataBuf_phy[4] = ( tmpvalue & 0xFF );
+            tmpvalue = getvalue(envGaugeCali_Speed_MaxVal);
+            diagUDS_txDataBuf_phy[5] = ( tmpvalue & 0xFF00 ) >> 8;
+            diagUDS_txDataBuf_phy[6] = ( tmpvalue & 0xFF );
+            diagUDS_txDataBufLength = 3 + 4;
+            break;
+        case 0xFE92:    /* Tach Gaguge  */
+            tmpvalue = getvalue(envGaugeCali_Tach_MinVal);
+            diagUDS_txDataBuf_phy[3] = ( tmpvalue & 0xFF00 ) >> 8;
+            diagUDS_txDataBuf_phy[4] = ( tmpvalue & 0xFF );
+            tmpvalue = getvalue(envGaugeCali_Tach_MaxVal);
+            diagUDS_txDataBuf_phy[5] = ( tmpvalue & 0xFF00 ) >> 8;
+            diagUDS_txDataBuf_phy[6] = ( tmpvalue & 0xFF );
+            diagUDS_txDataBufLength = 3 + 4;
+            break;
+        case 0xFE90:    /* Fuel         */
+            tmpvalue = getvalue(envGaugeCali_Fuel_MinVal);
+            diagUDS_txDataBuf_phy[3] = ( tmpvalue & 0xFF00 ) >> 8;
+            diagUDS_txDataBuf_phy[4] = ( tmpvalue & 0xFF );
+            tmpvalue = getvalue(envGaugeCali_Fuel_WarnVal);
+            diagUDS_txDataBuf_phy[5] = ( tmpvalue & 0xFF00 ) >> 8;
+            diagUDS_txDataBuf_phy[6] = ( tmpvalue & 0xFF );
+            tmpvalue = getvalue(envGaugeCali_Fuel_MaxVal);
+            diagUDS_txDataBuf_phy[7] = ( tmpvalue & 0xFF00 ) >> 8;
+            diagUDS_txDataBuf_phy[8] = ( tmpvalue & 0xFF );
+            diagUDS_txDataBufLength = 3 + 6;
+            break;
+        case 0xFE8F:    /* Temp         */
+            tmpvalue = getvalue(envGaugeCali_Temp_MinVal);
+            diagUDS_txDataBuf_phy[3] = ( tmpvalue & 0xFF00 ) >> 8;
+            diagUDS_txDataBuf_phy[4] = ( tmpvalue & 0xFF );
+            tmpvalue = getvalue(envGaugeCali_Temp_WarnVal);
+            diagUDS_txDataBuf_phy[5] = ( tmpvalue & 0xFF00 ) >> 8;
+            diagUDS_txDataBuf_phy[6] = ( tmpvalue & 0xFF );
+            tmpvalue = getvalue(envGaugeCali_Temp_MaxVal) ;
+            diagUDS_txDataBuf_phy[7] = ( tmpvalue & 0xFF00 ) >> 8;
+            diagUDS_txDataBuf_phy[8] = ( tmpvalue & 0xFF );
+            diagUDS_txDataBufLength = 3 + 6;
+            break;
+        case 0xFE96:
+            diagUDS_txDataBuf_phy[3] = 0x80 + getvalue(envRunin_CycleNum);
+            diagUDS_txDataBuf_phy[4] = 0x00;
+            diagUDS_txDataBufLength = 3 + 2;
+            break;
+    }
+                     
+    udsDiag_SendPhyMessage();
+}
+
+void pcEolSession(void)
+{
+    diagUDS_txDataBuf_phy[0] = 0x10;
+    diagUDS_txDataBuf_phy[1] = 0x60;
+    diagUDS_txDataBufLength = 2;
+                
+    udsDiag_SendPhyMessage();
+}
+
+void pcEOLRequestSeed(void)
+{
+    diagUDS_txDataBuf_phy[0] = 0x27;
+    diagUDS_txDataBuf_phy[1] = 5;
+    diagUDS_txDataBufLength = 2;
+    udsDiag_SendPhyMessage(); 
+}
+
+void pcEOLSendKey(void)
+{
+    diagUDS_txDataBuf_phy[0] = 0x27;
+    diagUDS_txDataBuf_phy[1] = 6;
+    getvalue(udsSecurityKeyData, tmpBuf, 0);
+    diagUDS_txDataBuf_phy[2] = tmpBuf[0];
+    diagUDS_txDataBuf_phy[3] = tmpBuf[1];
+    diagUDS_txDataBuf_phy[4] = tmpBuf[2];
+    diagUDS_txDataBuf_phy[5] = tmpBuf[3];
+    diagUDS_txDataBufLength = 6;
+    udsDiag_SendPhyMessage(); 
+}
+
+
+
+
+on envVar envGaugeCali_Start
+{
+    if( getvalue(this) == 1 )
+    {
+        putvalue(udsTestPresentFlag, 1);
+    
+        pcEolSession();
+        
+        gaugeCali_start_seqence = 1;
+        gaugeCali_read_seqence = 0;
+        gaugeCali_write_seqence = 0;
+    }
+}
+
+
+on envVar envGaugeCali_ReadAll
+{
+    if( getvalue(this) == 1 )
+    {
+        gaugeCali_start_seqence = 0;
+        gaugeCali_read_seqence = 1;
+        gaugeCali_write_seqence = 0;
+        
+        putvalue(envGaugeCali_Tach_MinVal, 0);
+        putvalue(envGaugeCali_Tach_MaxVal, 0);
+        
+        putvalue(envGaugeCali_Speed_MinVal, 0);
+        putvalue(envGaugeCali_Speed_MaxVal, 0);
+        
+        putvalue(envGaugeCali_Temp_MinVal, 0);
+        putvalue(envGaugeCali_Temp_WarnVal, 0);
+        putvalue(envGaugeCali_Temp_MaxVal, 0);
+        
+        putvalue(envGaugeCali_Fuel_MinVal, 0);
+        putvalue(envGaugeCali_Fuel_WarnVal, 0);
+        putvalue(envGaugeCali_Fuel_MaxVal, 0);
+        
+        pcReadDID(0xFE91);
+    }
+}
+
+on envVar envGaugeCali_WriteAll
+{
+    if( getvalue(this) == 1 )
+    {
+        gaugeCali_start_seqence = 0;
+        gaugeCali_read_seqence = 0;
+        gaugeCali_write_seqence = 1;
+        
+        putvalue(envGaugeCali_WriteAllResult, 0);
+        
+        pcWriteDID(0xFE91);
+    }
+}
+
+
+
+on envVar envGaugeCali_Tach_MinVal_up
+{
+    long tmpVal;
+    
+    tmpVal = getvalue(envGaugeCali_Tach_MinVal);
+    if( getvalue(this) )
+    {
+        if( tmpVal < 3600 )
+        {
+            tmpVal ++;
+        }
+        
+        putvalue(envGaugeCali_Tach_MinVal, tmpVal);
+    }
+}
+
+on envVar envGaugeCali_Tach_MinVal_down
+{
+    long tmpVal;
+    
+    tmpVal = getvalue(envGaugeCali_Tach_MinVal);
+    if( getvalue(this) )
+    {
+        if( tmpVal > 0 )
+        {
+            tmpVal --;
+        }
+        
+        putvalue(envGaugeCali_Tach_MinVal, tmpVal);
+    }
+}
+
+on envVar envGaugeCali_Tach_MaxVal_up
+{
+    long tmpVal;
+    
+    tmpVal = getvalue(envGaugeCali_Tach_MaxVal);
+    if( getvalue(this) )
+    {
+        if( tmpVal < 3600 )
+        {
+            tmpVal ++;
+        }
+        
+        putvalue(envGaugeCali_Tach_MaxVal, tmpVal);
+    }
+}
+
+on envVar envGaugeCali_Tach_MaxVal_down
+{
+    long tmpVal;
+    
+    tmpVal = getvalue(envGaugeCali_Tach_MaxVal);
+    if( getvalue(this) )
+    {
+        if( tmpVal > 0 )
+        {
+            tmpVal --;
+        }
+        
+        putvalue(envGaugeCali_Tach_MaxVal, tmpVal);
+    }
+}
+
+on envVar envGaugeCali_Speed_MinVal_up
+{
+    long tmpVal;
+    
+    tmpVal = getvalue(envGaugeCali_Speed_MinVal);
+    if( getvalue(this) )
+    {
+        if( tmpVal < 3600 )
+        {
+            tmpVal ++;
+        }
+        
+        putvalue(envGaugeCali_Speed_MinVal, tmpVal);
+    }
+}
+
+on envVar envGaugeCali_Speed_MinVal_down
+{
+    long tmpVal;
+    
+    tmpVal = getvalue(envGaugeCali_Speed_MinVal);
+    if( getvalue(this) )
+    {
+        if( tmpVal > 0 )
+        {
+            tmpVal --;
+        }
+        
+        putvalue(envGaugeCali_Speed_MinVal, tmpVal);
+    }
+}
+
+on envVar envGaugeCali_Speed_MaxVal_up
+{
+    long tmpVal;
+    
+    tmpVal = getvalue(envGaugeCali_Speed_MaxVal);
+    if( getvalue(this) )
+    {
+        if( tmpVal < 3600 )
+        {
+            tmpVal ++;
+        }
+        
+        putvalue(envGaugeCali_Speed_MaxVal, tmpVal);
+    }
+}
+
+on envVar envGaugeCali_Speed_MaxVal_down
+{
+    long tmpVal;
+    
+    tmpVal = getvalue(envGaugeCali_Speed_MaxVal);
+    if( getvalue(this) )
+    {
+        if( tmpVal > 0 )
+        {
+            tmpVal --;
+        }
+        
+        putvalue(envGaugeCali_Speed_MaxVal, tmpVal);
+    }
+}
+
+on envVar envGaugeCali_Fuel_MinVal_up
+{
+    long tmpVal;
+    
+    tmpVal = getvalue(envGaugeCali_Fuel_MinVal);
+    if( getvalue(this) )
+    {
+        if( tmpVal < 3600 )
+        {
+            tmpVal ++;
+        }
+        
+        putvalue(envGaugeCali_Fuel_MinVal, tmpVal);
+    }
+}
+
+on envVar envGaugeCali_Fuel_MinVal_down
+{
+    long tmpVal;
+    
+    tmpVal = getvalue(envGaugeCali_Fuel_MinVal);
+    if( getvalue(this) )
+    {
+        if( tmpVal > 0 )
+        {
+            tmpVal --;
+        }
+        
+        putvalue(envGaugeCali_Fuel_MinVal, tmpVal);
+    }
+}
+
+on envVar envGaugeCali_Fuel_MaxVal_up
+{
+    long tmpVal;
+    
+    tmpVal = getvalue(envGaugeCali_Fuel_MaxVal);
+    if( getvalue(this) )
+    {
+        if( tmpVal < 3600 )
+        {
+            tmpVal ++;
+        }
+        
+        putvalue(envGaugeCali_Fuel_MaxVal, tmpVal);
+    }
+}
+
+on envVar envGaugeCali_Fuel_MaxVal_down
+{
+    long tmpVal;
+    
+    tmpVal = getvalue(envGaugeCali_Fuel_MaxVal);
+    if( getvalue(this) )
+    {
+        if( tmpVal > 0 )
+        {
+            tmpVal --;
+        }
+        
+        putvalue(envGaugeCali_Fuel_MaxVal, tmpVal);
+    }
+}
+
+on envVar envGaugeCali_Fuel_WarnVal_up
+{
+    long tmpVal;
+    
+    tmpVal = getvalue(envGaugeCali_Fuel_WarnVal);
+    if( getvalue(this) )
+    {
+        if( tmpVal < 3600 )
+        {
+            tmpVal ++;
+        }
+        
+        putvalue(envGaugeCali_Fuel_WarnVal, tmpVal);
+    }
+}
+
+on envVar envGaugeCali_Fuel_WarnVal_down
+{
+    long tmpVal;
+    
+    tmpVal = getvalue(envGaugeCali_Fuel_WarnVal);
+    if( getvalue(this) )
+    {
+        if( tmpVal > 0 )
+        {
+            tmpVal --;
+        }
+        
+        putvalue(envGaugeCali_Fuel_WarnVal, tmpVal);
+    }
+}
+
+on envVar envGaugeCali_Temp_MinVal_up
+{
+    long tmpVal;
+    
+    tmpVal = getvalue(envGaugeCali_Temp_MinVal);
+    if( getvalue(this) )
+    {
+        if( tmpVal < 3600 )
+        {
+            tmpVal ++;
+        }
+        
+        putvalue(envGaugeCali_Temp_MinVal, tmpVal);
+    }
+}
+
+on envVar envGaugeCali_Temp_MinVal_down
+{
+    long tmpVal;
+    
+    tmpVal = getvalue(envGaugeCali_Temp_MinVal);
+    if( getvalue(this) )
+    {
+        if( tmpVal > 0 )
+        {
+            tmpVal --;
+        }
+        
+        putvalue(envGaugeCali_Temp_MinVal, tmpVal);
+    }
+}
+
+on envVar envGaugeCali_Temp_MaxVal_up
+{
+    long tmpVal;
+    
+    tmpVal = getvalue(envGaugeCali_Temp_MaxVal);
+    if( getvalue(this) )
+    {
+        if( tmpVal < 3600 )
+        {
+            tmpVal ++;
+        }
+        
+        putvalue(envGaugeCali_Temp_MaxVal, tmpVal);
+    }
+}
+
+on envVar envGaugeCali_Temp_MaxVal_down
+{
+    long tmpVal;
+    
+    tmpVal = getvalue(envGaugeCali_Temp_MaxVal);
+    if( getvalue(this) )
+    {
+        if( tmpVal > 0 )
+        {
+            tmpVal --;
+        }
+        
+        putvalue(envGaugeCali_Temp_MaxVal, tmpVal);
+    }
+}
+
+on envVar envGaugeCali_Temp_WarnVal_up
+{
+    long tmpVal;
+    
+    tmpVal = getvalue(envGaugeCali_Temp_WarnVal);
+    if( getvalue(this) )
+    {
+        if( tmpVal < 3600 )
+        {
+            tmpVal ++;
+        }
+        
+        putvalue(envGaugeCali_Temp_WarnVal, tmpVal);
+    }
+}
+
+on envVar envGaugeCali_Temp_WarnVal_down
+{
+    long tmpVal;
+    
+    tmpVal = getvalue(envGaugeCali_Temp_WarnVal);
+    if( getvalue(this) )
+    {
+        if( tmpVal > 0 )
+        {
+            tmpVal --;
+        }
+        
+        putvalue(envGaugeCali_Temp_WarnVal, tmpVal);
+    }
+}
+
+
+on envVar envGaugeCali_Tach_MinVal
+{
+    long tmpValue;
+    if( getvalue(this) )
+    {
+        tmpValue = getvalue(this);
+        GaugeCali_GaugeCtrlInStep(0x83, tmpValue);
+    }
+}
+
+on envVar envGaugeCali_Tach_MaxVal
+{
+    long tmpValue;
+    if( getvalue(this) )
+    {
+        tmpValue = getvalue(this);
+        GaugeCali_GaugeCtrlInStep(0x83, tmpValue);
+    }
+}
+
+on envVar envGaugeCali_Speed_MinVal
+{
+    long tmpValue;
+    if( getvalue(this) )
+    {
+        tmpValue = getvalue(this);
+        GaugeCali_GaugeCtrlInStep(0x82, tmpValue);
+    }
+}
+
+on envVar envGaugeCali_Speed_MaxVal
+{
+    long tmpValue;
+    if( getvalue(this) )
+    {
+        tmpValue = getvalue(this);
+        GaugeCali_GaugeCtrlInStep(0x82, tmpValue);
+    }
+}
+
+on envVar envGaugeCali_Fuel_MinVal
+{
+    long tmpValue;
+    if( getvalue(this) )
+    {
+        tmpValue = getvalue(this);
+        GaugeCali_GaugeCtrlInStep(0x81, tmpValue);
+    }
+}
+
+on envVar envGaugeCali_Fuel_MaxVal
+{
+    long tmpValue;
+    if( getvalue(this) )
+    {
+        tmpValue = getvalue(this);
+        GaugeCali_GaugeCtrlInStep(0x81, tmpValue);
+    }
+}
+
+on envVar envGaugeCali_Fuel_WarnVal
+{
+    long tmpValue;
+    if( getvalue(this) )
+    {
+        tmpValue = getvalue(this);
+        GaugeCali_GaugeCtrlInStep(0x81, tmpValue);
+    }
+}
+
+on envVar envGaugeCali_Temp_MinVal
+{
+    long tmpValue;
+    if( getvalue(this) )
+    {
+        tmpValue = getvalue(this);
+        GaugeCali_GaugeCtrlInStep(0x80, tmpValue);
+    }
+}
+
+on envVar envGaugeCali_Temp_MaxVal
+{
+    long tmpValue;
+    if( getvalue(this) )
+    {
+        tmpValue = getvalue(this) ;
+        GaugeCali_GaugeCtrlInStep(0x80, tmpValue);
+    }
+}
+
+on envVar envGaugeCali_Temp_WarnVal
+{
+    long tmpValue;
+    if( getvalue(this) )
+    {
+        tmpValue = getvalue(this) ;
+        GaugeCali_GaugeCtrlInStep(0x80, tmpValue);
+    }
+}
+
+
+
+void GaugeCali_GaugeCtrlInStep(byte gaugetype, long gaugestep)
+{
+    diagUDS_txDataBuf_phy[0] = 0x2F;
+    diagUDS_txDataBuf_phy[1] = 0xFE;
+    diagUDS_txDataBuf_phy[2] = 0x04;
+    diagUDS_txDataBuf_phy[3] = 0x03;      
+    diagUDS_txDataBuf_phy[4] = gaugetype;
+    diagUDS_txDataBuf_phy[5] = (gaugestep & 0xFF00) >> 8;
+    diagUDS_txDataBuf_phy[6] = (gaugestep & 0xFF);
+
+    diagUDS_txDataBufLength = 7;
+                           
+    udsDiag_SendPhyMessage();       
+}
+
+
+on envVar envRunin_WriteConfig
+{
+    long tmpValue;
+    if( getvalue(this) )
+    {
+        runin_start_sequence = 1;
+        
+        putvalue(envRunin_WriteConfigResult, 0);
+        
+        pcEolSession();
+    }
+}
+
+on envVar didDF00Config_Function_MT
+{
+    if( getValue(this) )
+    {
+      vehicle_config_arr[2] = vehicle_config_arr[2] & 0x7F;
+      putValue(didDF00Config_Function_AT,0);
+    }
+    else
+    {
+      //vehicle_config_arr[2] = vehicle_config_arr[2] | 0x80;
+      putValue(didDF00Config_Function_AT,1);
+    }
+}
+
+on envVar didDF00Config_Function_AT
+{
+    if( getValue(this) )
+    {
+      vehicle_config_arr[2] = vehicle_config_arr[2] | 0x80;
+      putValue(didDF00Config_Function_MT,0);
+    }
+    else
+    {
+      //vehicle_config_arr[2] = vehicle_config_arr[2] & 0x7F;
+      putValue(didDF00Config_Function_MT,1);
+    }
+}
+
+on envVar uds_configSend
+{
+    byte udsIO_DF00Config_Array[20];
+    byte udsIO_DF00Config_length;
+    
+    if(getvalue(this))
+    {
+        diagUDS_txDataBuf_phy[0] = 0x2E;
+        diagUDS_txDataBuf_phy[1] = 0xDF;
+        diagUDS_txDataBuf_phy[2] = 0x00;
+        //diagUDS_txDataBuf_phy[3] = 0x03;
+        
+        getvalue(udsConfig, udsIO_DF00Config_Array, 0);
+        udsIO_DF00Config_length = getValueSize(udsConfig);
+        
+        diagUDS_txDataBuf_phy[3] = udsIO_DF00Config_Array[0];
+        diagUDS_txDataBuf_phy[4] = udsIO_DF00Config_Array[1];
+        diagUDS_txDataBuf_phy[5] = udsIO_DF00Config_Array[2];
+        diagUDS_txDataBuf_phy[6] = udsIO_DF00Config_Array[3];
+        diagUDS_txDataBuf_phy[7] = udsIO_DF00Config_Array[4];
+        diagUDS_txDataBuf_phy[8] = udsIO_DF00Config_Array[5];
+        diagUDS_txDataBuf_phy[9] = 0x02;
+        diagUDS_txDataBuf_phy[10] = udsIO_DF00Config_Array[7];
+        diagUDS_txDataBuf_phy[11] = udsIO_DF00Config_Array[8];
+        diagUDS_txDataBuf_phy[12] = udsIO_DF00Config_Array[9];
+      
+        diagUDS_txDataBufLength = 3+ udsIO_DF00Config_length;
+                           
+        udsDiag_SendPhyMessage();       
+    }   
+}
+
+on sysvar UDS::UDS_Configbyte0bit0
+{
+  didDF00Config[0] &= 0xFE;
+  didDF00Config[0] |= ((@this) << 0) ;
+  putvalue(udsConfig, didDF00Config, 20);
+}
+
+on sysvar UDS::UDS_Configbyte0bit1
+{
+  didDF00Config[0] &= 0xFD;
+  didDF00Config[0] |= ((@this) << 1) ;
+  putvalue(udsConfig, didDF00Config, 20);
+}
+
+on sysvar UDS::UDS_Configbyte0bit2
+{
+  didDF00Config[0] &= 0xFB;
+  didDF00Config[0] |= ((@this) << 2) ;
+  putvalue(udsConfig, didDF00Config, 20);
+}
+
+on sysvar UDS::UDS_Configbyte0bit3
+{
+  didDF00Config[0] &= 0xF7;
+  didDF00Config[0] |= ((@this) << 3) ;
+  putvalue(udsConfig, didDF00Config, 20);
+}
+
+on sysvar UDS::UDS_Configbyte0bit4
+{
+  didDF00Config[0] &= 0xEF;
+  didDF00Config[0] |= ((@this) << 4) ;
+  putvalue(udsConfig, didDF00Config, 20);
+}
+
+on sysvar UDS::UDS_Configbyte0bit5
+{
+  didDF00Config[0] &= 0xDF;
+  didDF00Config[0] |= ((@this) << 5) ;
+  putvalue(udsConfig, didDF00Config, 20);
+}
+
+on sysvar UDS::UDS_Configbyte0bit6
+{
+  didDF00Config[0] &= 0xBF;
+  didDF00Config[0] |= ((@this) << 6) ;
+  putvalue(udsConfig, didDF00Config, 20);
+}
+
+on sysvar UDS::UDS_Configbyte0bit7
+{
+  didDF00Config[0] &= 0x7F;
+  didDF00Config[0] |= ((@this) << 7) ;
+  putvalue(udsConfig, didDF00Config, 20);
+}
+
+on sysvar UDS::UDS_Configbyte1
+{
+  didDF00Config[1] &= 0x00;
+  didDF00Config[1] |= ((@this) << 0) ;
+  putvalue(udsConfig, didDF00Config, 20);
+}
+
+on sysvar UDS::UDS_Configbyte2bit0  //cruise config
+{
+  didDF00Config[2] &= 0xFC;
+  didDF00Config[2] |= ((@this) << 0) ;
+  putvalue(udsConfig, didDF00Config, 20);
+}
+
+on sysvar UDS::UDS_Configbyte2bit2     //ABS config
+{
+  didDF00Config[2] &= 0xFB;
+  didDF00Config[2] |= ((@this) << 2) ;
+  putvalue(udsConfig, didDF00Config, 20);
+}
+
+on sysvar UDS::UDS_Configbyte2bit3    //
+{
+  didDF00Config[2] &= 0xC7;
+  didDF00Config[2] |= ((@this) << 3) ;
+  putvalue(udsConfig, didDF00Config, 20);
+}
+
+on sysvar UDS::UDS_Configbyte2bit6
+{
+  didDF00Config[2] &= 0x3F;
+  didDF00Config[2] |= ((@this) << 6) ;
+  putvalue(udsConfig, didDF00Config, 20);
+}
+
+on sysvar UDS::UDS_Configbyte4bit2    //OverSpeed config
+{
+  didDF00Config[4] &= 0xFB;
+  didDF00Config[4] |= ((@this) << 2) ;
+  putvalue(udsConfig, didDF00Config, 20);
+}
+
+on sysvar UDS::UDS_Configbyte4bit3
+{
+  didDF00Config[4] &= 0xf7;
+  didDF00Config[4] |= ((@this) << 3) ;
+  putvalue(udsConfig, didDF00Config, 20);
+}
+
+on sysvar UDS::UDS_Configbyte4bit4
+{
+  didDF00Config[4] &= 0xEF;
+  didDF00Config[4] |= ((@this) << 4) ;
+  putvalue(udsConfig, didDF00Config, 20);
+}
+
+on sysvar UDS::UDS_Configbyte4bit5
+{
+  didDF00Config[4] &= 0xDF;
+  didDF00Config[4] |= ((@this) << 5) ;
+  putvalue(udsConfig, didDF00Config, 20);
+}
+
+on sysvar UDS::UDS_Configbyte4bit6
+{
+  didDF00Config[4] &= 0x3F;
+  didDF00Config[4] |= ((@this) << 6) ;
+  putvalue(udsConfig, didDF00Config, 20);
+}
+
+on sysvar UDS::UDS_Configbyte5bit4
+{
+  didDF00Config[5] &= 0x0F;
+  didDF00Config[5] |= ((@this) << 4) ;
+  putvalue(udsConfig, didDF00Config, 20);
+}
+
+on sysvar UDS::UDS_Configbyte6
+{
+  didDF00Config[6] &= 0x00;
+  didDF00Config[6] |= ((@this) << 0) ;
+  putvalue(udsConfig, didDF00Config, 20);
+}
+
+on sysvar UDS::UDS_Configbyte8
+{
+  didDF00Config[8] &= 0x00;
+  didDF00Config[8] |= ((@this) << 0) ;
+  putvalue(udsConfig, didDF00Config, 20);
+}
+
+on sysvar UDS::UDS_Configbyte9
+{
+  didDF00Config[9] &= 0x00;
+  didDF00Config[9] |= ((@this) << 0) ;
+  putvalue(udsConfig, didDF00Config, 20);
+}
+/*
+on envVar didDF00Configbyte0bit0
+{
+    didDF00Config[0] &= 0xFE;
+    didDF00Config[0] |= (getvalue(this) << 0) ;
+    putvalue(udsConfig, didDF00Config, 8);
+}
+
+on envVar didDF00Configbyte0bit1
+{
+    didDF00Config[0] &= 0xFD;
+    didDF00Config[0] |= (getvalue(this) << 1) ;
+    putvalue(udsConfig, didDF00Config, 8);
+}
+
+on envVar didDF00Configbyte0bit2
+{
+    didDF00Config[0] &= 0xFB;
+    didDF00Config[0] |= (getvalue(this) << 2) ;
+    putvalue(udsConfig, didDF00Config, 8);
+}
+on envVar didDF00Configbyte0bit3
+{
+    didDF00Config[0] &= 0xF7;
+    didDF00Config[0] |= (getvalue(this) << 3) ;
+    putvalue(udsConfig, didDF00Config, 8);
+}
+on envVar didDF00Configbyte0bit4
+{
+    didDF00Config[0] &= 0xEF;
+    didDF00Config[0] |= (getvalue(this) << 4) ;
+    putvalue(udsConfig, didDF00Config, 8);
+}
+on envVar didDF00Configbyte0bit5
+{
+    didDF00Config[0] &= 0xDF;
+    didDF00Config[0] |= (getvalue(this) << 5) ;
+    putvalue(udsConfig, didDF00Config, 8);
+}
+on envVar didDF00Configbyte0bit6
+{
+    didDF00Config[0] &= 0xBF;
+    didDF00Config[0] |= (getvalue(this) << 6) ;
+    putvalue(udsConfig, didDF00Config, 8);
+}
+
+on envVar didDF00Configbyte0bit7
+{
+    didDF00Config[0] &= 0x7F;
+    didDF00Config[0] |= (getvalue(this) << 7) ;
+    putvalue(udsConfig, didDF00Config, 8);
+}
+
+on envVar didDF00Configbyte1bit0
+{
+    didDF00Config[1] &= 0xFE;
+    didDF00Config[1] |= (getvalue(this) << 0) ;
+    putvalue(udsConfig, didDF00Config, 8);
+}
+
+on envVar didDF00Configbyte1bit1
+{
+    didDF00Config[1] &= 0xFD;
+    didDF00Config[1] |= (getvalue(this) << 0) ;
+    putvalue(udsConfig, didDF00Config, 8);
+}
+
+on envVar didDF00Configbyte1bit2
+{
+    didDF00Config[1] &= 0xFB;
+    didDF00Config[1] |= (getvalue(this) << 2) ;
+    putvalue(udsConfig, didDF00Config, 8);
+}
+on envVar didDF00Configbyte1bit3
+{
+    didDF00Config[1] &= 0xF7;
+    didDF00Config[1] |= (getvalue(this) << 3) ;
+    putvalue(udsConfig, didDF00Config, 8);
+}
+on envVar didDF00Configbyte1bit4
+{
+    didDF00Config[1] &= 0xEF;
+    didDF00Config[1] |= (getvalue(this) << 4) ;
+    putvalue(udsConfig, didDF00Config, 8);
+}
+
+on envVar didDF00Configbyte1bit5
+{
+    didDF00Config[1] &= 0xDF;
+    didDF00Config[1] |= (getvalue(this) << 5) ;
+    putvalue(udsConfig, didDF00Config, 8);
+}
+
+on envVar didDF00Configbyte1bit6
+{
+    didDF00Config[1] &= 0xBF;
+    didDF00Config[1] |= (getvalue(this) << 6) ;
+    putvalue(udsConfig, didDF00Config, 8);
+}
+on envVar didDF00Configbyte1bit7
+{
+    didDF00Config[1] &= 0x7F;
+    didDF00Config[1] |= (getvalue(this) << 7) ;
+    putvalue(udsConfig, didDF00Config, 8);
+}
+
+on envVar didDF00Configbyte2bit0
+{
+    didDF00Config[2] &= 0xFE;
+    didDF00Config[2] |= (getvalue(this) << 0) ;
+    putvalue(udsConfig, didDF00Config, 8);
+}
+
+on envVar didDF00Configbyte2bit1
+{
+    didDF00Config[2] &= 0xFD;
+    didDF00Config[2] |= (getvalue(this) << 1) ;
+    putvalue(udsConfig, didDF00Config, 8);
+}
+
+on envVar didDF00Configbyte2bit2
+{
+    didDF00Config[2] &= 0xFB;
+    didDF00Config[2] |= (getvalue(this) << 2) ;
+    putvalue(udsConfig, didDF00Config, 8);
+}
+
+on envVar didDF00Configbyte2bit3
+{
+    didDF00Config[2] &= 0xF7;
+    didDF00Config[2] |= (getvalue(this) << 3) ;
+    putvalue(udsConfig, didDF00Config, 8);
+}
+
+on envVar didDF00Configbyte2bit4
+{
+    didDF00Config[2] &= 0xEF;
+    didDF00Config[2] |= (getvalue(this) << 4) ;
+    putvalue(udsConfig, didDF00Config, 8);
+}
+on envVar didDF00Configbyte2bit5
+{
+    didDF00Config[2] &= 0xDF;
+    didDF00Config[2] |= (getvalue(this) << 5) ;
+    putvalue(udsConfig, didDF00Config, 8);
+}
+on envVar didDF00Configbyte2bit6
+{
+    didDF00Config[2] &= 0xBF;
+    didDF00Config[2] |= (getvalue(this) << 6) ;
+    putvalue(udsConfig, didDF00Config, 8);
+}
+on envVar didDF00Configbyte2bit7
+{
+    didDF00Config[2] &= 0x7F;
+    didDF00Config[2] |= (getvalue(this) << 7) ;
+    putvalue(udsConfig, didDF00Config, 8);
+}
+
+*/

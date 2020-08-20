@@ -1,0 +1,215 @@
+/*@!Encoding:936*/
+variables
+{
+  message * msg_01;
+  message * msg_02;
+  message * msg_03;  
+  msTimer msg_01_timer;
+  msTimer msg_02_timer;
+  msTimer msg_03_timer; 
+ 
+  
+}
+
+
+on sysvar NM_Msg::NM_Msg_Flag
+{
+  if(@this)
+  {
+    @sysvar::NM_Msg::NM_Msg01_send = 1;
+    @sysvar::NM_Msg::NM_Msg02_send = 1;
+    @sysvar::NM_Msg::NM_Msg03_send = 1;
+  }
+  else
+  {
+    @sysvar::NM_Msg::NM_Msg01_send = 0;
+    @sysvar::NM_Msg::NM_Msg02_send = 0;
+    @sysvar::NM_Msg::NM_Msg03_send = 0;
+  }
+  
+  switch (@sysvar::NM_Msg::NM_Msg01_send)
+  {
+    case 0:  
+    {
+      cancelTimer(msg_01_timer);
+      break;
+    }
+    case 1: 
+    {
+      if (@sysvar::NM_Msg::NM_Msg01_CycleTime == 0 ||
+        @sysvar::NM_Msg::NM_Msg01_ID == 0)
+      {
+        write("ERROR_INFO: CANID/CycleTime CAN'T Be ZERO!!");
+      }
+      else
+      {
+        msg_01.can = 1;
+        msg_01.id = @sysvar::NM_Msg::NM_Msg01_ID;
+        msg_01.dlc = @sysvar::NM_Msg::NM_Msg01_DLC;
+        msg_01.byte(0) = @sysvar::NM_Msg::NM_Msg01_byte0;
+        msg_01.byte(1) = @sysvar::NM_Msg::NM_Msg01_byte1;
+        msg_01.byte(2) = @sysvar::NM_Msg::NM_Msg01_byte2;
+        msg_01.byte(3) = @sysvar::NM_Msg::NM_Msg01_byte3;
+        msg_01.byte(4) = @sysvar::NM_Msg::NM_Msg01_byte4;
+        msg_01.byte(5) = @sysvar::NM_Msg::NM_Msg01_byte5;
+        msg_01.byte(6) = @sysvar::NM_Msg::NM_Msg01_byte6;
+        msg_01.byte(7) = @sysvar::NM_Msg::NM_Msg01_byte7;
+        output(msg_01);
+        setTimer(msg_01_timer, @sysvar::NM_Msg::NM_Msg01_CycleTime);
+      }
+      break;
+    }
+  }
+}
+
+
+on sysvar sysvar::NM_Msg::NM_Msg01_send
+{
+  
+  switch (@this)
+  {
+    case 0:  
+    {
+      cancelTimer(msg_01_timer);
+      break;
+    }
+    case 1: 
+    {
+      if (@sysvar::NM_Msg::NM_Msg01_CycleTime == 0 ||
+        @sysvar::NM_Msg::NM_Msg01_ID == 0)
+      {
+        write("ERROR_INFO: CANID/CycleTime CAN'T Be ZERO!!");
+      }
+      else
+      {
+        msg_01.can = 1;
+        msg_01.id = @sysvar::NM_Msg::NM_Msg01_ID;
+        msg_01.dlc = @sysvar::NM_Msg::NM_Msg01_DLC;
+        msg_01.byte(0) = @sysvar::NM_Msg::NM_Msg01_byte0;
+        msg_01.byte(1) = @sysvar::NM_Msg::NM_Msg01_byte1;
+        msg_01.byte(2) = @sysvar::NM_Msg::NM_Msg01_byte2;
+        msg_01.byte(3) = @sysvar::NM_Msg::NM_Msg01_byte3;
+        msg_01.byte(4) = @sysvar::NM_Msg::NM_Msg01_byte4;
+        msg_01.byte(5) = @sysvar::NM_Msg::NM_Msg01_byte5;
+        msg_01.byte(6) = @sysvar::NM_Msg::NM_Msg01_byte6;
+        msg_01.byte(7) = @sysvar::NM_Msg::NM_Msg01_byte7;
+        output(msg_01);
+        setTimer(msg_01_timer, @sysvar::NM_Msg::NM_Msg01_CycleTime);
+      }
+      break;
+    }
+  }
+ 
+}
+
+
+on timer msg_01_timer
+{
+  output(msg_01);
+  setTimer(msg_01_timer, @sysvar::NM_Msg::NM_Msg01_CycleTime);
+}
+
+on sysvar sysvar::NM_Msg::NM_Msg02_send
+{
+  switch (@this)
+  {
+    case 0:  
+    {
+      cancelTimer(msg_02_timer);
+      break;
+    }
+    case 1: 
+    {
+      if (@sysvar::NM_Msg::NM_Msg02_CycleTime == 0 ||
+        @sysvar::NM_Msg::NM_Msg02_ID == 0)
+      {
+        write("ERROR_INFO: CANID/CycleTime CAN'T Be ZERO!!");
+      }
+      else
+      {
+        msg_02.can = 1;
+        msg_02.id = @sysvar::NM_Msg::NM_Msg02_ID;
+        msg_02.dlc = @sysvar::NM_Msg::NM_Msg02_DLC;
+        msg_02.byte(0) = @sysvar::NM_Msg::NM_Msg02_byte0;
+        msg_02.byte(1) = @sysvar::NM_Msg::NM_Msg02_byte1;
+        msg_02.byte(2) = @sysvar::NM_Msg::NM_Msg02_byte2;
+        msg_02.byte(3) = @sysvar::NM_Msg::NM_Msg02_byte3;
+        msg_02.byte(4) = @sysvar::NM_Msg::NM_Msg02_byte4;
+        msg_02.byte(5) = @sysvar::NM_Msg::NM_Msg02_byte5;
+        msg_02.byte(6) = @sysvar::NM_Msg::NM_Msg02_byte6;
+        msg_02.byte(7) = @sysvar::NM_Msg::NM_Msg02_byte7;
+        output(msg_02);
+        setTimer(msg_02_timer, @sysvar::NM_Msg::NM_Msg02_CycleTime);
+      }
+      break;
+    }
+  }
+  
+}
+
+on timer msg_02_timer
+{
+  output(msg_02);
+  setTimer(msg_02_timer, @sysvar::NM_Msg::NM_Msg02_CycleTime);
+}
+
+on sysvar sysvar::NM_Msg::NM_Msg03_send
+{
+  switch (@this)
+  {
+    case 0:  
+    {
+      cancelTimer(msg_03_timer);
+      break;
+    }
+    case 1: 
+    {
+      if (@sysvar::NM_Msg::NM_Msg03_CycleTime == 0 ||
+        @sysvar::NM_Msg::NM_Msg03_ID == 0)
+      {
+        write("ERROR_INFO: CANID/CycleTime CAN'T Be ZERO!!");
+      }
+      else
+      {
+        msg_03.can = 1;
+        msg_03.id = @sysvar::NM_Msg::NM_Msg03_ID;
+        msg_03.dlc = @sysvar::NM_Msg::NM_Msg03_DLC;
+        msg_03.byte(0) = @sysvar::NM_Msg::NM_Msg03_byte0;
+        msg_03.byte(1) = @sysvar::NM_Msg::NM_Msg03_byte1;
+        msg_03.byte(2) = @sysvar::NM_Msg::NM_Msg03_byte2;
+        msg_03.byte(3) = @sysvar::NM_Msg::NM_Msg03_byte3;
+        msg_03.byte(4) = @sysvar::NM_Msg::NM_Msg03_byte4;
+        msg_03.byte(5) = @sysvar::NM_Msg::NM_Msg03_byte5;
+        msg_03.byte(6) = @sysvar::NM_Msg::NM_Msg03_byte6;
+        msg_03.byte(7) = @sysvar::NM_Msg::NM_Msg03_byte7;
+        output(msg_03);
+        setTimer(msg_03_timer, @sysvar::NM_Msg::NM_Msg03_CycleTime);
+      }
+      break;
+    }
+  }
+  
+}
+
+on timer msg_03_timer
+{
+  output(msg_03);
+  setTimer(msg_03_timer, @sysvar::NM_Msg::NM_Msg03_CycleTime);
+}
+
+on busOff
+{
+  int errRxCnt;
+  int errTxCnt;
+  int channel;
+  double timestamp; // [seconds]
+
+  timestamp = (double)timeNow() / (double)100000;
+  channel = this.can;
+  errRxCnt = this.errorCountRX;
+  errTxCnt = this.errorCountTX;
+  Write("Bus Off: time=%f channel=%d, errRxCnt=%d, errTxCnt=%d",
+  timestamp, channel, errRxCnt, errTxCnt);
+
+  resetCanEx(channel);
+}

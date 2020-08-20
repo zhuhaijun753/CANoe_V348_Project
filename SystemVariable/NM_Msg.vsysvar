@@ -1,0 +1,44 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<systemvariables version="4">
+  <namespace name="" comment="" interface="">
+    <namespace name="NM_Msg" comment="" interface="">
+      <variable anlyzLocal="2" readOnly="false" valueSequence="false" unit="" name="NM_Msg_Flag" comment="" bitcount="32" isSigned="true" encoding="65001" type="int" startValue="0" minValue="0" minValuePhys="0" maxValue="1" maxValuePhys="1" />
+      <variable anlyzLocal="2" readOnly="false" valueSequence="false" unit="" name="NM_Msg01_byte0" comment="" bitcount="32" isSigned="true" encoding="65001" type="int" startValue="50" />
+      <variable anlyzLocal="2" readOnly="false" valueSequence="false" unit="" name="NM_Msg01_byte1" comment="" bitcount="32" isSigned="true" encoding="65001" type="int" startValue="2" />
+      <variable anlyzLocal="2" readOnly="false" valueSequence="false" unit="" name="NM_Msg01_byte2" comment="" bitcount="32" isSigned="true" encoding="65001" type="int" />
+      <variable anlyzLocal="2" readOnly="false" valueSequence="false" unit="" name="NM_Msg01_byte3" comment="" bitcount="32" isSigned="true" encoding="65001" type="int" />
+      <variable anlyzLocal="2" readOnly="false" valueSequence="false" unit="" name="NM_Msg01_byte4" comment="" bitcount="32" isSigned="true" encoding="65001" type="int" />
+      <variable anlyzLocal="2" readOnly="false" valueSequence="false" unit="" name="NM_Msg01_byte5" comment="" bitcount="32" isSigned="true" encoding="65001" type="int" />
+      <variable anlyzLocal="2" readOnly="false" valueSequence="false" unit="" name="NM_Msg01_byte6" comment="" bitcount="32" isSigned="true" encoding="65001" type="int" />
+      <variable anlyzLocal="2" readOnly="false" valueSequence="false" unit="" name="NM_Msg01_byte7" comment="" bitcount="32" isSigned="true" encoding="65001" type="int" />
+      <variable anlyzLocal="2" readOnly="false" valueSequence="false" unit="" name="NM_Msg01_CycleTime" comment="" bitcount="32" isSigned="true" encoding="65001" type="int" startValue="100" />
+      <variable anlyzLocal="2" readOnly="false" valueSequence="false" unit="" name="NM_Msg01_DLC" comment="" bitcount="32" isSigned="true" encoding="65001" type="int" startValue="8" />
+      <variable anlyzLocal="2" readOnly="false" valueSequence="false" unit="" name="NM_Msg01_ID" comment="" bitcount="32" isSigned="true" encoding="65001" type="int" startValue="1073" />
+      <variable anlyzLocal="2" readOnly="false" valueSequence="false" unit="" name="NM_Msg01_send" comment="" bitcount="32" isSigned="true" encoding="65001" type="int" startValue="0" minValue="0" minValuePhys="0" maxValue="1" maxValuePhys="1" />
+      <variable anlyzLocal="2" readOnly="false" valueSequence="false" unit="" name="NM_Msg02_byte0" comment="" bitcount="32" isSigned="true" encoding="65001" type="int" startValue="96" />
+      <variable anlyzLocal="2" readOnly="false" valueSequence="false" unit="" name="NM_Msg02_byte1" comment="" bitcount="32" isSigned="true" encoding="65001" type="int" startValue="2" />
+      <variable anlyzLocal="2" readOnly="false" valueSequence="false" unit="" name="NM_Msg02_byte2" comment="" bitcount="32" isSigned="true" encoding="65001" type="int" />
+      <variable anlyzLocal="2" readOnly="false" valueSequence="false" unit="" name="NM_Msg02_byte3" comment="" bitcount="32" isSigned="true" encoding="65001" type="int" />
+      <variable anlyzLocal="2" readOnly="false" valueSequence="false" unit="" name="NM_Msg02_byte4" comment="" bitcount="32" isSigned="true" encoding="65001" type="int" />
+      <variable anlyzLocal="2" readOnly="false" valueSequence="false" unit="" name="NM_Msg02_byte5" comment="" bitcount="32" isSigned="true" encoding="65001" type="int" />
+      <variable anlyzLocal="2" readOnly="false" valueSequence="false" unit="" name="NM_Msg02_byte6" comment="" bitcount="32" isSigned="true" encoding="65001" type="int" />
+      <variable anlyzLocal="2" readOnly="false" valueSequence="false" unit="" name="NM_Msg02_byte7" comment="" bitcount="32" isSigned="true" encoding="65001" type="int" />
+      <variable anlyzLocal="2" readOnly="false" valueSequence="false" unit="" name="NM_Msg02_CycleTime" comment="" bitcount="32" isSigned="true" encoding="65001" type="int" startValue="100" />
+      <variable anlyzLocal="2" readOnly="false" valueSequence="false" unit="" name="NM_Msg02_DLC" comment="" bitcount="32" isSigned="true" encoding="65001" type="int" startValue="8" />
+      <variable anlyzLocal="2" readOnly="false" valueSequence="false" unit="" name="NM_Msg02_ID" comment="" bitcount="32" isSigned="true" encoding="65001" type="int" startValue="1074" />
+      <variable anlyzLocal="2" readOnly="false" valueSequence="false" unit="" name="NM_Msg02_send" comment="" bitcount="32" isSigned="true" encoding="65001" type="int" startValue="0" minValue="0" minValuePhys="0" maxValue="1" maxValuePhys="1" />
+      <variable anlyzLocal="2" readOnly="false" valueSequence="false" unit="" name="NM_Msg03_byte0" comment="" bitcount="32" isSigned="true" encoding="65001" type="int" startValue="48" />
+      <variable anlyzLocal="2" readOnly="false" valueSequence="false" unit="" name="NM_Msg03_byte1" comment="" bitcount="32" isSigned="true" encoding="65001" type="int" startValue="2" />
+      <variable anlyzLocal="2" readOnly="false" valueSequence="false" unit="" name="NM_Msg03_byte2" comment="" bitcount="32" isSigned="true" encoding="65001" type="int" />
+      <variable anlyzLocal="2" readOnly="false" valueSequence="false" unit="" name="NM_Msg03_byte3" comment="" bitcount="32" isSigned="true" encoding="65001" type="int" />
+      <variable anlyzLocal="2" readOnly="false" valueSequence="false" unit="" name="NM_Msg03_byte4" comment="" bitcount="32" isSigned="true" encoding="65001" type="int" />
+      <variable anlyzLocal="2" readOnly="false" valueSequence="false" unit="" name="NM_Msg03_byte5" comment="" bitcount="32" isSigned="true" encoding="65001" type="int" />
+      <variable anlyzLocal="2" readOnly="false" valueSequence="false" unit="" name="NM_Msg03_byte6" comment="" bitcount="32" isSigned="true" encoding="65001" type="int" />
+      <variable anlyzLocal="2" readOnly="false" valueSequence="false" unit="" name="NM_Msg03_byte7" comment="" bitcount="32" isSigned="true" encoding="65001" type="int" />
+      <variable anlyzLocal="2" readOnly="false" valueSequence="false" unit="" name="NM_Msg03_CycleTime" comment="" bitcount="32" isSigned="true" encoding="65001" type="int" startValue="100" />
+      <variable anlyzLocal="2" readOnly="false" valueSequence="false" unit="" name="NM_Msg03_DLC" comment="" bitcount="32" isSigned="true" encoding="65001" type="int" startValue="8" />
+      <variable anlyzLocal="2" readOnly="false" valueSequence="false" unit="" name="NM_Msg03_ID" comment="" bitcount="32" isSigned="true" encoding="65001" type="int" startValue="1120" />
+      <variable anlyzLocal="2" readOnly="false" valueSequence="false" unit="" name="NM_Msg03_send" comment="" bitcount="32" isSigned="true" encoding="65001" type="int" startValue="0" minValue="0" minValuePhys="0" maxValue="1" maxValuePhys="1" />
+    </namespace>
+  </namespace>
+</systemvariables>
